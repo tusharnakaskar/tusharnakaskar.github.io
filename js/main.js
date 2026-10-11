@@ -56,9 +56,18 @@ function initBgCanvas() {
     this.vx = (Math.random() - 0.5) * SPEED;
     this.vy = (Math.random() - 0.5) * SPEED;
     this.r = Math.random() * 1.5 + 0.8;
-    // greyscale dots: from dim grey to near-white
-    const brightness = Math.floor(Math.random() * 80 + 80);
-    this.color = `rgb(${brightness},${brightness},${brightness})`;
+    // 65% neutral grey, 25% emerald-tinted, 10% amber-tinted
+    const roll = Math.random();
+    if (roll < 0.65) {
+      const b = Math.floor(Math.random() * 70 + 70);
+      this.color = `rgb(${b},${b},${b})`;
+    } else if (roll < 0.90) {
+      const g = Math.floor(Math.random() * 80 + 100);
+      this.color = `rgb(10,${g},80)`;       // emerald family
+    } else {
+      const r = Math.floor(Math.random() * 60 + 180);
+      this.color = `rgb(${r},${Math.floor(r * 0.62)},0)`;  // amber family
+    }
   }
 
   function initParticles() {
@@ -118,12 +127,12 @@ function initBgCanvas() {
         const d = Math.sqrt(qx * qx + qy * qy);
 
         if (d < MAX_DIST) {
-          const alpha = (1 - d / MAX_DIST) * 0.18;
+          const alpha = (1 - d / MAX_DIST) * 0.16;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(200,200,200,${alpha})`;
-          ctx.lineWidth = 0.7;
+          ctx.strokeStyle = `rgba(16,185,129,${alpha})`;
+          ctx.lineWidth = 0.65;
           ctx.stroke();
         }
       }
