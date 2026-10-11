@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Projects | Tushar Nakaskar</title>
+  <meta name="title" content="Projects | Tushar Nakaskar">
+  <meta name="description" content="Explore software development and backend projects built by Tushar Nakaskar using Java, Spring Boot, REST APIs, and SQL.">
+  <meta name="author" content="Tushar Nakaskar">
+  <link rel="canonical" href="https://tusharnakaskar.github.io/projects.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tusharnakaskar.github.io/projects.html">
+  <meta property="og:title" content="Projects | Tushar Nakaskar">
+  <meta property="og:description" content="Practical software applications built with Java, Spring Boot, REST APIs, and SQL.">
+  <meta property="og:image" content="assets/favicon.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Accessible Skip Navigation -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo" aria-label="Tushar Nakaskar Homepage">
+        <span class="brand-monogram">TN</span>
+        <span class="brand-name">Tushar Nakaskar</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link active">Projects</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="assets/resume.pdf" class="nav-link nav-cta" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Resume</a>
+      </nav>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+        <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-drawer" id="mobile-drawer">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="about.html" class="mobile-link">About</a>
+      <a href="projects.html" class="mobile-link active">Projects</a>
+      <a href="contact.html" class="mobile-link">Contact</a>
+      <a href="assets/resume.pdf" class="mobile-link" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Download Resume</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content" id="main">
+    <div class="container">
+      
+      <!-- Page Header -->
+      <header class="page-header">
+        <span class="page-tag">Portfolio</span>
+        <h1 class="page-title">Software Projects</h1>
+        <p class="page-subtitle">
+          Practical software applications demonstrating backend engineering, API integration, and clean OOP architecture.
+        </p>
+      </header>
+
+      <!-- Projects List -->
+      <div class="projects-stack">
+
+        <!-- Project 1 -->
+        <article class="project-card" id="ai-project">
+          <div class="project-card-top">
+            <span class="project-type-tag">Featured Project</span>
+            <div class="project-tags">
+              <span class="tag tag-accent">Java</span>
+              <span class="tag">REST API</span>
+              <span class="tag">External AI API</span>
+              <span class="tag">JSON</span>
+              <span class="tag">Maven</span>
+            </div>
+          </div>
+
+          <h2 class="project-title">Java AI &amp; API Integration Application</h2>
+
+          <p class="project-desc">
+            A Java-based application that interfaces with external AI API endpoints to process user prompts and return structured responses over RESTful communication channels.
+          </p>
+
+          <div class="project-features">
+            <div class="features-title">Technical Highlights</div>
+            <ul class="feature-bullets">
+              <li>Configured reliable HTTP client communication targeting external AI REST endpoints.</li>
+              <li>Serialized client requests into JSON payloads and parsed nested response models.</li>
+              <li>Engineered a modular design cleanly separating client, service, and model layers.</li>
+              <li>Integrated defensive error handling for timeouts, invalid requests, and API rate limits.</li>
+            </ul>
+          </div>
+
+          <div class="project-footer">
+            <div class="project-tags">
+              <span class="tag">Object-Oriented Design</span>
+              <span class="tag">HTTP Client</span>
+            </div>
+            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+              <span>View Repository on GitHub</span>
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="project-type-tag">Backend Service</span>
+            <div class="project-tags">
+              <span class="tag tag-accent">Spring Boot</span>
+              <span class="tag">Java</span>
+              <span class="tag">REST APIs</span>
+              <span class="tag">MySQL</span>
+              <span class="tag">JDBC</span>
+            </div>
+          </div>
+
+          <h2 class="project-title">Spring Boot REST API Service</h2>
+
+          <p class="project-desc">
+            A structured web service demonstrating layered architecture, standardized HTTP endpoint routing, and persistent relational data storage.
+          </p>
+
+          <div class="project-features">
+            <div class="features-title">Technical Highlights</div>
+            <ul class="feature-bullets">
+              <li>Architected Controller, Service, and Data Access layers adhering to separation of concerns.</li>
+              <li>Created full CRUD operations supporting standard GET, POST, PUT, and DELETE methods.</li>
+              <li>Integrated relational data storage with MySQL schemas and optimized queries.</li>
+              <li>Standardized HTTP status codes and error responses for predictable client consumption.</li>
+            </ul>
+          </div>
+
+          <div class="project-footer">
+            <div class="project-tags">
+              <span class="tag">RESTful Architecture</span>
+              <span class="tag">Database Persistence</span>
+            </div>
+            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <span>View Repository on GitHub</span>
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="project-type-tag">Core Java</span>
+            <div class="project-tags">
+              <span class="tag tag-accent">Core Java</span>
+              <span class="tag">OOP Principles</span>
+              <span class="tag">Data Structures</span>
+              <span class="tag">VS Code</span>
+            </div>
+          </div>
+
+          <h2 class="project-title">Java Object-Oriented Software Projects</h2>
+
+          <p class="project-desc">
+            A collection of practical applications engineered to reinforce foundational software design principles, robust data modeling, and algorithmic problem solving.
+          </p>
+
+          <div class="project-features">
+            <div class="features-title">Technical Highlights</div>
+            <ul class="feature-bullets">
+              <li>Implemented inheritance hierarchies, abstract classes, and polymorphic dispatch.</li>
+              <li>Encapsulated data models to protect internal state transitions and prevent bugs.</li>
+              <li>Structured interactive console workflows featuring robust user input validation.</li>
+              <li>Organized codebase into clean packages following industry Java conventions.</li>
+            </ul>
+          </div>
+
+          <div class="project-footer">
+            <div class="project-tags">
+              <span class="tag">Design Patterns</span>
+              <span class="tag">Algorithms</span>
+            </div>
+            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <span>View Repository on GitHub</span>
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Additional Work Notice -->
+      <section class="section-block">
+        <div class="home-cta-strip">
+          <div class="cta-strip-text">
+            <h3>Explore More Repositories</h3>
+            <p>Active repositories, coding exercises, and experiments are hosted on GitHub.</p>
+          </div>
+          <div>
+            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <span>Visit GitHub Profile</span>
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-copy">
+        &copy; <span id="current-year">2026</span> Tushar Nakaskar &bull; Hosted on GitHub Pages
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+        <a href="https://www.linkedin.com/in/tushar-nakaskar" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+        <a href="mailto:tusharnakaskarp@gmail.com" class="footer-link">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
