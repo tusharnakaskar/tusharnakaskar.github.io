@@ -428,7 +428,7 @@ ul, ol { list-style: none; }
 }
 
 /* --------------------------------------------------------------------------
-   5. Buttons
+   5. Buttons (Uniform Hollow Outline Style matching Section Colors)
    -------------------------------------------------------------------------- */
 .btn {
   display: inline-flex;
@@ -441,60 +441,95 @@ ul, ol { list-style: none; }
   border-radius: var(--radius-md);
   transition: all var(--trans);
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
   font-family: var(--font-sans);
+  text-decoration: none;
 }
 
-.btn-primary {
-  background: var(--red);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
-}
-.btn-primary:hover {
-  background: var(--red-hover);
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(225, 29, 72, 0.5);
-}
-
-/* Cohesive Crimson / Red Outline Button */
-.btn-outline-red,
-.btn-outline-blue {
+/* Red Hollow Button (Hero, Email Channel, Contact Form, Red Projects) */
+.btn-primary,
+.btn-outline-red {
   background: rgba(225, 29, 72, 0.08);
   color: #ffffff;
-  border: 1px solid rgba(225, 29, 72, 0.38);
+  border: 1px solid rgba(225, 29, 72, 0.42);
 }
-.btn-outline-red:hover,
-.btn-outline-blue:hover {
+.btn-primary:hover,
+.btn-outline-red:hover {
   background: rgba(225, 29, 72, 0.22);
   border-color: var(--red);
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.32);
+  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.35);
 }
 
+/* Cyan Hollow Button (LinkedIn Channel) */
+.btn-outline-cyan {
+  background: rgba(6, 182, 212, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(6, 182, 212, 0.42);
+}
+.btn-outline-cyan:hover {
+  background: rgba(6, 182, 212, 0.22);
+  border-color: var(--cyan);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.35);
+}
+
+/* Purple Hollow Button (GitHub Channel, OOP Projects) */
+.btn-outline-purple {
+  background: rgba(139, 92, 246, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(139, 92, 246, 0.42);
+}
+.btn-outline-purple:hover {
+  background: rgba(139, 92, 246, 0.22);
+  border-color: var(--purple);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
+}
+
+/* Blue Hollow Button (Spring Boot Project) */
+.btn-outline-blue {
+  background: rgba(59, 130, 246, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(59, 130, 246, 0.42);
+}
+.btn-outline-blue:hover {
+  background: rgba(59, 130, 246, 0.22);
+  border-color: var(--blue);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(59, 130, 246, 0.35);
+}
+
+/* Gold Hollow Button (Official Resume Channel, Core Java Project) */
+.btn-outline-gold,
+.btn-gold {
+  background: rgba(245, 158, 11, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(245, 158, 11, 0.42);
+}
+.btn-outline-gold:hover,
+.btn-gold:hover {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: var(--gold);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+}
+
+/* Neutral Secondary Button */
 .btn-secondary {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-main);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-}
-
-.btn-gold {
-  background: var(--gold-subtle);
-  color: var(--gold);
-  border: 1px solid var(--gold-border);
-}
-.btn-gold:hover {
-  background: var(--gold);
-  color: #000000;
-  border-color: var(--gold);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
 }
 
 .btn-sm {
