@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <!-- Interactive CS Animation Background Canvas -->
+  <!-- Subtle Technical Canvas Background -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- Accessible Skip Navigation -->
@@ -48,7 +48,7 @@
         <a href="index.html" class="nav-link">Home</a>
         <a href="projects.html" class="nav-link">Projects</a>
         <a href="contact.html" class="nav-link active">Contact</a>
-        <a href="assets/resume.pdf" class="nav-link nav-cta" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Resume</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-link nav-cta" data-resume-link>Resume</a>
       </nav>
 
       <!-- Mobile Hamburger Toggle -->
@@ -66,7 +66,7 @@
       <a href="index.html" class="mobile-link">Home</a>
       <a href="projects.html" class="mobile-link">Projects</a>
       <a href="contact.html" class="mobile-link active">Contact</a>
-      <a href="assets/resume.pdf" class="mobile-link" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Download Resume</a>
+      <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="mobile-link" data-resume-link>View Resume</a>
     </div>
   </header>
 
@@ -85,10 +85,10 @@
 
       <div class="contact-layout">
         
-        <!-- Channels (Left Column with Multi-Color Theming) -->
+        <!-- Channels (Left Column) -->
         <div class="contact-channels">
 
-          <!-- Email Card (Blue Accent) -->
+          <!-- Email Card (Professional Send Email Action) -->
           <div class="channel-card channel-card-email">
             <div class="channel-left">
               <div class="channel-icon icon-blue">
@@ -99,16 +99,16 @@
               </div>
               <div class="channel-info">
                 <h4>Email Address</h4>
-                <span>tusharnakaskarp@gmail.com</span>
+                <a href="mailto:tusharnakaskarp@gmail.com" class="channel-link">tusharnakaskarp@gmail.com</a>
               </div>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
-              <button class="btn btn-secondary btn-sm" data-copy-email title="Copy email address">Copy</button>
-              <a href="mailto:tusharnakaskarp@gmail.com" class="btn btn-primary btn-sm">Write</a>
-            </div>
+            <a href="mailto:tusharnakaskarp@gmail.com" class="btn btn-primary btn-sm" aria-label="Send email to Tushar Nakaskar">
+              <span>Send Email</span>
+              <span aria-hidden="true">&rarr;</span>
+            </a>
           </div>
 
-          <!-- LinkedIn Card (Cyan Accent) -->
+          <!-- LinkedIn Card (Direct Open Page) -->
           <div class="channel-card channel-card-linkedin">
             <div class="channel-left">
               <div class="channel-icon icon-cyan">
@@ -118,16 +118,16 @@
               </div>
               <div class="channel-info">
                 <h4>LinkedIn Profile</h4>
-                <span>linkedin.com/in/tushar-nakaskar</span>
+                <a href="https://www.linkedin.com/in/tushar-nakaskar" target="_blank" rel="noopener noreferrer" class="channel-link">linkedin.com/in/tushar-nakaskar</a>
               </div>
             </div>
-            <a href="https://www.linkedin.com/in/tushar-nakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+            <a href="https://www.linkedin.com/in/tushar-nakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="Connect with Tushar Nakaskar on LinkedIn">
               <span>Connect</span>
               <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
 
-          <!-- GitHub Card (Purple Accent) -->
+          <!-- GitHub Card (Direct Open Page) -->
           <div class="channel-card channel-card-github">
             <div class="channel-left">
               <div class="channel-icon icon-purple">
@@ -137,16 +137,16 @@
               </div>
               <div class="channel-info">
                 <h4>GitHub Repositories</h4>
-                <span>github.com/tusharnakaskar</span>
+                <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="channel-link">github.com/tusharnakaskar</a>
               </div>
             </div>
-            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="Follow Tushar Nakaskar on GitHub">
               <span>Follow</span>
               <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
 
-          <!-- Resume Card (Gold Accent) -->
+          <!-- Official Resume Card (View Resume in New Tab, No Force Download) -->
           <div class="channel-card channel-card-resume">
             <div class="channel-left">
               <div class="channel-icon icon-gold">
@@ -159,12 +159,12 @@
               </div>
               <div class="channel-info">
                 <h4>Official Resume</h4>
-                <span>PDF Format &bull; Software Engineering CV</span>
+                <span>Software Engineering Curriculum Vitae</span>
               </div>
             </div>
-            <a href="assets/resume.pdf" class="btn btn-gold btn-sm" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>
-              <span>Download</span>
-              <span aria-hidden="true">&darr;</span>
+            <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-sm" data-resume-link aria-label="View Tushar Nakaskar's Resume">
+              <span>View Resume</span>
+              <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
 
@@ -178,12 +178,12 @@
           <form id="contact-form">
             <div class="form-group">
               <label for="name" class="form-label">Your Name</label>
-              <input type="text" id="name" class="form-input" placeholder="e.g. Hiring Manager / Alex Smith" required>
+              <input type="text" id="name" class="form-input" placeholder="Hiring Manager / Name" required>
             </div>
 
             <div class="form-group">
               <label for="subject" class="form-label">Subject</label>
-              <input type="text" id="subject" class="form-input" placeholder="Software Engineering Role / Inquiry" required>
+              <input type="text" id="subject" class="form-input" placeholder="Opportunity / Inquiry" required>
             </div>
 
             <div class="form-group">
@@ -192,12 +192,9 @@
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%;">
-              <span>Compose Email</span>
+              <span>Send</span>
               <span aria-hidden="true">&rarr;</span>
             </button>
-            <p class="form-hint">
-              Sends to <code>tusharnakaskarp@gmail.com</code> with your subject and message pre-populated.
-            </p>
           </form>
         </div>
 

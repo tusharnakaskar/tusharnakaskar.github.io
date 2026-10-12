@@ -790,7 +790,9 @@ ul, ol { list-style: none; }
 .icon-gold   { background: var(--gold-subtle); border: 1px solid var(--gold-border); color: var(--gold); }
 
 .channel-info h4 { font-size: 0.95rem; color: #ffffff; margin-bottom: 0.2rem; }
-.channel-info span { font-size: 0.85rem; color: var(--text-dim); }
+.channel-info span,
+.channel-link { font-size: 0.85rem; color: var(--text-dim); text-decoration: none; transition: color var(--trans); }
+.channel-link:hover { color: #ffffff; text-decoration: underline; }
 
 /* Contact form panel */
 .contact-form-panel {

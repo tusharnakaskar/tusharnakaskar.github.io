@@ -232,14 +232,14 @@ function initContactForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name    = document.getElementById('name')?.value.trim() || '';
-    const subject = document.getElementById('subject')?.value.trim() || 'Software Developer Opportunity';
+    const subject = document.getElementById('subject')?.value.trim() || 'Opportunity / Inquiry';
     const message = document.getElementById('message')?.value.trim() || '';
 
     const body = `Hi Tushar,\n\n${message}\n\nBest regards,\n${name}`;
     const href = `mailto:tusharnakaskarp@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     window.location.href = href;
-    showToast('Opening your email client...');
+    showToast('Redirecting to email compose...');
   });
 }
 
