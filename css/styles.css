@@ -361,13 +361,13 @@ ul, ol { list-style: none; }
 
 /* Centered Name: PURE CRISP WHITE (INCREASED PROMINENT SIZE) */
 .hero-name-center {
-  font-size: clamp(3.8rem, 7.8vw, 6.35rem);
+  font-size: clamp(4.6rem, 9.6vw, 7.85rem);
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.04;
+  letter-spacing: -0.045em;
+  line-height: 1.01;
   margin-bottom: 0.95rem;
   color: #ffffff !important;
-  text-shadow: 0 4px 36px rgba(0, 0, 0, 0.75);
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.8);
 }
 
 .hero-role-center {
@@ -914,7 +914,7 @@ ul, ol { list-style: none; }
    -------------------------------------------------------------------------- */
 @media (max-width: 860px) {
   .site-header { padding: 0 1.25rem; }
-  .hero-name-center { font-size: 3.5rem; }
+  .hero-name-center { font-size: 4.2rem; }
   .hero-section-centered { min-height: auto; padding: 2.75rem 0 2rem; }
   .page-title       { font-size: 2.15rem; }
   .nav-desktop      { display: none; }
@@ -925,7 +925,7 @@ ul, ol { list-style: none; }
 
 @media (max-width: 600px) {
   .hero-section-centered { padding: 2rem 0 1.75rem; min-height: auto; }
-  .hero-name-center { font-size: 2.85rem; }
+  .hero-name-center { font-size: 3.25rem; }
   .hero-role-center { font-size: 1.15rem; }
   .hero-actions-center { flex-direction: column; width: 100%; }
   .hero-actions-center .btn { width: 100%; }
