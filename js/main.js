@@ -56,11 +56,20 @@ function initAdvancedCanvas() {
       this.y = Math.random() * H;
       this.vx = (Math.random() - 0.5) * 0.28;
       this.vy = (Math.random() - 0.5) * 0.28;
-      this.radius = Math.random() * 1.2 + 0.8;
+      this.radius = Math.random() * 1.3 + 0.9;
       
-      // Refined monochromatic grey color palette
-      this.color = { r: 156, g: 163, b: 175 }; // Grey / Slate
-      this.alpha = Math.random() * 0.22 + 0.14;
+      // Aesthetic multi-color distribution: Faded Slate/White, Ruby Red, and Warm Gold
+      const rand = Math.random();
+      if (rand < 0.50) {
+        this.color = { r: 160, g: 168, b: 180 }; // Faded Slate Grey / White
+        this.alpha = Math.random() * 0.22 + 0.12;
+      } else if (rand < 0.80) {
+        this.color = { r: 225, g: 29, b: 72 };   // Aesthetic Ruby Red
+        this.alpha = Math.random() * 0.28 + 0.18;
+      } else {
+        this.color = { r: 245, g: 158, b: 11 };  // Warm Gold
+        this.alpha = Math.random() * 0.25 + 0.16;
+      }
     }
 
     update() {
@@ -99,7 +108,7 @@ function initAdvancedCanvas() {
 
   function createNodes() {
     nodes = [];
-    const count = Math.min(65, Math.floor((W * H) / 18000));
+    const count = Math.min(70, Math.floor((W * H) / 17000));
     for (let i = 0; i < count; i++) {
       nodes.push(new TechNode());
     }
@@ -111,16 +120,17 @@ function initAdvancedCanvas() {
   function animate() {
     ctx.clearRect(0, 0, W, H);
 
-    // 1. Soft subtle radial glow around mouse cursor (monochrome)
+    // 1. Soft subtle radial glow around mouse cursor (Red & Gold aura)
     if (mouse.x > 0 && mouse.y > 0) {
-      const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180);
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.025)');
-      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 190);
+      gradient.addColorStop(0, 'rgba(225, 29, 72, 0.04)');
+      gradient.addColorStop(0.5, 'rgba(245, 158, 11, 0.015)');
+      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, W, H);
     }
 
-    // 2. Connecting faint grey lines between nearby nodes
+    // 2. Connecting faint lines between nearby nodes
     const maxLinkDist = 135;
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
@@ -136,8 +146,8 @@ function initAdvancedCanvas() {
           ctx.beginPath();
           ctx.moveTo(n1.x, n1.y);
           ctx.lineTo(n2.x, n2.y);
-          ctx.strokeStyle = `rgba(156, 163, 175, ${lineAlpha})`;
-          ctx.lineWidth = 0.6;
+          ctx.strokeStyle = `rgba(${n1.color.r}, ${n1.color.g}, ${n1.color.b}, ${lineAlpha})`;
+          ctx.lineWidth = 0.65;
           ctx.stroke();
         }
       }

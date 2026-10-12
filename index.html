@@ -43,11 +43,10 @@
         <span class="brand-name">Tushar Nakaskar</span>
       </a>
 
-      <!-- Desktop Nav -->
+      <!-- Desktop Nav (Home, Projects, Resume) -->
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link active">Home</a>
         <a href="projects.html" class="nav-link">Projects</a>
-        <a href="contact.html" class="nav-link">Contact</a>
         <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="nav-link nav-cta" data-resume-link>Resume</a>
       </nav>
 
@@ -65,7 +64,6 @@
     <div class="mobile-drawer" id="mobile-drawer">
       <a href="index.html" class="mobile-link active">Home</a>
       <a href="projects.html" class="mobile-link">Projects</a>
-      <a href="contact.html" class="mobile-link">Contact</a>
       <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="mobile-link" data-resume-link>View Resume</a>
     </div>
   </header>
@@ -94,16 +92,16 @@
           Building reliable software solutions with Java, backend technologies, REST APIs, and database management.
         </p>
 
-        <!-- Centered Actions in Unified Blue Color -->
+        <!-- Centered Actions in Unified Aesthetic Red Color -->
         <div class="hero-actions-center">
           <a href="projects.html" class="btn btn-primary">
             <span>Explore Projects</span>
             <span aria-hidden="true">&rarr;</span>
           </a>
-          <a href="contact.html" class="btn btn-outline-blue">
+          <a href="#contact" class="btn btn-outline-red">
             <span>Get in Touch</span>
           </a>
-          <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-blue" data-resume-link>
+          <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-red" data-resume-link>
             <span>View Resume</span>
             <span aria-hidden="true">&rarr;</span>
           </a>
@@ -213,16 +211,128 @@
         </div>
       </section>
 
-      <!-- Connect Strip -->
-      <section class="section-block">
-        <div class="home-cta-strip">
-          <div class="cta-strip-text">
-            <h3>Interested in discussing an engineering role?</h3>
-            <p>Open to software developer roles, backend internships, and technical collaboration.</p>
+      <!-- Contact & Connect Section (Accessible via Scrolling or 'Get in Touch' button) -->
+      <section class="section-block" id="contact">
+        <div class="section-header-compact">
+          <div>
+            <span class="page-tag page-tag-red">Get in Touch</span>
+            <h2 class="section-title">Contact &amp; Connect</h2>
+            <p class="section-subtitle">Have an internship, software development opportunity, or engineering discussion? Feel free to connect.</p>
           </div>
-          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="contact.html" class="btn btn-primary btn-sm">Contact Me &rarr;</a>
-            <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-blue btn-sm" data-resume-link>View Resume &rarr;</a>
+        </div>
+
+        <div class="contact-layout">
+          <!-- Channels (Left Column) -->
+          <div class="contact-channels">
+
+            <!-- Email Card -->
+            <div class="channel-card channel-card-email">
+              <div class="channel-left">
+                <div class="channel-icon icon-red">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </div>
+                <div class="channel-info">
+                  <h4>Email Address</h4>
+                  <a href="mailto:tusharnakaskarp@gmail.com" class="channel-link">tusharnakaskarp@gmail.com</a>
+                </div>
+              </div>
+              <a href="mailto:tusharnakaskarp@gmail.com" class="btn btn-primary btn-sm" aria-label="Send email to Tushar Nakaskar">
+                <span>Send Email</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+
+            <!-- LinkedIn Card -->
+            <div class="channel-card channel-card-linkedin">
+              <div class="channel-left">
+                <div class="channel-icon icon-cyan">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                  </svg>
+                </div>
+                <div class="channel-info">
+                  <h4>LinkedIn Profile</h4>
+                  <a href="https://www.linkedin.com/in/tushar-nakaskar" target="_blank" rel="noopener noreferrer" class="channel-link">linkedin.com/in/tushar-nakaskar</a>
+                </div>
+              </div>
+              <a href="https://www.linkedin.com/in/tushar-nakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="Connect with Tushar Nakaskar on LinkedIn">
+                <span>Connect</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+
+            <!-- GitHub Card -->
+            <div class="channel-card channel-card-github">
+              <div class="channel-left">
+                <div class="channel-icon icon-purple">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                  </svg>
+                </div>
+                <div class="channel-info">
+                  <h4>GitHub Repositories</h4>
+                  <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="channel-link">github.com/tusharnakaskar</a>
+                </div>
+              </div>
+              <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="Follow Tushar Nakaskar on GitHub">
+                <span>Follow</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+
+            <!-- Official Resume Card -->
+            <div class="channel-card channel-card-resume">
+              <div class="channel-left">
+                <div class="channel-icon icon-gold">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                </div>
+                <div class="channel-info">
+                  <h4>Official Resume</h4>
+                  <span>Software Engineering Curriculum Vitae</span>
+                </div>
+              </div>
+              <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-sm" data-resume-link aria-label="View Tushar Nakaskar's Resume">
+                <span>View Resume</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Direct Message Form (Right Column) -->
+          <div class="contact-form-panel">
+            <h3>Send a Quick Note</h3>
+            <p>Launches an email client directly addressed to Tushar with pre-filled details.</p>
+
+            <form id="contact-form">
+              <div class="form-group">
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" id="name" class="form-input" placeholder="Hiring Manager / Name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="subject" class="form-label">Subject</label>
+                <input type="text" id="subject" class="form-input" placeholder="Opportunity / Inquiry" required>
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Message</label>
+                <textarea id="message" class="form-textarea" rows="4" placeholder="Hi Tushar, I reviewed your portfolio and would like to discuss..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <span>Send</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            </form>
           </div>
         </div>
       </section>
