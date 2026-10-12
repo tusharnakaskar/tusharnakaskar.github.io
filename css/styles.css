@@ -181,6 +181,7 @@ ul, ol { list-style: none; }
 .site-header {
   position: sticky;
   top: 0;
+  width: 100%;
   height: var(--header-height);
   background-color: var(--bg-nav);
   backdrop-filter: blur(16px);
@@ -189,6 +190,7 @@ ul, ol { list-style: none; }
   z-index: 100;
   display: flex;
   align-items: center;
+  padding: 0 1.75rem;
 }
 
 .header-inner {
@@ -320,7 +322,7 @@ ul, ol { list-style: none; }
 .hero-section-centered {
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100dvh - var(--header-height));
-  padding: 2.25rem 0 3.25rem;
+  padding: 1.25rem 0 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -335,12 +337,12 @@ ul, ol { list-style: none; }
   gap: 0.6rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.45rem 1.25rem;
+  padding: 0.4rem 1.2rem;
   border-radius: var(--radius-pill);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: #cbd5e1;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.95rem;
 }
 
 .status-dot {
@@ -359,20 +361,20 @@ ul, ol { list-style: none; }
 
 /* Centered Name: PURE CRISP WHITE (INCREASED PROMINENT SIZE) */
 .hero-name-center {
-  font-size: clamp(3.4rem, 6.8vw, 5.5rem);
+  font-size: clamp(3.8rem, 7.8vw, 6.35rem);
   font-weight: 800;
   letter-spacing: -0.04em;
-  line-height: 1.05;
-  margin-bottom: 1.25rem;
+  line-height: 1.04;
+  margin-bottom: 0.95rem;
   color: #ffffff !important;
-  text-shadow: 0 4px 32px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 4px 36px rgba(0, 0, 0, 0.75);
 }
 
 .hero-role-center {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #cbd5e1;
-  margin-bottom: 1.15rem;
+  margin-bottom: 0.85rem;
 }
 
 .role-tag-accent {
@@ -380,11 +382,11 @@ ul, ol { list-style: none; }
 }
 
 .hero-bio-center {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
   max-width: 660px;
-  line-height: 1.7;
-  margin: 0 auto 2.25rem;
+  line-height: 1.65;
+  margin: 0 auto 1.6rem;
 }
 
 .hero-actions-center {
@@ -392,7 +394,7 @@ ul, ol { list-style: none; }
   justify-content: center;
   flex-wrap: wrap;
   gap: 1.1rem;
-  margin-bottom: 2.75rem;
+  margin-bottom: 1.85rem;
 }
 
 /* Fast-scan Skills Strip - Uniform Single Color (Ruby Red) */
@@ -911,6 +913,7 @@ ul, ol { list-style: none; }
    11. Responsive
    -------------------------------------------------------------------------- */
 @media (max-width: 860px) {
+  .site-header { padding: 0 1.25rem; }
   .hero-name-center { font-size: 3.5rem; }
   .hero-section-centered { min-height: auto; padding: 2.75rem 0 2rem; }
   .page-title       { font-size: 2.15rem; }
