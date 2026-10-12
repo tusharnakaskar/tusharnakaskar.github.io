@@ -29,13 +29,13 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <!-- Interactive Particle Background Canvas -->
+  <!-- Interactive CS Animation Background Canvas -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- Accessible Skip Navigation -->
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- Header & Navigation -->
+  <!-- Header & Navigation (Home, Projects, Contact, Resume only) -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="brand-logo" aria-label="Tushar Nakaskar Homepage">
@@ -46,7 +46,6 @@
       <!-- Desktop Nav -->
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link active">Home</a>
-        <a href="about.html" class="nav-link">About</a>
         <a href="projects.html" class="nav-link">Projects</a>
         <a href="contact.html" class="nav-link">Contact</a>
         <a href="assets/resume.pdf" class="nav-link nav-cta" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Resume</a>
@@ -65,7 +64,6 @@
     <!-- Mobile Drawer Menu -->
     <div class="mobile-drawer" id="mobile-drawer">
       <a href="index.html" class="mobile-link active">Home</a>
-      <a href="about.html" class="mobile-link">About</a>
       <a href="projects.html" class="mobile-link">Projects</a>
       <a href="contact.html" class="mobile-link">Contact</a>
       <a href="assets/resume.pdf" class="mobile-link" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Download Resume</a>
@@ -76,107 +74,65 @@
   <main class="main-content" id="main">
     <div class="container">
       
-      <!-- Hero Section -->
-      <section class="hero-section">
+      <!-- Centered Hero Section -->
+      <section class="hero-section-centered">
+        
         <div class="hero-status-pill">
           <span class="status-dot"></span>
-          <span>Available for Software Engineering Roles &bull; Class of 2026</span>
+          <span>B.E. Computer Science &bull; Class of 2026 (PRMITR)</span>
         </div>
 
-        <h1 class="hero-title">
-          Hi, I'm <span class="gradient-text">Tushar Nakaskar</span>
-        </h1>
+        <!-- Name Centered, Bold & Prominent -->
+        <h1 class="hero-name-center">Tushar Nakaskar</h1>
 
-        <p class="hero-role">
-          Aspiring Software Developer &bull; Java Backend Developer
+        <p class="hero-role-center">
+          Aspiring Software Developer <span class="role-tag-accent">|</span> Java Backend Developer
         </p>
 
-        <p class="hero-bio">
-          Computer Science and Engineering undergraduate at Prof. Ram Meghe Institute of Technology &amp; Research. Focused on writing clean, modular Java code, designing RESTful web services, and building reliable database systems.
+        <p class="hero-bio-center">
+          Focused on engineering clean, scalable backend web services, RESTful APIs, and relational database systems with Java, Spring Boot, and MySQL.
         </p>
 
-        <div class="hero-actions">
+        <!-- Centered Actions -->
+        <div class="hero-actions-center">
           <a href="projects.html" class="btn btn-primary">
             <span>Explore Projects</span>
             <span aria-hidden="true">&rarr;</span>
           </a>
-          <a href="about.html" class="btn btn-secondary">
-            <span>About Me</span>
-          </a>
           <a href="contact.html" class="btn btn-secondary">
             <span>Get in Touch</span>
           </a>
+          <a href="assets/resume.pdf" class="btn btn-gold" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>
+            <span>Download Resume</span>
+            <span aria-hidden="true">&darr;</span>
+          </a>
         </div>
+
+        <!-- Quick Fast-Scan Competency Chips -->
+        <div class="quick-highlights-strip">
+          <span class="chip chip-blue">Java 17 &bull; OOP Design</span>
+          <span class="chip chip-red">Spring Boot &bull; REST APIs</span>
+          <span class="chip chip-cyan">MySQL &bull; Relational SQL</span>
+          <span class="chip chip-gold">PRMITR CSE '26</span>
+          <span class="chip chip-purple">Git &bull; Apache Maven</span>
+        </div>
+
       </section>
 
-      <!-- Core Focus Pillars -->
+      <!-- Featured Work Teaser -->
       <section class="section-block">
-        <div class="section-header">
-          <h2 class="section-title">Core Competencies</h2>
-          <p class="section-desc">Key engineering foundations and backend technologies I build with.</p>
-        </div>
-
-        <div class="features-grid">
-          
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="16 18 22 12 16 6"/>
-                <polyline points="8 6 2 12 8 18"/>
-              </svg>
-            </div>
-            <h3>Java &amp; OOP Architecture</h3>
-            <p>
-              Dedicated to clean Object-Oriented design, class abstraction, inheritance hierarchies, and writing readable, maintainable software.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
-                <line x1="6" y1="6" x2="6.01" y2="6"/>
-                <line x1="6" y1="18" x2="6.01" y2="18"/>
-              </svg>
-            </div>
-            <h3>Backend &amp; RESTful APIs</h3>
-            <p>
-              Developing structured web services, Spring Boot applications, and HTTP endpoints with JSON payload validation and error handling.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <ellipse cx="12" cy="5" rx="9" ry="3"/>
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
-              </svg>
-            </div>
-            <h3>Databases &amp; Storage</h3>
-            <p>
-              Structuring relational database schemas, optimizing SQL queries, and managing ACID-compliant transactional flows with MySQL.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Featured Project Teaser -->
-      <section class="section-block">
-        <div class="featured-teaser">
+        <div class="featured-teaser-clean">
           <div class="teaser-content">
-            <div class="teaser-badge">Featured Work</div>
-            <h3 class="teaser-title">Java AI &amp; API Integration Application</h3>
+            <div class="teaser-badge badge-red">&#9679; Featured Work</div>
+            <h2 class="teaser-title">Java AI &amp; API Integration Application</h2>
             <p class="teaser-text">
-              A Java application interfacing with external AI API endpoints to process user prompts, handle JSON payloads, and return structured responses over RESTful communication channels.
+              A Java backend application interfacing with external AI API endpoints to process user prompts, handle JSON payloads, and deliver structured responses over RESTful communication channels.
             </p>
             <div class="teaser-tags">
-              <span class="tag">Java</span>
-              <span class="tag">REST API</span>
-              <span class="tag">External AI API</span>
-              <span class="tag">JSON</span>
+              <span class="tag tag-red">Java</span>
+              <span class="tag tag-blue">REST API</span>
+              <span class="tag tag-purple">External AI API</span>
+              <span class="tag tag-cyan">JSON</span>
               <span class="tag">Maven</span>
             </div>
           </div>
@@ -193,12 +149,12 @@
       <section class="section-block">
         <div class="home-cta-strip">
           <div class="cta-strip-text">
-            <h3>Interested in working together?</h3>
-            <p>Open to software developer roles, backend internships, and collaborative opportunities.</p>
+            <h3>Interested in discussing an opportunity?</h3>
+            <p>Open to software developer roles, backend internships, and technical discussions.</p>
           </div>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="contact.html" class="btn btn-primary btn-sm">Get in Touch &rarr;</a>
-            <a href="assets/resume.pdf" class="btn btn-secondary btn-sm" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Resume PDF</a>
+            <a href="contact.html" class="btn btn-primary btn-sm">Contact Me &rarr;</a>
+            <a href="assets/resume.pdf" class="btn btn-gold btn-sm" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Resume PDF</a>
           </div>
         </div>
       </section>

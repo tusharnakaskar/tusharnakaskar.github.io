@@ -29,13 +29,13 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <!-- Interactive Particle Background Canvas -->
+  <!-- Interactive CS Animation Background Canvas -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- Accessible Skip Navigation -->
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- Header & Navigation -->
+  <!-- Header & Navigation (Home, Projects, Contact, Resume only) -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="brand-logo" aria-label="Tushar Nakaskar Homepage">
@@ -46,7 +46,6 @@
       <!-- Desktop Nav -->
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link">Home</a>
-        <a href="about.html" class="nav-link">About</a>
         <a href="projects.html" class="nav-link active">Projects</a>
         <a href="contact.html" class="nav-link">Contact</a>
         <a href="assets/resume.pdf" class="nav-link nav-cta" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Resume</a>
@@ -65,7 +64,6 @@
     <!-- Mobile Drawer Menu -->
     <div class="mobile-drawer" id="mobile-drawer">
       <a href="index.html" class="mobile-link">Home</a>
-      <a href="about.html" class="mobile-link">About</a>
       <a href="projects.html" class="mobile-link active">Projects</a>
       <a href="contact.html" class="mobile-link">Contact</a>
       <a href="assets/resume.pdf" class="mobile-link" download="Tushar_Nakaskar_Resume.pdf" data-resume-link>Download Resume</a>
@@ -78,25 +76,25 @@
       
       <!-- Page Header -->
       <header class="page-header">
-        <span class="page-tag">Portfolio</span>
-        <h1 class="page-title">Software Projects</h1>
+        <span class="page-tag page-tag-blue">Portfolio Showcase</span>
+        <h1 class="page-title">Practical Software Projects</h1>
         <p class="page-subtitle">
-          Practical software applications demonstrating backend engineering, API integration, and clean OOP architecture.
+          Real applications demonstrating Java backend engineering, RESTful API architecture, and relational database systems.
         </p>
       </header>
 
-      <!-- Projects List -->
+      <!-- Projects List with Multi-Colored Accents -->
       <div class="projects-stack">
 
-        <!-- Project 1 -->
-        <article class="project-card" id="ai-project">
+        <!-- Project 1: Ruby Red Accent (Featured AI) -->
+        <article class="project-card card-theme-red" id="ai-project">
           <div class="project-card-top">
-            <span class="project-type-tag">Featured Project</span>
+            <span class="project-type-tag" style="color: var(--red);">&#9679; Featured Work</span>
             <div class="project-tags">
-              <span class="tag tag-accent">Java</span>
-              <span class="tag">REST API</span>
-              <span class="tag">External AI API</span>
-              <span class="tag">JSON</span>
+              <span class="tag tag-red">Java 17</span>
+              <span class="tag tag-blue">REST API</span>
+              <span class="tag tag-purple">External AI API</span>
+              <span class="tag tag-cyan">JSON</span>
               <span class="tag">Maven</span>
             </div>
           </div>
@@ -110,10 +108,10 @@
           <div class="project-features">
             <div class="features-title">Technical Highlights</div>
             <ul class="feature-bullets">
-              <li>Configured reliable HTTP client communication targeting external AI REST endpoints.</li>
-              <li>Serialized client requests into JSON payloads and parsed nested response models.</li>
-              <li>Engineered a modular design cleanly separating client, service, and model layers.</li>
-              <li>Integrated defensive error handling for timeouts, invalid requests, and API rate limits.</li>
+              <li class="bullet-red">Configured reliable HTTP client communication targeting external AI REST endpoints.</li>
+              <li class="bullet-red">Serialized client requests into JSON payloads and parsed nested response models.</li>
+              <li class="bullet-red">Engineered a modular design cleanly separating client, service, and model layers.</li>
+              <li class="bullet-red">Integrated defensive error handling for timeouts, invalid requests, and API rate limits.</li>
             </ul>
           </div>
 
@@ -129,15 +127,15 @@
           </div>
         </article>
 
-        <!-- Project 2 -->
-        <article class="project-card">
+        <!-- Project 2: Electric Blue Accent (Backend REST) -->
+        <article class="project-card card-theme-blue">
           <div class="project-card-top">
-            <span class="project-type-tag">Backend Service</span>
+            <span class="project-type-tag" style="color: var(--blue);">&#9679; Backend Web Service</span>
             <div class="project-tags">
-              <span class="tag tag-accent">Spring Boot</span>
-              <span class="tag">Java</span>
-              <span class="tag">REST APIs</span>
-              <span class="tag">MySQL</span>
+              <span class="tag tag-blue">Spring Boot</span>
+              <span class="tag tag-cyan">Java</span>
+              <span class="tag tag-blue">REST APIs</span>
+              <span class="tag tag-purple">MySQL</span>
               <span class="tag">JDBC</span>
             </div>
           </div>
@@ -145,16 +143,16 @@
           <h2 class="project-title">Spring Boot REST API Service</h2>
 
           <p class="project-desc">
-            A structured web service demonstrating layered architecture, standardized HTTP endpoint routing, and persistent relational data storage.
+            A structured backend application demonstrating layered web service architecture, standardized HTTP endpoint routing, and persistent relational data storage.
           </p>
 
           <div class="project-features">
             <div class="features-title">Technical Highlights</div>
             <ul class="feature-bullets">
-              <li>Architected Controller, Service, and Data Access layers adhering to separation of concerns.</li>
-              <li>Created full CRUD operations supporting standard GET, POST, PUT, and DELETE methods.</li>
-              <li>Integrated relational data storage with MySQL schemas and optimized queries.</li>
-              <li>Standardized HTTP status codes and error responses for predictable client consumption.</li>
+              <li class="bullet-blue">Architected Controller, Service, and Data Access layers adhering to separation of concerns.</li>
+              <li class="bullet-blue">Created full CRUD operations supporting standard GET, POST, PUT, and DELETE methods.</li>
+              <li class="bullet-blue">Integrated relational data storage with MySQL schemas and optimized queries.</li>
+              <li class="bullet-blue">Standardized HTTP status codes and error responses for predictable client consumption.</li>
             </ul>
           </div>
 
@@ -170,14 +168,14 @@
           </div>
         </article>
 
-        <!-- Project 3 -->
-        <article class="project-card">
+        <!-- Project 3: Golden Amber Accent (Core Java OOP) -->
+        <article class="project-card card-theme-gold">
           <div class="project-card-top">
-            <span class="project-type-tag">Core Java</span>
+            <span class="project-type-tag" style="color: var(--gold);">&#9679; Core Java &amp; Systems</span>
             <div class="project-tags">
-              <span class="tag tag-accent">Core Java</span>
-              <span class="tag">OOP Principles</span>
-              <span class="tag">Data Structures</span>
+              <span class="tag tag-gold">Core Java</span>
+              <span class="tag tag-blue">OOP Principles</span>
+              <span class="tag tag-purple">Data Structures</span>
               <span class="tag">VS Code</span>
             </div>
           </div>
@@ -191,10 +189,10 @@
           <div class="project-features">
             <div class="features-title">Technical Highlights</div>
             <ul class="feature-bullets">
-              <li>Implemented inheritance hierarchies, abstract classes, and polymorphic dispatch.</li>
-              <li>Encapsulated data models to protect internal state transitions and prevent bugs.</li>
-              <li>Structured interactive console workflows featuring robust user input validation.</li>
-              <li>Organized codebase into clean packages following industry Java conventions.</li>
+              <li class="bullet-gold">Implemented inheritance hierarchies, abstract classes, and polymorphic dispatch.</li>
+              <li class="bullet-gold">Encapsulated data models to protect internal state transitions and prevent bugs.</li>
+              <li class="bullet-gold">Structured interactive console workflows featuring robust user input validation.</li>
+              <li class="bullet-gold">Organized codebase into clean packages following industry Java conventions.</li>
             </ul>
           </div>
 
@@ -203,7 +201,7 @@
               <span class="tag">Design Patterns</span>
               <span class="tag">Algorithms</span>
             </div>
-            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+            <a href="https://github.com/tusharnakaskar" target="_blank" rel="noopener noreferrer" class="btn btn-gold btn-sm">
               <span>View Repository on GitHub</span>
               <span aria-hidden="true">&rarr;</span>
             </a>

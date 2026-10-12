@@ -1,11 +1,10 @@
 /**
  * Tushar Nakaskar - Developer Portfolio
- * Interactions: mobile nav, copy email, contact form, resume fallback,
- *               current year, and interactive particle background.
+ * Computer Science Interactive Background Animation & Utilities
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initBgCanvas();
+  initCsCanvas();
   initMobileNav();
   initCopyEmail();
   initContactForm();
@@ -14,9 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   1. Interactive Particle Canvas Background
+   1. Interactive Computer Science Background Animation
+      Features: Floating CS Glyphs, Binary Bits & Dynamic Circuit/Network Nodes
+      Colors: Ruby Red, Faded White, Golden Amber, Electric Blue & Cyan
    ========================================================================== */
-function initBgCanvas() {
+function initCsCanvas() {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
 
@@ -26,12 +27,17 @@ function initBgCanvas() {
   canvas.width = W;
   canvas.height = H;
 
-  // Mouse position tracking
-  const mouse = { x: W / 2, y: H / 2 };
+  // Track mouse coordinates
+  const mouse = { x: -1000, y: -1000, radius: 130 };
 
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
   });
 
   window.addEventListener('resize', () => {
@@ -39,112 +45,161 @@ function initBgCanvas() {
     H = window.innerHeight;
     canvas.width = W;
     canvas.height = H;
-    initParticles();
+    createParticles();
   });
 
-  // Particle settings
-  const PARTICLE_COUNT = Math.min(80, Math.floor((W * H) / 16000));
-  const MAX_DIST = 130;       // max connection distance
-  const MOUSE_REPEL = 100;    // mouse repel radius
-  const SPEED = 0.35;
+  // Computer Science glyphs library
+  const CS_SYMBOLS = ['0', '1', '{ }', '</>', '&&', '=>', ';', 'git', '0x1', '[]', '==', '()', '::', 'fn()'];
+
+  // Color palette definitions: Red, Golden Amber, Faded White, Electric Blue, Cyan
+  const COLOR_PALETTE = [
+    { r: 239, g: 68,  b: 68,  name: 'red' },      // Ruby Red
+    { r: 245, g: 158, b: 11,  name: 'gold' },     // Golden Amber
+    { r: 240, g: 243, b: 248, name: 'white' },    // Faded White
+    { r: 59,  g: 130, b: 246, name: 'blue' },     // Electric Blue
+    { r: 6,   g: 182, b: 212, name: 'cyan' }      // Cyan
+  ];
 
   let particles = [];
 
-  function Particle() {
-    this.x = Math.random() * W;
-    this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * SPEED;
-    this.vy = (Math.random() - 0.5) * SPEED;
-    this.r = Math.random() * 1.5 + 0.8;
-    // 65% neutral grey/silver, 25% electric blue, 10% cyan/sky
-    const roll = Math.random();
-    if (roll < 0.65) {
-      const b = Math.floor(Math.random() * 70 + 70);
-      this.color = `rgb(${b},${b},${b})`;
-    } else if (roll < 0.90) {
-      const b = Math.floor(Math.random() * 55 + 200);
-      this.color = `rgb(59,130,${b})`;       // electric blue family
-    } else {
-      this.color = `rgb(56,189,248)`;         // soft cyan highlight
+  class CsParticle {
+    constructor() {
+      this.reset(true);
     }
-  }
 
-  function initParticles() {
-    particles = [];
-    const count = Math.min(80, Math.floor((W * H) / 16000));
-    for (let i = 0; i < count; i++) {
-      particles.push(new Particle());
+    reset(initial = false) {
+      this.x = Math.random() * W;
+      this.y = initial ? Math.random() * H : (Math.random() < 0.5 ? -10 : H + 10);
+      this.vx = (Math.random() - 0.5) * 0.45;
+      this.vy = (Math.random() - 0.5) * 0.45;
+      
+      // 55% network nodes, 45% code syntax glyphs
+      this.isGlyph = Math.random() < 0.45;
+      this.glyph = CS_SYMBOLS[Math.floor(Math.random() * CS_SYMBOLS.length)];
+      this.size = this.isGlyph ? (Math.random() * 3 + 10) : (Math.random() * 1.6 + 1.2);
+      
+      // Pick a random accent color
+      this.colorObj = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+      this.baseAlpha = Math.random() * 0.35 + 0.25;
+      this.pulse = Math.random() * Math.PI * 2;
+      this.pulseSpeed = Math.random() * 0.02 + 0.01;
     }
-  }
 
-  initParticles();
+    update() {
+      // Gentle floating pulse
+      this.pulse += this.pulseSpeed;
+      const currentAlpha = this.baseAlpha + Math.sin(this.pulse) * 0.12;
 
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    // Update & draw particles
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-
-      // Gentle mouse repulsion
-      const dx = p.x - mouse.x;
-      const dy = p.y - mouse.y;
+      // Mouse interactive push
+      const dx = this.x - mouse.x;
+      const dy = this.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < MOUSE_REPEL) {
-        const force = (MOUSE_REPEL - dist) / MOUSE_REPEL * 0.015;
-        p.vx += (dx / dist) * force;
-        p.vy += (dy / dist) * force;
+
+      if (dist < mouse.radius) {
+        const force = (mouse.radius - dist) / mouse.radius;
+        const angle = Math.atan2(dy, dx);
+        this.vx += Math.cos(angle) * force * 0.04;
+        this.vy += Math.sin(angle) * force * 0.04;
       }
 
-      // Dampen velocity slightly to prevent runaway
-      p.vx *= 0.995;
-      p.vy *= 0.995;
+      // Air resistance / friction
+      this.vx *= 0.99;
+      this.vy *= 0.99;
 
-      // Move
-      p.x += p.vx;
-      p.y += p.vy;
+      // Position update
+      this.x += this.vx;
+      this.y += this.vy;
 
-      // Wrap edges
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
+      // Wrap around bounds
+      if (this.x < -30) this.x = W + 30;
+      if (this.x > W + 30) this.x = -30;
+      if (this.y < -30) this.y = H + 30;
+      if (this.y > H + 30) this.y = -30;
 
-      // Draw dot
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = 0.55;
-      ctx.fill();
-      ctx.globalAlpha = 1;
+      return currentAlpha;
+    }
 
-      // Draw connection lines to nearby particles
-      for (let j = i + 1; j < particles.length; j++) {
-        const q = particles[j];
-        const qx = p.x - q.x;
-        const qy = p.y - q.y;
-        const d = Math.sqrt(qx * qx + qy * qy);
+    draw(alpha) {
+      const { r, g, b } = this.colorObj;
 
-        if (d < MAX_DIST) {
-          const alpha = (1 - d / MAX_DIST) * 0.16;
+      if (this.isGlyph) {
+        ctx.font = `500 ${Math.round(this.size)}px 'JetBrains Mono', monospace`;
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${Math.max(0.15, alpha)})`;
+        ctx.fillText(this.glyph, this.x, this.y);
+      } else {
+        // Draw circuit/node dot
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${Math.max(0.2, alpha)})`;
+        ctx.fill();
+
+        // Subtle glowing halo for nodes
+        if (alpha > 0.3) {
           ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(59,130,246,${alpha})`;
-          ctx.lineWidth = 0.65;
+          ctx.arc(this.x, this.y, this.size * 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.05)`;
+          ctx.fill();
+        }
+      }
+    }
+  }
+
+  function createParticles() {
+    particles = [];
+    const count = Math.min(95, Math.floor((W * H) / 14000));
+    for (let i = 0; i < count; i++) {
+      particles.push(new CsParticle());
+    }
+  }
+
+  createParticles();
+
+  // Animation Loop
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+
+    // 1. Draw connecting circuit lines between nearby nodes
+    const maxLinkDist = 125;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const p1 = particles[i];
+        const p2 = particles[j];
+
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < maxLinkDist) {
+          const lineAlpha = (1 - dist / maxLinkDist) * 0.16;
+          // Gradient between p1 color and p2 color
+          const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+          grad.addColorStop(0, `rgba(${p1.colorObj.r}, ${p1.colorObj.g}, ${p1.colorObj.b}, ${lineAlpha})`);
+          grad.addColorStop(1, `rgba(${p2.colorObj.r}, ${p2.colorObj.g}, ${p2.colorObj.b}, ${lineAlpha})`);
+
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 0.75;
           ctx.stroke();
         }
       }
     }
 
-    requestAnimationFrame(draw);
+    // 2. Update and draw each particle
+    for (let i = 0; i < particles.length; i++) {
+      const alpha = particles[i].update();
+      particles[i].draw(alpha);
+    }
+
+    requestAnimationFrame(animate);
   }
 
-  draw();
+  animate();
 }
 
 /* ==========================================================================
-   2. Mobile Navigation Drawer
+   2. Mobile Navigation Drawer Toggle
    ========================================================================== */
 function initMobileNav() {
   const toggleBtn = document.getElementById('mobile-toggle');
@@ -157,7 +212,6 @@ function initMobileNav() {
     toggleBtn.setAttribute('aria-expanded', isOpen.toString());
   });
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer.classList.contains('open')) {
       drawer.classList.remove('open');
@@ -214,14 +268,14 @@ function initContactForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name    = document.getElementById('name')?.value.trim() || '';
-    const subject = document.getElementById('subject')?.value.trim() || 'Portfolio Inquiry';
+    const subject = document.getElementById('subject')?.value.trim() || 'Software Developer Opportunity';
     const message = document.getElementById('message')?.value.trim() || '';
 
     const body = `Hi Tushar,\n\n${message}\n\nBest regards,\n${name}`;
     const href = `mailto:tusharnakaskarp@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     window.location.href = href;
-    showToast('Opening your email client...');
+    showToast('Launching email client...');
   });
 }
 
@@ -236,11 +290,11 @@ function initResumeDownload() {
         .then(res => {
           if (!res.ok) {
             e.preventDefault();
-            showToast('Resume PDF will be added soon. Contact me directly!');
+            showToast('Resume PDF will be available soon. Please feel free to email me directly!');
           }
         })
         .catch(() => {
-          // Offline or local — proceed normally
+          // Local/offline test
         });
     });
   });
