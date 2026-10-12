@@ -58,16 +58,9 @@ function initAdvancedCanvas() {
       this.vy = (Math.random() - 0.5) * 0.28;
       this.radius = Math.random() * 1.2 + 0.8;
       
-      // Sophisticated color palette: Slate, Subtle Blue, Soft Amber
-      const roll = Math.random();
-      if (roll < 0.6) {
-        this.color = { r: 148, g: 163, b: 184 }; // Slate 400
-      } else if (roll < 0.85) {
-        this.color = { r: 59, g: 130, b: 246 };  // Electric Blue
-      } else {
-        this.color = { r: 245, g: 158, b: 11 };  // Soft Amber
-      }
-      this.alpha = Math.random() * 0.25 + 0.15;
+      // Refined monochromatic grey color palette
+      this.color = { r: 156, g: 163, b: 175 }; // Grey / Slate
+      this.alpha = Math.random() * 0.22 + 0.14;
     }
 
     update() {
@@ -118,16 +111,16 @@ function initAdvancedCanvas() {
   function animate() {
     ctx.clearRect(0, 0, W, H);
 
-    // 1. Soft radial glow around mouse cursor
+    // 1. Soft subtle radial glow around mouse cursor (monochrome)
     if (mouse.x > 0 && mouse.y > 0) {
       const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180);
-      gradient.addColorStop(0, 'rgba(59, 130, 246, 0.04)');
-      gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.025)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, W, H);
     }
 
-    // 2. Connecting faint lines between nearby nodes
+    // 2. Connecting faint grey lines between nearby nodes
     const maxLinkDist = 135;
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
@@ -143,7 +136,7 @@ function initAdvancedCanvas() {
           ctx.beginPath();
           ctx.moveTo(n1.x, n1.y);
           ctx.lineTo(n2.x, n2.y);
-          ctx.strokeStyle = `rgba(148, 163, 184, ${lineAlpha})`;
+          ctx.strokeStyle = `rgba(156, 163, 175, ${lineAlpha})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
         }

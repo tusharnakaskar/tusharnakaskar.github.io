@@ -8,11 +8,11 @@
    1. Design Tokens & CSS Variables
    -------------------------------------------------------------------------- */
 :root {
-  /* ── Backgrounds (Refined Dark Grey Base) ── */
-  --bg-body:          #121316;
-  --bg-surface:       #1a1b20;
-  --bg-surface-hover: #22242c;
-  --bg-nav:           rgba(18, 19, 22, 0.92);
+  /* ── Backgrounds (Black / Dark Grey Base) ── */
+  --bg-body:          #0c0d10;
+  --bg-surface:       #131519;
+  --bg-surface-hover: #1b1e24;
+  --bg-nav:           rgba(12, 13, 16, 0.92);
 
   /* ── Neutral Text & Borders ── */
   --border-subtle:    rgba(255, 255, 255, 0.08);
@@ -324,12 +324,12 @@ ul, ol { list-style: none; }
   gap: 0.6rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 1.1rem;
   border-radius: var(--radius-pill);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #cbd5e1;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .status-dot {
@@ -346,15 +346,15 @@ ul, ol { list-style: none; }
   50%       { opacity: 0.45; transform: scale(0.9); }
 }
 
-/* Centered Name: PURE CRISP WHITE */
+/* Centered Name: PURE CRISP WHITE (INCREASED SIZE) */
 .hero-name-center {
-  font-size: 3.85rem;
+  font-size: 4.65rem;
   font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.1;
-  margin-bottom: 0.85rem;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  margin-bottom: 1rem;
   color: #ffffff !important;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.6);
 }
 
 .hero-role-center {
@@ -384,7 +384,7 @@ ul, ol { list-style: none; }
   margin-bottom: 2.75rem;
 }
 
-/* Fast-scan Skills Strip (Java 21) */
+/* Fast-scan Skills Strip - Uniform Single Color */
 .quick-skills-strip {
   display: flex;
   flex-wrap: wrap;
@@ -397,26 +397,22 @@ ul, ol { list-style: none; }
 .skill-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.825rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  padding: 0.42rem 0.95rem;
+  padding: 0.45rem 1.05rem;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-surface);
-  color: #e2e8f0;
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  background: rgba(59, 130, 246, 0.08);
+  color: #93c5fd;
   transition: all var(--trans);
 }
 .skill-pill:hover {
+  border-color: var(--blue);
+  color: #ffffff;
+  background: rgba(59, 130, 246, 0.18);
   transform: translateY(-2px);
 }
-.pill-blue   { border-color: var(--blue-border); color: #93c5fd; background: var(--blue-subtle); }
-.pill-red    { border-color: var(--red-border); color: #fca5a5; background: var(--red-subtle); }
-.pill-green  { border-color: var(--green-border); color: #a7f3d0; background: var(--green-subtle); }
-.pill-cyan   { border-color: var(--cyan-border); color: #a5f3fc; background: var(--cyan-subtle); }
-.pill-purple { border-color: var(--purple-border); color: #d8b4fe; background: var(--purple-subtle); }
-.pill-gold   { border-color: var(--gold-border); color: #fde68a; background: var(--gold-subtle); }
 
 /* --------------------------------------------------------------------------
    5. Buttons
@@ -446,6 +442,20 @@ ul, ol { list-style: none; }
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Cohesive Blue Outline Button */
+.btn-outline-blue {
+  background: rgba(59, 130, 246, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+.btn-outline-blue:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: var(--blue);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
 }
 
 .btn-secondary {
@@ -883,7 +893,7 @@ ul, ol { list-style: none; }
    11. Responsive
    -------------------------------------------------------------------------- */
 @media (max-width: 860px) {
-  .hero-name-center { font-size: 2.85rem; }
+  .hero-name-center { font-size: 3.35rem; }
   .page-title       { font-size: 2.15rem; }
   .nav-desktop      { display: none; }
   .mobile-toggle    { display: block; }
@@ -893,7 +903,7 @@ ul, ol { list-style: none; }
 
 @media (max-width: 600px) {
   .hero-section-centered { padding: 2.5rem 0 2.25rem; }
-  .hero-name-center { font-size: 2.35rem; }
+  .hero-name-center { font-size: 2.75rem; }
   .hero-role-center { font-size: 1.15rem; }
   .hero-actions-center { flex-direction: column; width: 100%; }
   .hero-actions-center .btn { width: 100%; }
