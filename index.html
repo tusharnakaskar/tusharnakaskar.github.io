@@ -35,11 +35,12 @@
   <!-- Subtle Technical Canvas Background -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-  <!-- Fullscreen Background Video (Place your video in assets/ and update src as needed) -->
+  <!-- Fullscreen Responsive Pixel-Art Character Video Background -->
   <div id="video-bg-wrapper" class="video-bg-wrapper" aria-hidden="true">
-    <video id="bg-video" autoplay loop muted playsinline>
-      <source src="assets/background.mp4" type="video/mp4">
+    <video id="bg-video-a" class="bg-video-layer active" autoplay loop muted playsinline preload="auto">
+      <source src="assets/CLIPS_PROCESSED/programmer_sleep.mp4" type="video/mp4">
     </video>
+    <video id="bg-video-b" class="bg-video-layer" muted playsinline preload="auto"></video>
     <div class="video-bg-overlay"></div>
   </div>
 

@@ -449,6 +449,7 @@ ul, ol { list-style: none; }
   overflow: hidden;
 }
 
+.bg-video-layer,
 #bg-video {
   position: absolute;
   inset: 0;
@@ -457,8 +458,14 @@ ul, ol { list-style: none; }
   height: 100dvh;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+.bg-video-layer.active,
+#bg-video.active {
   opacity: 0.25; /* Soft ambient opacity so foreground text remains crisp and readable */
-  transition: opacity var(--trans);
 }
 
 .video-bg-overlay {

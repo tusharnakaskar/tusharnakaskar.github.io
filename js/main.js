@@ -167,29 +167,257 @@ function initAdvancedCanvas() {
 }
 
 /* ==========================================================================
-   1b. Background Video Graceful Fallback
+   1b. Interactive Programmer Video Background State Machine
+       SLEEPING -> WAKING -> CODING <-> RELAXING
    ========================================================================== */
 function initBgVideo() {
-  const video = document.getElementById('bg-video');
-  if (!video) return;
+  const wrapper = document.getElementById('video-bg-wrapper');
+  const layerA = document.getElementById('bg-video-a');
+  const layerB = document.getElementById('bg-video-b');
 
-  const playVideo = () => {
-    video.style.display = 'block';
-    video.play().catch(() => {
-      // Autoplay silently allowed since video is muted
-    });
-  };
-
-  if (video.readyState >= 2) {
-    playVideo();
-  } else {
-    video.addEventListener('loadeddata', playVideo);
-    video.addEventListener('canplay', playVideo);
+  // Support dual-layer architecture with fallback for single layer
+  if (!wrapper) return;
+  if (!layerA) {
+    const singleVideo = document.getElementById('bg-video');
+    if (singleVideo) {
+      singleVideo.play().catch(() => {});
+    }
+    return;
   }
 
-  video.addEventListener('error', () => {
-    video.style.display = 'none';
-  }, true);
+  // Pre-aligned web-optimized video asset paths
+  const CLIPS = {
+    SLEEP: 'assets/CLIPS_PROCESSED/programmer_sleep.mp4',
+    WAKE: 'assets/CLIPS_PROCESSED/programmer_wake.mp4',
+    CODE: 'assets/CLIPS_PROCESSED/programmer_code.mp4',
+    RELAX_ENTER: 'assets/CLIPS_PROCESSED/programmer_relax_enter.mp4',
+    RELAX_IDLE: 'assets/CLIPS_PROCESSED/programmer_relax_idle.mp4',
+    RELAX_EXIT: 'assets/CLIPS_PROCESSED/programmer_relax_exit.mp4'
+  };
+
+  // State definitions
+  const State = {
+    SLEEPING: 'SLEEPING',
+    WAKING: 'WAKING',
+    CODING: 'CODING',
+    RELAX_ENTER: 'RELAX_ENTER',
+    RELAX_IDLE: 'RELAX_IDLE',
+    RELAX_EXIT: 'RELAX_EXIT'
+  };
+
+  let currentState = State.SLEEPING;
+  let hasAwoken = false;
+  let idleTimer = null;
+  const IDLE_DELAY_MS = 1800; // 1.8s inactivity threshold before relaxing
+
+  let activeLayer = layerA;
+  let standbyLayer = layerB || document.createElement('video');
+  let transitionTimeout = null;
+
+  // Preload asset via link tag in document head
+  function preloadClip(url) {
+    if (!url) return;
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = url;
+    document.head.appendChild(link);
+  }
+
+  // Preload early transition assets in background
+  setTimeout(() => {
+    preloadClip(CLIPS.WAKE);
+    preloadClip(CLIPS.CODE);
+  }, 1200);
+
+  // Transition engine between video layers
+  function playClip(clipUrl, isLoop = false, onEndedCallback = null, crossfadeMs = 300) {
+    if (transitionTimeout) {
+      clearTimeout(transitionTimeout);
+      transitionTimeout = null;
+    }
+
+    if (!standbyLayer) return;
+
+    standbyLayer.loop = isLoop;
+    standbyLayer.onended = null;
+    standbyLayer.src = clipUrl;
+    standbyLayer.load();
+
+    const executeSwap = () => {
+      standbyLayer.play().then(() => {
+        standbyLayer.classList.add('active');
+        activeLayer.classList.remove('active');
+
+        if (onEndedCallback && !isLoop) {
+          standbyLayer.onended = onEndedCallback;
+        }
+
+        transitionTimeout = setTimeout(() => {
+          activeLayer.pause();
+          // Swap active and standby roles
+          const temp = activeLayer;
+          activeLayer = standbyLayer;
+          standbyLayer = temp;
+          transitionTimeout = null;
+        }, crossfadeMs);
+      }).catch(err => {
+        console.warn('Video transition playback notice:', err);
+      });
+    };
+
+    if (standbyLayer.readyState >= 2) {
+      executeSwap();
+    } else {
+      standbyLayer.addEventListener('canplay', executeSwap, { once: true });
+    }
+  }
+
+  // Trigger waking sequence from first user activity
+  function triggerWake() {
+    if (hasAwoken || currentState !== State.SLEEPING) return;
+    hasAwoken = true;
+    currentState = State.WAKING;
+
+    removeWakeListeners();
+
+    // Play waking animation (starts from exact sleeping pose, sits upright, hands reach keyboard)
+    playClip(CLIPS.WAKE, false, () => {
+      startCoding();
+    }, 250);
+  }
+
+  // Enter CODING state
+  function startCoding() {
+    currentState = State.CODING;
+    playClip(CLIPS.CODE, true, null, 300);
+    resetIdleTimer();
+
+    // Preload relax assets
+    preloadClip(CLIPS.RELAX_ENTER);
+    preloadClip(CLIPS.RELAX_IDLE);
+    preloadClip(CLIPS.RELAX_EXIT);
+  }
+
+  // Settle into RELAXING state after idle timeout
+  function startRelaxing() {
+    if (currentState !== State.CODING) return;
+    currentState = State.RELAX_ENTER;
+
+    playClip(CLIPS.RELAX_ENTER, false, () => {
+      if (currentState === State.RELAX_ENTER) {
+        currentState = State.RELAX_IDLE;
+        playClip(CLIPS.RELAX_IDLE, true, null, 250);
+      }
+    }, 250);
+  }
+
+  // Resume CODING from RELAXING when activity detected
+  function resumeCoding() {
+    if (currentState === State.RELAX_IDLE || currentState === State.RELAX_ENTER) {
+      currentState = State.RELAX_EXIT;
+      if (idleTimer) clearTimeout(idleTimer);
+
+      // Play reversed clip: hands move down from behind head onto keyboard
+      playClip(CLIPS.RELAX_EXIT, false, () => {
+        startCoding();
+      }, 250);
+    } else if (currentState === State.CODING) {
+      resetIdleTimer();
+    }
+  }
+
+  // Reset inactivity timer
+  function resetIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      startRelaxing();
+    }, IDLE_DELAY_MS);
+  }
+
+  // Centralized activity handler
+  function onUserActivity() {
+    if (!hasAwoken) {
+      triggerWake();
+      return;
+    }
+
+    if (currentState === State.CODING) {
+      resetIdleTimer();
+    } else if (currentState === State.RELAX_IDLE || currentState === State.RELAX_ENTER) {
+      resumeCoding();
+    }
+  }
+
+  // First wake interaction listeners
+  const wakeEvents = ['scroll', 'wheel', 'touchstart', 'keydown'];
+  function onFirstWakeEvent(e) {
+    if (e.type === 'keydown') {
+      const meaningfulKeys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space', 'Tab', 'Home', 'End'];
+      if (!meaningfulKeys.includes(e.code) && !meaningfulKeys.includes(e.key)) return;
+    }
+    triggerWake();
+  }
+
+  function addWakeListeners() {
+    wakeEvents.forEach(evt => {
+      window.addEventListener(evt, onFirstWakeEvent, { passive: true, once: true });
+    });
+    document.addEventListener('click', onFirstWakeEvent, { once: true });
+  }
+
+  function removeWakeListeners() {
+    wakeEvents.forEach(evt => {
+      window.removeEventListener(evt, onFirstWakeEvent);
+    });
+    document.removeEventListener('click', onFirstWakeEvent);
+  }
+
+  // General continuous activity listeners (throttled to 100ms)
+  let lastActivityTime = 0;
+  function handleThrottledActivity() {
+    const now = Date.now();
+    if (now - lastActivityTime > 100) {
+      lastActivityTime = now;
+      onUserActivity();
+    }
+  }
+
+  window.addEventListener('scroll', handleThrottledActivity, { passive: true });
+  window.addEventListener('wheel', handleThrottledActivity, { passive: true });
+  window.addEventListener('touchmove', handleThrottledActivity, { passive: true });
+  document.addEventListener('click', handleThrottledActivity, { passive: true });
+  document.addEventListener('keydown', (e) => {
+    const keys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space', 'Tab'];
+    if (keys.includes(e.code) || keys.includes(e.key)) {
+      handleThrottledActivity();
+    }
+  }, { passive: true });
+
+  // Page Visibility API: pause when tab hidden to preserve battery & CPU
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (activeLayer) activeLayer.pause();
+    } else {
+      if (activeLayer && activeLayer.paused) {
+        activeLayer.play().catch(() => {});
+      }
+    }
+  });
+
+  // Respect reduced motion preference
+  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mediaQuery.matches) {
+    if (layerA) layerA.playbackRate = 0.5;
+    if (layerB) layerB.playbackRate = 0.5;
+  }
+
+  // Start initial sleep playback
+  layerA.play().catch(() => {
+    // Autoplay handled
+  });
+
+  addWakeListeners();
 }
 
 /* ==========================================================================
