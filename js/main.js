@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initAdvancedCanvas();
+  initBgVideo();
   initMobileNav();
   initCopyEmail();
   initContactForm();
@@ -163,6 +164,27 @@ function initAdvancedCanvas() {
   }
 
   animate();
+}
+
+/* ==========================================================================
+   1b. Background Video Graceful Fallback
+   ========================================================================== */
+function initBgVideo() {
+  const video = document.getElementById('bg-video');
+  if (!video) return;
+
+  // Gracefully hide video container if video file is missing or triggers error
+  video.addEventListener('error', () => {
+    video.style.display = 'none';
+  }, true);
+
+  // If video is loaded and ready, ensure it plays smoothly
+  video.addEventListener('loadeddata', () => {
+    video.style.display = 'block';
+    video.play().catch(() => {
+      // Autoplay with sound restricted, muted is already set
+    });
+  });
 }
 
 /* ==========================================================================

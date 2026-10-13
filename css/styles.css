@@ -436,9 +436,9 @@ ul, ol { list-style: none; }
 }
 
 /* --------------------------------------------------------------------------
-   4b. Interactive Scroll-Driven Pixel Art Workstation Background
+   4b. Fullscreen Background Video & Ambient Overlay
    -------------------------------------------------------------------------- */
-#pixel-bg-wrapper {
+.video-bg-wrapper {
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -449,28 +449,22 @@ ul, ol { list-style: none; }
   overflow: hidden;
 }
 
-#pixel-workstation-canvas {
+#bg-video {
   position: absolute;
   inset: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  max-width: none;
-  max-height: none;
-  object-fit: fill; /* Stretches to fill whole screen seamlessly */
+  object-fit: cover;
   display: block;
-  opacity: 0.22; /* Softened, non-distracting ambient background */
-  filter: contrast(1.06) saturate(1.1);
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
+  opacity: 0.25; /* Soft ambient opacity so foreground text remains crisp and readable */
   transition: opacity var(--trans);
 }
 
-.pixel-bg-vignette {
+.video-bg-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(12, 13, 16, 0.12) 0%, rgba(12, 13, 16, 0.60) 78%, rgba(12, 13, 16, 0.90) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(12, 13, 16, 0.15) 0%, rgba(12, 13, 16, 0.65) 80%, rgba(12, 13, 16, 0.95) 100%);
   pointer-events: none;
 }
 
@@ -1028,12 +1022,12 @@ ul, ol { list-style: none; }
   .hero-actions-center .btn { width: 100%; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
 
-  /* Mobile Background Canvas Sizing */
-  #pixel-workstation-canvas {
+  /* Mobile Background Video Sizing */
+  #bg-video {
     width: 100vw;
     height: 100vh;
     height: 100dvh;
-    object-fit: fill;
+    object-fit: cover;
     opacity: 0.22;
   }
 }
