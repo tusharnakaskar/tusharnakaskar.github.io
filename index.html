@@ -111,6 +111,74 @@
           <span class="skill-pill">OOPs</span>
         </div>
 
+        <!-- Scroll down indicator to Workstation Scene -->
+        <a href="#developer-scene" class="hero-scroll-prompt" aria-label="Scroll down to wake up workstation">
+          <span class="scroll-pulse-dot" aria-hidden="true"></span>
+          <span>Scroll down to wake up developer &amp; start workspace</span>
+          <span class="scroll-arrow" aria-hidden="true">&darr;</span>
+        </a>
+
+      </section>
+
+      <!-- Interactive Scroll-Driven Pixel-Art Developer Workstation Section -->
+      <section class="workstation-pinned-section" id="developer-scene" aria-label="Interactive Developer Workstation">
+        <div class="workstation-sticky-stage">
+          
+          <!-- Workstation Header & Interactive Phase Pills -->
+          <div class="workstation-stage-header">
+            <div class="workstation-status-pill">
+              <span class="live-dot-pulse" aria-hidden="true"></span>
+              <span class="status-text">INTERACTIVE WORKSTATION</span>
+            </div>
+
+            <!-- Navigation Phase Trackers (Clickable / Scrubbable) -->
+            <nav class="workstation-phase-pills" aria-label="Workstation Animation Phases">
+              <button type="button" class="phase-pill active" data-phase="1">
+                <span class="pill-num">01</span> Standby
+              </button>
+              <button type="button" class="phase-pill" data-phase="2">
+                <span class="pill-num">02</span> Waking Up
+              </button>
+              <button type="button" class="phase-pill" data-phase="3">
+                <span class="pill-num">03</span> Boot JVM
+              </button>
+              <button type="button" class="phase-pill" data-phase="4">
+                <span class="pill-num">04</span> Backend Dev
+              </button>
+              <button type="button" class="phase-pill" data-phase="5">
+                <span class="pill-num">05</span> Deployed
+              </button>
+            </nav>
+          </div>
+
+          <!-- Pixel-Art Canvas Stage Frame -->
+          <div class="workstation-canvas-frame">
+            <!-- Subtle CRT Green Ambient Glow Backlight -->
+            <div class="monitor-ambient-glow" aria-hidden="true"></div>
+
+            <canvas id="pixel-workstation-canvas" width="1024" height="1024" aria-label="Pixel art animation of developer waking up and programming at dual monitors"></canvas>
+          </div>
+
+          <!-- Dynamic Story Telemetry & Scroll Progress HUD -->
+          <div class="workstation-hud-bar">
+            <div class="hud-info">
+              <span class="hud-phase-badge" id="workstation-phase-badge">STANDBY // SLEEPING</span>
+              <p class="hud-phase-desc" id="workstation-phase-desc">
+                Developer resting on desk at dual-monitor workstation before sprint. Terminal cursors blink softly.
+              </p>
+            </div>
+            <div class="hud-meter-wrap" title="Scroll timeline progress">
+              <div class="hud-meter-label">
+                <span>SCROLL TIMELINE</span>
+                <span class="hud-meter-pct" id="workstation-progress-pct">0%</span>
+              </div>
+              <div class="hud-meter-track">
+                <div class="hud-meter-fill" id="workstation-progress-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </section>
 
       <!-- Featured Projects Overview (Recruiter-Ready Cards) -->
@@ -347,6 +415,7 @@
     </div>
   </footer>
 
+  <script src="js/pixel-animator.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
