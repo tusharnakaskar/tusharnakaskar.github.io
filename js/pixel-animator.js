@@ -1,10 +1,11 @@
 /**
- * Pixel Workstation Interactive Scroll-Driven Animator
- * Synchronizes character animation frames and live dual-monitor terminal feeds
- * with user scroll position across 5 distinct phases.
+ * Pixel Workstation Background Scroll-Driven Animator
+ * Synchronizes character animation frames and dual-monitor terminal feeds
+ * with the visitor's page scroll position across 5 distinct phases.
  * 
  * Artwork: "Sleepy Programmer at Dual Monitors"
- * Stack: HTML5 Canvas 2D (pixelated), vanilla JS requestAnimationFrame with lerped scrubbing.
+ * Mode: Full-Page Interactive Background Animation (Continuous, Uninterrupted Scroll)
+ * Stack: HTML5 Canvas 2D (pixelated), vanilla JS requestAnimationFrame with smooth lerp.
  */
 
 (function () {
@@ -26,76 +27,58 @@
     }
   };
 
-  // Phase Definitions & Story Milestones
+  // Phase Definitions across the full webpage scroll timeline:
+  // Phase 1 (0.00 - 0.15): Hero section (Sleeping on desk, breathing, green cursor pulses)
+  // Phase 2 (0.15 - 0.35): Transition past Hero (Waking up, lifting head, opening eyes)
+  // Phase 3 (0.35 - 0.55): Practical Projects Header (Sits upright, arms reach keyboard, IDE & Spring Boot boot)
+  // Phase 4 (0.55 - 0.82): Practical Projects Grid (Active typing, live API traffic, SQL queries, server logs)
+  // Phase 5 (0.82 - 1.00): Contact & Connect (Typing finishes, BUILD SUCCESSFUL, calm focused pose)
   const PHASES = [
     {
       id: 1,
       min: 0.00,
-      max: 0.10,
-      name: 'Phase 1: Standby & Sleep',
-      shortName: '01. Standby',
-      badge: 'STANDBY // SLEEPING',
-      desc: 'Developer resting on desk at dual-monitor workstation before sprint. Terminal cursors blink softly.',
+      max: 0.15,
+      name: 'Standby & Sleep',
       terminalStatus: 'SYS_STANDBY // IDLE'
     },
     {
       id: 2,
-      min: 0.10,
-      max: 0.25,
-      name: 'Phase 2: Waking Up',
-      shortName: '02. Waking Up',
-      badge: 'BOOTING // WAKING UP',
-      desc: 'Lifting head from arms, opening eyes, warming up OpenJDK 21 & dual-screen development environment.',
+      min: 0.15,
+      max: 0.35,
+      name: 'Waking Up',
       terminalStatus: 'JVM_WARMUP // JAVA 21'
     },
     {
       id: 3,
-      min: 0.25,
-      max: 0.45,
-      name: 'Phase 3: Starting Work',
-      shortName: '03. Booting JVM',
-      badge: 'INITIALIZING // ARCHITECTURE',
-      desc: 'Sitting upright, hands approaching keyboard, starting Spring Boot microservices & database connection pool.',
+      min: 0.35,
+      max: 0.55,
+      name: 'Starting Work',
       terminalStatus: 'SPRING_BOOT_3.2 // STARTING'
     },
     {
       id: 4,
-      min: 0.45,
-      max: 0.80,
-      name: 'Phase 4: Backend Engineering',
-      shortName: '04. Backend Dev',
-      badge: 'ACTIVE // LIVE CODING',
-      desc: 'Active typing on keyboard: building REST APIs, executing SQL queries, serializing JSON & running test suites.',
+      min: 0.55,
+      max: 0.82,
+      name: 'Backend Engineering',
       terminalStatus: 'COMPILING // API_TRAFFIC'
     },
     {
       id: 5,
-      min: 0.80,
+      min: 0.82,
       max: 1.00,
-      name: 'Phase 5: Build Complete',
-      shortName: '05. Deployed',
-      badge: 'SUCCESS // LIVE OPERATIONAL',
-      desc: '14/14 integration tests passed, build successful, Spring Boot service deployed & ready for recruiter requests.',
+      name: 'Build Complete',
       terminalStatus: 'BUILD_SUCCESS // HTTP 200'
     }
   ];
 
-  class PixelWorkstationAnimator {
+  class PixelWorkstationBackgroundAnimator {
     constructor() {
       this.canvas = document.getElementById('pixel-workstation-canvas');
       if (!this.canvas) return;
 
       this.ctx = this.canvas.getContext('2d', { alpha: false });
-      this.container = document.getElementById('developer-scene');
-      
-      // HUD UI elements
-      this.badgeEl = document.getElementById('workstation-phase-badge');
-      this.descEl = document.getElementById('workstation-phase-desc');
-      this.progressEl = document.getElementById('workstation-progress-fill');
-      this.percentEl = document.getElementById('workstation-progress-pct');
-      this.phasePills = document.querySelectorAll('.phase-pill');
 
-      // Internal Canvas resolution
+      // Internal Canvas coordinate space
       this.width = 1024;
       this.height = 1024;
       this.canvas.width = this.width;
@@ -110,7 +93,7 @@
       this.clock = 0;
       this.typingTick = 0;
       this.lastScrollDelta = 0;
-      this.lastScrollY = window.scrollY;
+      this.lastScrollY = window.scrollY || window.pageYOffset || 0;
 
       // Asset storage
       this.images = {
@@ -131,19 +114,33 @@
     async init() {
       this.bindEvents();
       await this.loadAssets();
-      // Support direct phase URL parameter (e.g. ?phase=4) or ?scroll=1200
+      // Check URL query parameters for test/preview (?scrollPct=50 or ?phase=4)
       const urlParams = new URLSearchParams(window.location.search);
+      const scrollPct = urlParams.get('scrollPct');
       const phaseParam = urlParams.get('phase');
-      const scrollParam = urlParams.get('scroll');
 
-      if (scrollParam) {
-        window.scrollTo(0, parseInt(scrollParam, 10));
-      } else if (phaseParam) {
-        this.jumpToPhase(parseInt(phaseParam, 10), false);
+      if (scrollPct !== null) {
+        const pct = parseFloat(scrollPct) / 100.0;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo(0, maxScroll * pct);
+        this.targetProgress = pct;
+        this.currentProgress = pct;
+      } else if (phaseParam !== null) {
+        const p = parseInt(phaseParam, 10);
+        let pct = 0.05;
+        if (p === 2) pct = 0.25;
+        if (p === 3) pct = 0.45;
+        if (p === 4) pct = 0.68;
+        if (p === 5) pct = 0.92;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo(0, maxScroll * pct);
+        this.targetProgress = pct;
+        this.currentProgress = pct;
+      } else {
+        this.calculateScrollProgress();
+        this.currentProgress = this.targetProgress;
       }
 
-      this.calculateScrollProgress();
-      this.currentProgress = this.targetProgress;
       this.startLoop();
     }
 
@@ -187,89 +184,45 @@
     }
 
     bindEvents() {
-      // Scroll listener (throttled naturally by requestAnimationFrame)
+      // Natural whole-page scroll listener
       window.addEventListener('scroll', () => {
         this.calculateScrollProgress();
       }, { passive: true });
 
-      // Resize listener
+      // Window resize listener
       window.addEventListener('resize', () => {
         this.calculateScrollProgress();
       }, { passive: true });
 
-      // Phase Pill Click Handlers (allow direct navigation through timeline)
-      this.phasePills.forEach((pill) => {
-        pill.addEventListener('click', (e) => {
-          e.preventDefault();
-          const targetPhase = parseInt(pill.getAttribute('data-phase'), 10);
-          this.jumpToPhase(targetPhase);
-        });
-      });
-
-      // Handle accessibility reduced motion toggle
+      // Accessibility reduced-motion toggle
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       mediaQuery.addEventListener('change', (e) => {
         this.reducedMotion = e.matches;
       });
     }
 
-    // Jump to specific phase via pill click or url parameter
-    jumpToPhase(phaseNumber, smooth = true) {
-      if (!this.container) return;
-      const rect = this.container.getBoundingClientRect();
-      const containerTop = window.scrollY + rect.top;
-      const scrollableDistance = rect.height - window.innerHeight;
-
-      if (scrollableDistance <= 0) return;
-
-      let progressTarget = 0.05;
-      if (phaseNumber === 2) progressTarget = 0.18;
-      else if (phaseNumber === 3) progressTarget = 0.35;
-      else if (phaseNumber === 4) progressTarget = 0.62;
-      else if (phaseNumber === 5) progressTarget = 0.92;
-
-      const headerOffset = 76;
-      const targetScrollY = containerTop - headerOffset + (progressTarget * scrollableDistance);
-      window.scrollTo({
-        top: Math.max(0, targetScrollY),
-        behavior: smooth ? 'smooth' : 'auto'
-      });
-      this.targetProgress = progressTarget;
-      if (!smooth) {
-        this.currentProgress = progressTarget;
-      }
-      this.calculateScrollProgress();
-    }
-
-    // Compute normalized scroll progress in range [0, 1]
+    // Calculate normalized scroll progress [0, 1] across the whole page
     calculateScrollProgress() {
-      if (!this.container) return;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const maxScroll = docHeight - winHeight;
 
-      const rect = this.container.getBoundingClientRect();
-      const containerTop = rect.top;
-      const containerHeight = rect.height;
-      const viewportHeight = window.innerHeight;
-
-      const headerOffset = 76;
-      const scrollableDistance = containerHeight - viewportHeight;
-
-      if (scrollableDistance <= 0) {
+      if (maxScroll <= 0) {
         this.targetProgress = 0;
         return;
       }
 
-      // Progress begins when container reaches sticky top (headerOffset)
-      const currentScroll = headerOffset - containerTop;
-      let progress = currentScroll / scrollableDistance;
+      const currentY = window.scrollY || window.pageYOffset || 0;
+      let progress = currentY / maxScroll;
 
-      // Clamp progress strictly to [0, 1]
+      // Clamp strictly between 0 and 1
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
 
-      // Track scroll delta for typing motion reactivity
-      const scrollDelta = Math.abs(window.scrollY - this.lastScrollY);
+      // Track scroll delta for typing keystroke reaction
+      const scrollDelta = Math.abs(currentY - this.lastScrollY);
       this.lastScrollDelta = scrollDelta;
-      this.lastScrollY = window.scrollY;
+      this.lastScrollY = currentY;
 
       this.targetProgress = progress;
     }
@@ -285,51 +238,26 @@
       return { phase: PHASES[PHASES.length - 1], index: PHASES.length - 1 };
     }
 
-    // Update HTML UI HUD indicators
-    updateHUD(phaseIndex, progress) {
-      if (phaseIndex !== this.currentPhaseIndex) {
-        this.currentPhaseIndex = phaseIndex;
-        const p = PHASES[phaseIndex];
-
-        if (this.badgeEl) this.badgeEl.textContent = p.badge;
-        if (this.descEl) this.descEl.textContent = p.desc;
-
-        // Update active class on pills
-        this.phasePills.forEach((pill) => {
-          const pillPhase = parseInt(pill.getAttribute('data-phase'), 10);
-          if (pillPhase === p.id) {
-            pill.classList.add('active');
-          } else {
-            pill.classList.remove('active');
-          }
-        });
-      }
-
-      // Smooth progress bar update
-      const pct = Math.round(progress * 100);
-      if (this.progressEl) this.progressEl.style.width = `${pct}%`;
-      if (this.percentEl) this.percentEl.textContent = `${pct}%`;
-    }
-
-    // Main animation loop (runs at display refresh rate)
+    // Main 60fps render loop
     startLoop() {
       const render = (timestamp) => {
         this.clock = timestamp * 0.001; // seconds
 
-        // Lerp progress for ultra-smooth fluid scrubbing
+        // Lerp progress for smooth, fluid motion
         if (this.reducedMotion) {
           this.currentProgress = this.targetProgress;
         } else {
           const diff = this.targetProgress - this.currentProgress;
-          if (Math.abs(diff) > 0.35) {
+          if (Math.abs(diff) > 0.40) {
+            // Instant snap on large jumps (e.g. clicking nav links)
             this.currentProgress = this.targetProgress;
           } else {
-            this.currentProgress += diff * 0.16;
+            this.currentProgress += diff * 0.18;
           }
         }
 
         const { phase, index } = this.getPhase(this.currentProgress);
-        this.updateHUD(index, this.currentProgress);
+        this.currentPhaseIndex = index;
 
         this.drawScene(this.currentProgress, phase, index);
 
@@ -339,12 +267,12 @@
       requestAnimationFrame(render);
     }
 
-    // Drawing master pipeline
+    // Master render pipeline
     drawScene(progress, phase, phaseIndex) {
       const ctx = this.ctx;
       ctx.imageSmoothingEnabled = false;
 
-      // If assets haven't loaded yet, draw fallback or dark canvas
+      // If assets haven't loaded yet, draw fallback scene
       if (!this.isLoaded) {
         if (this.images.fallbackScene0) {
           ctx.drawImage(this.images.fallbackScene0, 0, 0, this.width, this.height);
@@ -355,32 +283,31 @@
         return;
       }
 
-      // 1. Draw Workstation Background (Desk, monitors bezels, PC, mugs)
+      // 1. Draw Workstation Background (Desk, monitor frames, mugs, PC case)
       ctx.drawImage(this.images.bg, 0, 0, this.width, this.height);
 
-      // 2. Render Dynamic Interactive Terminals onto Screens
+      // 2. Render Dynamic Interactive Terminals on Monitor Screens
       this.drawMonitors(progress, phaseIndex);
 
       // 3. Render Active Character Layer with Micro-Idle Motions
       this.drawCharacter(progress, phaseIndex);
 
-      // 4. Subtle CRT Screen Scanlines & Monitor Glow Reflection
+      // 4. Subtle CRT Screen Scanlines & Green Phosphor Glow
       this.drawCRTOverlay(progress, phaseIndex);
     }
 
-    // Dynamic Dual Monitor Screen Renderer
+    // Dual Monitor Terminal Screens
     drawMonitors(progress, phaseIndex) {
       const ctx = this.ctx;
       const t = this.clock;
 
-      // Cursor blink rate (faster in higher phases)
+      // Cursor blink rate
       const blinkRate = phaseIndex === 0 ? 1.8 : (phaseIndex >= 3 ? 4.5 : 2.5);
       const cursorVisible = Math.floor(t * blinkRate) % 2 === 0;
 
       // ── RIGHT MONITOR: Backend Console / Spring Boot Logs ──
       const r = MONITORS.right;
-      
-      // In Phases 2-5, lay down a deep dark CRT screen backdrop to render clean live terminal output
+
       if (phaseIndex >= 1) {
         ctx.fillStyle = 'rgba(4, 8, 6, 0.90)';
         ctx.fillRect(r.x, r.y, r.w, r.h);
@@ -391,7 +318,7 @@
         ctx.fillStyle = '#22c55e';
         ctx.font = '9px "JetBrains Mono", monospace';
         ctx.fillText(`bash - tushar@workstation: ~/backend-core [${PHASES[phaseIndex].terminalStatus}]`, r.x + 8, r.y + 12);
-        
+
         // Window dots
         ctx.fillStyle = '#ef4444';
         ctx.fillRect(r.x + r.w - 30, r.y + 6, 6, 6);
@@ -400,11 +327,9 @@
         ctx.fillStyle = '#22c55e';
         ctx.fillRect(r.x + r.w - 10, r.y + 6, 6, 6);
 
-        // Render phase-specific terminal log stream
         this.drawRightMonitorContent(r, phaseIndex, progress, cursorVisible);
       } else {
-        // Phase 1 (Standby / Sleeping):
-        // Canonical artwork with soft breathing green cursor
+        // Phase 1 (Sleeping): Canonical artwork with softly pulsing cursor
         if (cursorVisible) {
           ctx.fillStyle = '#34d399';
           ctx.fillRect(574, 98, 9, 14);
@@ -426,7 +351,6 @@
 
         this.drawLeftMonitorContent(l, phaseIndex, progress, cursorVisible);
       } else {
-        // Phase 1 & 2: Subtle blinking prompt on left screen
         if (cursorVisible && phaseIndex === 0) {
           ctx.fillStyle = '#34d399';
           ctx.fillRect(115, 150, 8, 13);
@@ -462,7 +386,7 @@
           ctx.fillRect(startX + 185, startY - 14, 7, 12);
         }
       } else if (phaseIndex === 2) {
-        // Phase 3: Starting Work & Initializing Spring Boot
+        // Phase 3: Starting Work & Spring Boot Initializing
         renderLine('  .   ____          _            __ _ _', '#4ade80');
         renderLine(' /\\\\ / ___\'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\', '#4ade80');
         renderLine('( ( )\\___ | \'_ | \'_| | \'_ \\/ _` | \\ \\ \\ \\', '#4ade80');
@@ -475,8 +399,7 @@
         renderLine('[INFO] Tomcat initialized on port 8080 (http)', '#86efac');
       } else if (phaseIndex === 3) {
         // Phase 4: Active Backend Development & Streaming Traffic
-        // Compute line scroll offset based on normalized progress inside phase 4
-        const p4Norm = (progress - 0.45) / (0.80 - 0.45);
+        const p4Norm = (progress - 0.55) / (0.82 - 0.55);
         const cycle = Math.floor(this.clock * 3 + p4Norm * 12);
 
         const allLogs = [
@@ -494,7 +417,6 @@
           { text: '[INFO] Compiling module: com.tushar.backend.services', col: '#86efac' }
         ];
 
-        // Shift window of visible logs
         const visibleCount = 10;
         const offset = cycle % (allLogs.length - visibleCount + 1);
         for (let i = 0; i < visibleCount; i++) {
@@ -555,19 +477,14 @@
         { no: '19', text: '}', col: '#ffffff' }
       ];
 
-      // Draw line numbers and code
       for (let i = 0; i < codeLines.length; i++) {
         const item = codeLines[i];
-        
-        // Line number gutter
         ctx.fillStyle = '#475569';
         ctx.fillText(item.no, startX, startY);
 
-        // Code text
         ctx.fillStyle = item.col;
         ctx.fillText(item.text, startX + 24, startY);
 
-        // Active line cursor in phase 3 & 4
         if (i === 16 && (phaseIndex === 2 || phaseIndex === 3) && cursorVisible) {
           ctx.fillStyle = '#4ade80';
           ctx.fillRect(startX + 185, startY - 11, 6, 12);
@@ -577,7 +494,7 @@
       }
     }
 
-    // Character Rendering & Micro-Idle Movements
+    // Character Rendering & Micro-Idle Motions
     drawCharacter(progress, phaseIndex) {
       const ctx = this.ctx;
       const t = this.clock;
@@ -586,38 +503,31 @@
       let yOffset = 0;
 
       switch (phaseIndex) {
-        case 0: // Phase 1: Sleeping (0 - 10%)
+        case 0: // Phase 1: Sleeping (0 - 15%)
           charImg = this.images.char0;
-          // Subtle natural breathing rhythm (+- 1px)
           if (!this.reducedMotion) {
             yOffset = Math.round(Math.sin(t * 2.2) * 1.2);
           }
           break;
 
-        case 1: // Phase 2: Waking Up (10 - 25%)
-          // Transition from sleeping pose to sleepy awake pose
+        case 1: // Phase 2: Waking Up (15 - 35%)
           charImg = this.images.char1;
           if (!this.reducedMotion) {
             yOffset = Math.round(Math.sin(t * 1.5) * 0.8);
           }
           break;
 
-        case 2: // Phase 3: Starting Work (25 - 45%)
-          // Sits upright, gaze toward screens
+        case 2: // Phase 3: Starting Work (35 - 55%)
           charImg = this.images.char2;
           break;
 
-        case 3: // Phase 4: Active Backend Development (45 - 80%)
-          // Rapid typing keystroke oscillation between char3 and char4
-          // Driven by both scroll activity and subtle typing clock
+        case 3: // Phase 4: Active Backend Development (55 - 82%)
           this.typingTick += this.lastScrollDelta * 0.12 + 0.15;
           const typingFrame = Math.floor(this.typingTick) % 2;
           charImg = typingFrame === 0 ? this.images.char3 : this.images.char4;
           break;
 
-        case 4: // Phase 5: Finished Working (80 - 100%)
-          // Calm, focused resting posture
-          // Slow occasional keystroke or calm sitting upright
+        case 4: // Phase 5: Finished Working (82 - 100%)
           const calmKeystroke = Math.sin(t * 0.8) > 0.85;
           charImg = calmKeystroke ? this.images.char4 : this.images.char3;
           if (!this.reducedMotion) {
@@ -634,23 +544,21 @@
       }
     }
 
-    // Subtle CRT Scanline & Glow Overlay
+    // CRT Scanline & Subtle Glow Overlay
     drawCRTOverlay(progress, phaseIndex) {
       const ctx = this.ctx;
-      
-      // Gentle green glow radiating from dual monitors
       const glowAlpha = phaseIndex >= 3 ? 0.04 : 0.02;
       ctx.fillStyle = `rgba(34, 197, 94, ${glowAlpha})`;
       ctx.fillRect(0, 0, this.width, this.height * 0.6);
     }
   }
 
-  // Auto-instantiate when DOM is ready
+  // Auto-instantiate
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      window.pixelAnimator = new PixelWorkstationAnimator();
+      window.pixelAnimator = new PixelWorkstationBackgroundAnimator();
     });
   } else {
-    window.pixelAnimator = new PixelWorkstationAnimator();
+    window.pixelAnimator = new PixelWorkstationBackgroundAnimator();
   }
 })();
