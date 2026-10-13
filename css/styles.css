@@ -444,25 +444,23 @@ ul, ol { list-style: none; }
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
 }
 
 #pixel-workstation-canvas {
-  position: relative;
-  width: min(920px, 94vw);
-  height: min(920px, 88vh);
-  max-width: 1024px;
-  max-height: 1024px;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  object-fit: fill; /* Stretches to fill whole screen seamlessly */
   display: block;
-  opacity: 0.45; /* Atmospheric workstation glow behind page content */
-  filter: contrast(1.08) saturate(1.1);
+  opacity: 0.22; /* Softened, non-distracting ambient background */
+  filter: contrast(1.06) saturate(1.1);
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   image-rendering: pixelated;
@@ -472,7 +470,7 @@ ul, ol { list-style: none; }
 .pixel-bg-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(12, 13, 16, 0.22) 0%, rgba(12, 13, 16, 0.74) 74%, rgba(12, 13, 16, 0.96) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(12, 13, 16, 0.12) 0%, rgba(12, 13, 16, 0.60) 78%, rgba(12, 13, 16, 0.90) 100%);
   pointer-events: none;
 }
 
@@ -1032,10 +1030,11 @@ ul, ol { list-style: none; }
 
   /* Mobile Background Canvas Sizing */
   #pixel-workstation-canvas {
-    width: 96vw;
-    height: auto;
-    max-height: 72vh;
-    opacity: 0.45;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    object-fit: fill;
+    opacity: 0.22;
   }
 }
 
