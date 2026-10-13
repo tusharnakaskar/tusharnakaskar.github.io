@@ -173,18 +173,23 @@ function initBgVideo() {
   const video = document.getElementById('bg-video');
   if (!video) return;
 
-  // Gracefully hide video container if video file is missing or triggers error
+  const playVideo = () => {
+    video.style.display = 'block';
+    video.play().catch(() => {
+      // Autoplay silently allowed since video is muted
+    });
+  };
+
+  if (video.readyState >= 2) {
+    playVideo();
+  } else {
+    video.addEventListener('loadeddata', playVideo);
+    video.addEventListener('canplay', playVideo);
+  }
+
   video.addEventListener('error', () => {
     video.style.display = 'none';
   }, true);
-
-  // If video is loaded and ready, ensure it plays smoothly
-  video.addEventListener('loadeddata', () => {
-    video.style.display = 'block';
-    video.play().catch(() => {
-      // Autoplay with sound restricted, muted is already set
-    });
-  });
 }
 
 /* ==========================================================================
