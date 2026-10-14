@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdvancedCanvas();
   initBgVideo();
   initHeaderScroll();
+  initPageTransitions();
   initMobileNav();
   initScrollspy();
   initCopyEmail();
@@ -615,4 +616,36 @@ function initHeaderScroll() {
   }, { passive: true });
 
   onScroll();
+}
+
+/* ==========================================================================
+   9. Page Transitions (Seamless gliding with ambient animation)
+   ========================================================================== */
+function initPageTransitions() {
+  const main = document.querySelector('.main-content');
+  if (main) {
+    main.classList.add('page-transition-enter');
+  }
+
+  // Handle smooth transition on View More and internal brand links
+  const links = document.querySelectorAll('.projects-view-more a, .brand-logo');
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+      e.preventDefault();
+      link.classList.add('btn-clicked');
+      document.body.classList.add('page-transitioning-out');
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 260);
+    });
+  });
+
+  window.addEventListener('pageshow', () => {
+    document.body.classList.remove('page-transitioning-out');
+  });
 }
