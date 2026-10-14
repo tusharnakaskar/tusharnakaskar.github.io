@@ -413,7 +413,7 @@ function initMobileNav() {
    Dynamically shifts active shade between section links on scroll
    ========================================================================== */
 function initScrollspy() {
-  const sectionIds = ['projects', 'achievements'];
+  const sectionIds = ['projects', 'achievements', 'contact'];
   const sections = sectionIds
     .map(id => document.getElementById(id))
     .filter(Boolean);
@@ -425,13 +425,24 @@ function initScrollspy() {
 
   function updateActive() {
     const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-    const offset = 160;
-    let currentId = 'projects';
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // Check if near bottom of document - activate About button (contact section)
+    if (scrollPos + windowHeight >= documentHeight - 50) {
+      setActive('contact');
+      return;
+    }
+
+    // Responsive trigger line (around 32% of viewport height, bounded between 180px and 280px)
+    const triggerOffset = Math.min(Math.max(windowHeight * 0.32, 180), 280);
+    const triggerLine = scrollPos + triggerOffset;
+
+    let currentId = null; // Stays null when in the hero section above projects
 
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];
-      const top = section.offsetTop - offset;
-      if (scrollPos >= top) {
+      if (triggerLine >= section.offsetTop) {
         currentId = section.id;
       }
     }
@@ -441,8 +452,14 @@ function initScrollspy() {
 
   function setActive(id) {
     desktopLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === `#${id}` || href.endsWith(`#${id}`)) {
+      const href = link.getAttribute('href') || '';
+      const text = link.textContent.trim().toLowerCase();
+      const isMatch = !!id && (
+        href === `#${id}` ||
+        href.endsWith(`#${id}`) ||
+        (id === 'contact' && (href === '#contact' || href.endsWith('#contact') || text === 'about'))
+      );
+      if (isMatch) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
@@ -450,8 +467,14 @@ function initScrollspy() {
     });
 
     mobileLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === `#${id}` || href.endsWith(`#${id}`)) {
+      const href = link.getAttribute('href') || '';
+      const text = link.textContent.trim().toLowerCase();
+      const isMatch = !!id && (
+        href === `#${id}` ||
+        href.endsWith(`#${id}`) ||
+        (id === 'contact' && (href === '#contact' || href.endsWith('#contact') || text === 'about'))
+      );
+      if (isMatch) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
@@ -459,7 +482,19 @@ function initScrollspy() {
     });
   }
 
-  window.addEventListener('scroll', updateActive, { passive: true });
+  // Smooth rAF throttling for jitter-free scroll responsiveness
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateActive();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', updateActive, { passive: true });
   updateActive();
 }
 

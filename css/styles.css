@@ -258,7 +258,8 @@ ul, ol { list-style: none; }
   font-weight: 500;
   padding: 0.5rem 0.9rem;
   border-radius: var(--radius-sm);
-  transition: all var(--trans);
+  border: 1px solid transparent;
+  transition: color 250ms ease, background-color 250ms ease, border-color 250ms ease;
 }
 .nav-link:hover {
   color: #ffffff;
@@ -267,7 +268,7 @@ ul, ol { list-style: none; }
 .nav-link.active {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.09);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.12);
   font-weight: 600;
 }
 
@@ -323,10 +324,13 @@ ul, ol { list-style: none; }
   color: var(--text-muted);
   padding: 0.75rem 1rem;
   border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: color 250ms ease, background-color 250ms ease, border-color 250ms ease;
 }
 .mobile-link.active {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
   font-weight: 600;
 }
 
