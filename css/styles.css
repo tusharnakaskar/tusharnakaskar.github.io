@@ -209,9 +209,12 @@ ul, ol { list-style: none; }
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
   text-decoration: none;
   color: var(--text-main);
+  transition: opacity var(--trans);
+}
+.brand-logo:hover {
+  opacity: 0.8;
 }
 
 .brand-monogram {
@@ -231,7 +234,7 @@ ul, ol { list-style: none; }
 }
 
 .brand-monogram-img {
-  height: 24px;
+  height: 20px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
@@ -417,7 +420,7 @@ ul, ol { list-style: none; }
   margin-bottom: 1.85rem;
 }
 
-/* Fast-scan Skills Strip - Uniform Single Color (Ruby Red) */
+/* Fast-scan Skills Strip - Neutral Subtle Grey (Matches Project Tags) */
 .quick-skills-strip {
   display: flex;
   flex-wrap: wrap;
@@ -435,16 +438,18 @@ ul, ol { list-style: none; }
   font-weight: 500;
   padding: 0.45rem 1.05rem;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(225, 29, 72, 0.3);
-  background: rgba(225, 29, 72, 0.08);
-  color: #fca5a5;
-  transition: all var(--trans);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  box-shadow: none;
+  transition: color var(--trans), background var(--trans), border-color var(--trans);
 }
 .skill-pill:hover {
-  border-color: var(--red);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  background: rgba(225, 29, 72, 0.2);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  transform: none;
 }
 
 /* --------------------------------------------------------------------------
