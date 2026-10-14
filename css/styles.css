@@ -640,6 +640,22 @@ ul, ol { list-style: none; }
   transform: translateY(-2px);
 }
 
+/* Grey Hollow Button (GitHub redirection button) */
+.btn-outline-grey,
+.btn-outline-gray {
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.btn-outline-grey:hover,
+.btn-outline-gray:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.38);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
 .btn-sm {
   padding: 0.48rem 1rem;
   font-size: 0.85rem;
@@ -812,23 +828,31 @@ ul, ol { list-style: none; }
   gap: 0.4rem;
 }
 
-/* Tags */
+/* Tags / Skills in Projects (Unified Crisp White) */
 .tag {
   display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
-  color: #cbd5e1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   padding: 0.22rem 0.55rem;
   border-radius: var(--radius-sm);
+  transition: all var(--trans);
 }
-.tag-red    { color: #fca5a5; background: var(--red-subtle); border-color: var(--red-border); }
-.tag-blue   { color: #93c5fd; background: var(--blue-subtle); border-color: var(--blue-border); }
-.tag-gold   { color: #fde68a; background: var(--gold-subtle); border-color: var(--gold-border); }
-.tag-cyan   { color: #a5f3fc; background: var(--cyan-subtle); border-color: var(--cyan-border); }
-.tag-purple { color: #d8b4fe; background: var(--purple-subtle); border-color: var(--purple-border); }
+
+.card-tags .tag,
+.project-tags .tag,
+.tag-red,
+.tag-blue,
+.tag-gold,
+.tag-cyan,
+.tag-purple {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
 
 /* Home Connect CTA Strip */
 .home-cta-strip {
