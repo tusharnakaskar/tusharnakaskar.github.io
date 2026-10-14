@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initAdvancedCanvas();
   initBgVideo();
+  initHeaderScroll();
   initMobileNav();
   initScrollspy();
   initCopyEmail();
@@ -583,4 +584,35 @@ function initResumeDownload() {
 function initCurrentYear() {
   const el = document.getElementById('current-year');
   if (el) el.textContent = new Date().getFullYear();
+}
+
+/* ==========================================================================
+   8. Header Scroll Elevation
+   Refines translucent glass depth smoothly as user scrolls past hero
+   ========================================================================== */
+function initHeaderScroll() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+
+  function onScroll() {
+    const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    if (scrollPos > 15) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        onScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  onScroll();
 }
