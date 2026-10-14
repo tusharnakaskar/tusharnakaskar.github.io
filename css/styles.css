@@ -231,10 +231,9 @@ ul, ol { list-style: none; }
 }
 
 .brand-monogram-img {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  object-fit: cover;
+  height: 24px;
+  width: auto;
+  object-fit: contain;
   flex-shrink: 0;
   display: block;
 }
