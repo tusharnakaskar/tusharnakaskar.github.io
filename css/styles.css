@@ -1540,6 +1540,29 @@ body.page-transitioning-out .site-header {
   margin-bottom: 1.25rem;
 }
 
+.research-text-details {
+  margin: 1.5rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.research-meta-line {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.research-meta-line strong {
+  color: #ffffff;
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
+
+.research-actions {
+  margin-top: 1.75rem;
+}
+
 .research-authors {
   display: flex;
   flex-wrap: wrap;
