@@ -459,8 +459,10 @@ ul, ol { list-style: none; }
   object-fit: cover;
   display: block;
   opacity: 0;
-  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .bg-video-layer.active,

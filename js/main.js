@@ -172,30 +172,24 @@ function initAdvancedCanvas() {
    ========================================================================== */
 function initBgVideo() {
   const wrapper = document.getElementById('video-bg-wrapper');
-  const layerA = document.getElementById('bg-video-a');
-  const layerB = document.getElementById('bg-video-b');
-
-  // Support dual-layer architecture with fallback for single layer
   if (!wrapper) return;
-  if (!layerA) {
-    const singleVideo = document.getElementById('bg-video');
-    if (singleVideo) {
-      singleVideo.play().catch(() => {});
-    }
+
+  const videos = {
+    sleep: document.getElementById('vid-sleep'),
+    wake: document.getElementById('vid-wake'),
+    code: document.getElementById('vid-code'),
+    relaxEnter: document.getElementById('vid-relax-enter'),
+    relaxIdle: document.getElementById('vid-relax-idle'),
+    relaxExit: document.getElementById('vid-relax-exit')
+  };
+
+  // Graceful fallback for legacy single video element
+  if (!videos.sleep) {
+    const single = document.getElementById('bg-video') || document.getElementById('bg-video-a');
+    if (single) single.play().catch(() => {});
     return;
   }
 
-  // Pre-aligned web-optimized video asset paths
-  const CLIPS = {
-    SLEEP: 'assets/CLIPS_PROCESSED/programmer_sleep.mp4',
-    WAKE: 'assets/CLIPS_PROCESSED/programmer_wake.mp4',
-    CODE: 'assets/CLIPS_PROCESSED/programmer_code.mp4',
-    RELAX_ENTER: 'assets/CLIPS_PROCESSED/programmer_relax_enter.mp4',
-    RELAX_IDLE: 'assets/CLIPS_PROCESSED/programmer_relax_idle.mp4',
-    RELAX_EXIT: 'assets/CLIPS_PROCESSED/programmer_relax_exit.mp4'
-  };
-
-  // State definitions
   const State = {
     SLEEPING: 'SLEEPING',
     WAKING: 'WAKING',
@@ -207,121 +201,85 @@ function initBgVideo() {
 
   let currentState = State.SLEEPING;
   let hasAwoken = false;
+  let currentVideo = videos.sleep;
+  let transitionTimer = null;
   let idleTimer = null;
   const IDLE_DELAY_MS = 1800; // 1.8s inactivity threshold before relaxing
 
-  let activeLayer = layerA;
-  let standbyLayer = layerB || document.createElement('video');
-  let transitionTimeout = null;
+  // Transition smoothly from current video to target video with instant play
+  function transitionTo(targetVideo, newState, onEnded = null, crossfadeMs = 250) {
+    if (!targetVideo) return;
+    if (currentVideo === targetVideo && targetVideo.classList.contains('active')) return;
 
-  // Preload asset via link tag in document head
-  function preloadClip(url) {
-    if (!url) return;
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'video';
-    link.href = url;
-    document.head.appendChild(link);
-  }
-
-  // Preload early transition assets in background
-  setTimeout(() => {
-    preloadClip(CLIPS.WAKE);
-    preloadClip(CLIPS.CODE);
-  }, 1200);
-
-  // Transition engine between video layers
-  function playClip(clipUrl, isLoop = false, onEndedCallback = null, crossfadeMs = 300) {
-    if (transitionTimeout) {
-      clearTimeout(transitionTimeout);
-      transitionTimeout = null;
+    if (transitionTimer) {
+      clearTimeout(transitionTimer);
+      transitionTimer = null;
     }
 
-    if (!standbyLayer) return;
+    const previousVideo = currentVideo;
+    currentVideo = targetVideo;
+    currentState = newState;
 
-    standbyLayer.loop = isLoop;
-    standbyLayer.onended = null;
-    standbyLayer.src = clipUrl;
-    standbyLayer.load();
+    // Reset playback position and set onended listener
+    targetVideo.currentTime = 0;
+    targetVideo.onended = onEnded;
 
-    const executeSwap = () => {
-      standbyLayer.play().then(() => {
-        standbyLayer.classList.add('active');
-        activeLayer.classList.remove('active');
-
-        if (onEndedCallback && !isLoop) {
-          standbyLayer.onended = onEndedCallback;
+    // Start playback immediately (video is already preloaded in DOM)
+    const playPromise = targetVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        targetVideo.classList.add('active');
+        if (previousVideo && previousVideo !== targetVideo) {
+          previousVideo.classList.remove('active');
+          transitionTimer = setTimeout(() => {
+            previousVideo.pause();
+            transitionTimer = null;
+          }, crossfadeMs);
         }
-
-        transitionTimeout = setTimeout(() => {
-          activeLayer.pause();
-          // Swap active and standby roles
-          const temp = activeLayer;
-          activeLayer = standbyLayer;
-          standbyLayer = temp;
-          transitionTimeout = null;
-        }, crossfadeMs);
       }).catch(err => {
-        console.warn('Video transition playback notice:', err);
+        console.warn('Playback notice:', err);
       });
-    };
-
-    if (standbyLayer.readyState >= 2) {
-      executeSwap();
-    } else {
-      standbyLayer.addEventListener('canplay', executeSwap, { once: true });
     }
   }
 
-  // Trigger waking sequence from first user activity
+  // Trigger waking sequence on first interaction
   function triggerWake() {
     if (hasAwoken || currentState !== State.SLEEPING) return;
     hasAwoken = true;
-    currentState = State.WAKING;
-
     removeWakeListeners();
 
-    // Play waking animation (starts from exact sleeping pose, sits upright, hands reach keyboard)
-    playClip(CLIPS.WAKE, false, () => {
+    // Waking clip is 2.8s: stirs, lifts head, opens eyes, sits up, hands to keyboard
+    transitionTo(videos.wake, State.WAKING, () => {
       startCoding();
-    }, 250);
+    }, 200);
   }
 
-  // Enter CODING state
+  // Enter continuous coding state
   function startCoding() {
-    currentState = State.CODING;
-    playClip(CLIPS.CODE, true, null, 300);
+    transitionTo(videos.code, State.CODING, null, 250);
     resetIdleTimer();
-
-    // Preload relax assets
-    preloadClip(CLIPS.RELAX_ENTER);
-    preloadClip(CLIPS.RELAX_IDLE);
-    preloadClip(CLIPS.RELAX_EXIT);
   }
 
-  // Settle into RELAXING state after idle timeout
+  // Settle into relaxing state after inactivity timeout
   function startRelaxing() {
     if (currentState !== State.CODING) return;
-    currentState = State.RELAX_ENTER;
 
-    playClip(CLIPS.RELAX_ENTER, false, () => {
+    transitionTo(videos.relaxEnter, State.RELAX_ENTER, () => {
       if (currentState === State.RELAX_ENTER) {
-        currentState = State.RELAX_IDLE;
-        playClip(CLIPS.RELAX_IDLE, true, null, 250);
+        transitionTo(videos.relaxIdle, State.RELAX_IDLE, null, 200);
       }
     }, 250);
   }
 
-  // Resume CODING from RELAXING when activity detected
+  // Resume coding from relaxing when visitor interacts
   function resumeCoding() {
-    if (currentState === State.RELAX_IDLE || currentState === State.RELAX_ENTER) {
-      currentState = State.RELAX_EXIT;
+    if (currentState === State.RELAX_ENTER || currentState === State.RELAX_IDLE) {
       if (idleTimer) clearTimeout(idleTimer);
 
-      // Play reversed clip: hands move down from behind head onto keyboard
-      playClip(CLIPS.RELAX_EXIT, false, () => {
+      // Fast 1.3s reverse transition: hands move down onto keyboard
+      transitionTo(videos.relaxExit, State.RELAX_EXIT, () => {
         startCoding();
-      }, 250);
+      }, 200);
     } else if (currentState === State.CODING) {
       resetIdleTimer();
     }
@@ -335,7 +293,7 @@ function initBgVideo() {
     }, IDLE_DELAY_MS);
   }
 
-  // Centralized activity handler
+  // Centralized interaction dispatcher
   function onUserActivity() {
     if (!hasAwoken) {
       triggerWake();
@@ -344,7 +302,7 @@ function initBgVideo() {
 
     if (currentState === State.CODING) {
       resetIdleTimer();
-    } else if (currentState === State.RELAX_IDLE || currentState === State.RELAX_ENTER) {
+    } else if (currentState === State.RELAX_ENTER || currentState === State.RELAX_IDLE) {
       resumeCoding();
     }
   }
@@ -353,8 +311,8 @@ function initBgVideo() {
   const wakeEvents = ['scroll', 'wheel', 'touchstart', 'keydown'];
   function onFirstWakeEvent(e) {
     if (e.type === 'keydown') {
-      const meaningfulKeys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space', 'Tab', 'Home', 'End'];
-      if (!meaningfulKeys.includes(e.code) && !meaningfulKeys.includes(e.key)) return;
+      const keys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space', 'Tab', 'Home', 'End'];
+      if (!keys.includes(e.code) && !keys.includes(e.key)) return;
     }
     triggerWake();
   }
@@ -373,50 +331,48 @@ function initBgVideo() {
     document.removeEventListener('click', onFirstWakeEvent);
   }
 
-  // General continuous activity listeners (throttled to 100ms)
-  let lastActivityTime = 0;
-  function handleThrottledActivity() {
+  // Throttled activity listener (100ms) for ongoing activity
+  let lastActivity = 0;
+  function handleActivity() {
     const now = Date.now();
-    if (now - lastActivityTime > 100) {
-      lastActivityTime = now;
+    if (now - lastActivity > 100) {
+      lastActivity = now;
       onUserActivity();
     }
   }
 
-  window.addEventListener('scroll', handleThrottledActivity, { passive: true });
-  window.addEventListener('wheel', handleThrottledActivity, { passive: true });
-  window.addEventListener('touchmove', handleThrottledActivity, { passive: true });
-  document.addEventListener('click', handleThrottledActivity, { passive: true });
+  window.addEventListener('scroll', handleActivity, { passive: true });
+  window.addEventListener('wheel', handleActivity, { passive: true });
+  window.addEventListener('touchmove', handleActivity, { passive: true });
+  document.addEventListener('click', handleActivity, { passive: true });
   document.addEventListener('keydown', (e) => {
     const keys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Space', 'Tab'];
     if (keys.includes(e.code) || keys.includes(e.key)) {
-      handleThrottledActivity();
+      handleActivity();
     }
   }, { passive: true });
 
-  // Page Visibility API: pause when tab hidden to preserve battery & CPU
+  // Tab visibility: pause active video when hidden, resume when visible
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      if (activeLayer) activeLayer.pause();
+      if (currentVideo && !currentVideo.paused) currentVideo.pause();
     } else {
-      if (activeLayer && activeLayer.paused) {
-        activeLayer.play().catch(() => {});
+      if (currentVideo && currentVideo.paused) {
+        currentVideo.play().catch(() => {});
       }
     }
   });
 
-  // Respect reduced motion preference
+  // Respect prefers-reduced-motion
   const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (mediaQuery.matches) {
-    if (layerA) layerA.playbackRate = 0.5;
-    if (layerB) layerB.playbackRate = 0.5;
+    Object.values(videos).forEach(v => {
+      if (v) v.playbackRate = 0.5;
+    });
   }
 
-  // Start initial sleep playback
-  layerA.play().catch(() => {
-    // Autoplay handled
-  });
-
+  // Initial playback of sleep clip
+  videos.sleep.play().catch(() => {});
   addWakeListeners();
 }
 
