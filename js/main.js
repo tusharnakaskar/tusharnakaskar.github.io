@@ -627,8 +627,8 @@ function initPageTransitions() {
     main.classList.add('page-transition-enter');
   }
 
-  // Handle smooth transition on View More and internal brand links
-  const links = document.querySelectorAll('.projects-view-more a, .brand-logo');
+  // Handle smooth transition on View More, Show buttons, and internal brand links
+  const links = document.querySelectorAll('.projects-view-more a, .achieve-show-btn, .brand-logo, [data-transition-link]');
   links.forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
