@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAdvancedCanvas();
   initBgVideo();
   initMobileNav();
+  initScrollspy();
   initCopyEmail();
   initContactForm();
   initResumeDownload();
@@ -390,6 +391,14 @@ function initMobileNav() {
     toggleBtn.setAttribute('aria-expanded', isOpen.toString());
   });
 
+  // Close drawer when any mobile link is clicked
+  drawer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer.classList.contains('open')) {
       drawer.classList.remove('open');
@@ -397,6 +406,70 @@ function initMobileNav() {
       toggleBtn.focus();
     }
   });
+}
+
+/* ==========================================================================
+   Scrollspy Navigation Indicator
+   Dynamically shifts active shade between section links on scroll
+   ========================================================================== */
+function initScrollspy() {
+  const sectionIds = ['projects', 'achievements', 'contact'];
+  const sections = sectionIds
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  if (sections.length === 0) return;
+
+  const desktopLinks = document.querySelectorAll('.nav-desktop .nav-link');
+  const mobileLinks = document.querySelectorAll('.mobile-drawer .mobile-link');
+
+  function updateActive() {
+    const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // Check if near bottom of document - activate last section (#contact)
+    if (scrollPos + windowHeight >= documentHeight - 60) {
+      setActive('contact');
+      return;
+    }
+
+    const offset = 160;
+    let currentId = 'projects';
+
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      const top = section.offsetTop - offset;
+      if (scrollPos >= top) {
+        currentId = section.id;
+      }
+    }
+
+    setActive(currentId);
+  }
+
+  function setActive(id) {
+    desktopLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === `#${id}` || href.endsWith(`#${id}`)) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    mobileLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === `#${id}` || href.endsWith(`#${id}`)) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
 }
 
 /* ==========================================================================
