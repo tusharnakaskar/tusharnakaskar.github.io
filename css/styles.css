@@ -1387,6 +1387,32 @@ body.page-transitioning-out .site-header {
   margin-bottom: 1.25rem;
 }
 
+.cert-image-container {
+  margin-top: 1.5rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #000000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cert-image-link {
+  display: block;
+  cursor: pointer;
+}
+
+.cert-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-md);
+  transition: opacity var(--trans);
+}
+
+.cert-image-link:hover .cert-image {
+  opacity: 0.94;
+}
+
 .cert-meta-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
