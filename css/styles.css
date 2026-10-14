@@ -252,11 +252,14 @@ ul, ol { list-style: none; }
   display: block;
 }
 
+.brand-text,
 .brand-name {
-  font-weight: 700;
-  font-size: 1.05rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.95rem;
   letter-spacing: -0.01em;
   color: #ffffff;
+  display: inline-block;
 }
 
 /* Desktop nav */
