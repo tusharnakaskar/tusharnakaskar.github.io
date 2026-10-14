@@ -413,7 +413,7 @@ function initMobileNav() {
    Dynamically shifts active shade between section links on scroll
    ========================================================================== */
 function initScrollspy() {
-  const sectionIds = ['projects', 'achievements', 'contact'];
+  const sectionIds = ['projects', 'achievements'];
   const sections = sectionIds
     .map(id => document.getElementById(id))
     .filter(Boolean);
@@ -425,15 +425,6 @@ function initScrollspy() {
 
   function updateActive() {
     const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-
-    // Check if near bottom of document - activate last section (#contact)
-    if (scrollPos + windowHeight >= documentHeight - 60) {
-      setActive('contact');
-      return;
-    }
-
     const offset = 160;
     let currentId = 'projects';
 
