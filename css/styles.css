@@ -844,30 +844,43 @@ ul, ol { list-style: none; }
   gap: 0.4rem;
 }
 
-/* Tags / Skills in Projects (Unified Electric Cyan) */
+/* Tags / Skills Base */
 .tag {
   display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0.22rem 0.55rem;
   border-radius: var(--radius-sm);
   transition: all var(--trans);
 }
 
-.card-tags .tag,
-.project-tags .tag,
-.tag-red,
-.tag-blue,
-.tag-gold,
-.tag-cyan,
-.tag-purple {
-  color: #38bdf8 !important;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+/* Skills in Particular Section / Card Color */
+.card-accent-red .tag,
+.card-theme-red .tag,
+.tag-red {
+  color: #fca5a5 !important;
+  background: var(--red-subtle) !important;
+  border: 1px solid var(--red-border) !important;
+}
+
+.card-accent-blue .tag,
+.card-theme-blue .tag,
+.tag-blue {
+  color: #93c5fd !important;
+  background: var(--blue-subtle) !important;
+  border: 1px solid var(--blue-border) !important;
+}
+
+.card-accent-gold .tag,
+.card-theme-gold .tag,
+.tag-gold {
+  color: #fde68a !important;
+  background: var(--gold-subtle) !important;
+  border: 1px solid var(--gold-border) !important;
 }
 
 /* Home Connect CTA Strip */
