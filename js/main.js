@@ -415,8 +415,6 @@ function initMobileNav() {
    Dynamically shifts active shade between section links on scroll
    ========================================================================== */
 function initScrollspy() {
-  if (document.querySelector('.main-home')) return; // Main page uses dedicated single-section panel switcher
-
   const sectionIds = ['projects', 'achievements', 'contact'];
   const sections = sectionIds
     .map(id => document.getElementById(id))
@@ -621,10 +619,10 @@ function initHeaderScroll() {
 }
 
 /* ==========================================================================
-   9. Page & Section Transitions (Dual-Screen Black Shutters with White Seam)
+   9. Page Transitions (Dual-Screen Black Shutters with Clean White Seam)
       Smooth closing (720ms) and opening (750ms).
-      When switching sections on the main page, only that particular section
-      is visible, fitting the interface completely (just like an info page).
+      When navigating between portfolio pages (and returning), two black screens
+      close inward with a solid white seam, and part smoothly on arrival.
    ========================================================================== */
 function initPageTransitions() {
   // Ensure overlay DOM exists
@@ -639,82 +637,6 @@ function initPageTransitions() {
       <div class="split-curtain split-curtain-right"></div>
     `;
     document.body.prepend(overlay);
-  }
-
-  const isMainPage = document.querySelector('.main-home') !== null;
-  const sectionPanels = document.querySelectorAll('.main-section-panel');
-
-  // Helper: Show specific section on main page without playing closing animation
-  function setActiveSection(sectionId) {
-    if (!isMainPage || sectionPanels.length === 0) return;
-
-    let target = document.getElementById(sectionId);
-    if (!target) {
-      target = document.getElementById('home');
-      sectionId = 'home';
-    }
-
-    sectionPanels.forEach(panel => {
-      panel.classList.toggle('active', panel.id === sectionId);
-    });
-
-    if (sectionId === 'home') {
-      document.body.classList.remove('section-non-hero');
-    } else {
-      document.body.classList.add('section-non-hero');
-    }
-
-    // Update active state in desktop and mobile nav
-    const allNavLinks = document.querySelectorAll('.nav-desktop .nav-link, .mobile-drawer .mobile-link');
-    allNavLinks.forEach(link => {
-      const linkSection = link.getAttribute('data-section') || (link.getAttribute('href') || '').replace('#', '');
-      link.classList.toggle('active', linkSection === sectionId);
-    });
-
-    window.scrollTo(0, 0);
-  }
-
-  // Trigger smooth dual-screen transition to switch active section on main page
-  let isTransitioning = false;
-  function transitionToSection(sectionId) {
-    if (isTransitioning) return;
-
-    const currentActive = document.querySelector('.main-section-panel.active');
-    if (currentActive && currentActive.id === sectionId) return;
-
-    isTransitioning = true;
-    overlay.classList.remove('is-opening');
-    overlay.classList.add('is-closing');
-
-    // After two black screens close smoothly (720ms), swap active section
-    setTimeout(() => {
-      setActiveSection(sectionId);
-      history.pushState(null, '', '#' + sectionId);
-
-      // Smooth opening (750ms)
-      overlay.classList.remove('is-closing');
-      overlay.classList.add('is-opening');
-
-      setTimeout(() => {
-        overlay.classList.remove('is-opening');
-        isTransitioning = false;
-      }, 760);
-    }, 720);
-  }
-
-  // Initial Section setup on main page based on hash or default
-  if (isMainPage && sectionPanels.length > 0) {
-    const rawHash = (window.location.hash || '').replace('#', '').toLowerCase();
-    const validSections = ['home', 'projects', 'achievements', 'contact'];
-    const initialSection = validSections.includes(rawHash) ? rawHash : 'home';
-    setActiveSection(initialSection);
-
-    // Listen to browser Back/Forward between sections
-    window.addEventListener('popstate', () => {
-      const hash = (window.location.hash || '').replace('#', '').toLowerCase();
-      const target = validSections.includes(hash) ? hash : 'home';
-      transitionToSection(target);
-    });
   }
 
   // Check if this page load is arriving from a portfolio page redirect transition
@@ -768,19 +690,15 @@ function initPageTransitions() {
       return;
     }
 
-    // Case 1: In-page section switch on the main page (e.g., #home, #projects, #achievements, #contact)
-    if (isMainPage && (rawHref.startsWith('#') || anchor.hasAttribute('data-section'))) {
-      const sectionId = anchor.getAttribute('data-section') || rawHref.replace('#', '');
-      const targetPanel = document.getElementById(sectionId);
-      if (targetPanel && targetPanel.classList.contains('main-section-panel')) {
-        e.preventDefault();
-        anchor.classList.add('btn-clicked');
-        transitionToSection(sectionId);
-        return;
-      }
+    // In-page hash jumps on the same page (e.g., #projects, #achievements, #contact)
+    if (rawHref.startsWith('#')) {
+      // Let native smooth scrolling glide to the section
+      anchor.classList.add('btn-clicked');
+      setTimeout(() => anchor.classList.remove('btn-clicked'), 300);
+      return;
     }
 
-    // Case 2: Redirection between different pages within the portfolio
+    // Redirection between different pages within the portfolio
     let targetUrl;
     try {
       targetUrl = new URL(anchor.href, window.location.href);
