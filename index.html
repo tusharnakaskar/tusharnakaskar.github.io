@@ -31,8 +31,21 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Page Transition Flash Prevention -->
+  <script>
+    if (sessionStorage.getItem('portfolio_page_transition') === '1') {
+      document.documentElement.classList.add('split-transition-active');
+    }
+  </script>
 </head>
 <body>
+  <!-- Screen Split Transition Overlay (Two Screens Closing / Opening) -->
+  <div class="screen-split-overlay" id="screen-split-overlay" aria-hidden="true">
+    <div class="split-curtain split-curtain-left"><div class="split-seam-glow seam-left"></div></div>
+    <div class="split-curtain split-curtain-right"><div class="split-seam-glow seam-right"></div></div>
+  </div>
+
   <!-- Subtle Technical Canvas Background -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
@@ -233,7 +246,7 @@
             <div class="achieve-card-header">
               <div class="achieve-card-meta">
                 <div class="achieve-icon icon-gold" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="16 18 22 12 16 6"></polyline>
                     <polyline points="8 6 2 12 8 18"></polyline>
                     <line x1="12" y1="2" x2="12" y2="22"></line>
@@ -253,7 +266,7 @@
             <div class="achieve-card-header">
               <div class="achieve-card-meta">
                 <div class="achieve-icon icon-blue" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="8" r="6"></circle>
                     <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
                   </svg>
@@ -278,7 +291,7 @@
             <div class="achieve-card-header">
               <div class="achieve-card-meta">
                 <div class="achieve-icon icon-purple" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                     <line x1="9" y1="7" x2="15" y2="7"></line>

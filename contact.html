@@ -30,8 +30,21 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Page Transition Flash Prevention -->
+  <script>
+    if (sessionStorage.getItem('portfolio_page_transition') === '1') {
+      document.documentElement.classList.add('split-transition-active');
+    }
+  </script>
 </head>
 <body>
+  <!-- Screen Split Transition Overlay (Two Screens Closing / Opening) -->
+  <div class="screen-split-overlay" id="screen-split-overlay" aria-hidden="true">
+    <div class="split-curtain split-curtain-left"><div class="split-seam-glow seam-left"></div></div>
+    <div class="split-curtain split-curtain-right"><div class="split-seam-glow seam-right"></div></div>
+  </div>
+
   <!-- Subtle Technical Canvas Background -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 

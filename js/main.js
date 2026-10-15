@@ -619,33 +619,150 @@ function initHeaderScroll() {
 }
 
 /* ==========================================================================
-   9. Page Transitions (Seamless gliding with ambient animation)
+   9. Page Transitions (Dual-Screen Split Transition)
+      When navigating between portfolio pages (and returning), two screens
+      slide in from left & right to close the screen, and slide open on arrival.
    ========================================================================== */
 function initPageTransitions() {
-  const main = document.querySelector('.main-content');
-  if (main) {
-    main.classList.add('page-transition-enter');
+  // Ensure overlay DOM exists
+  let overlay = document.getElementById('screen-split-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'screen-split-overlay';
+    overlay.className = 'screen-split-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = `
+      <div class="split-curtain split-curtain-left"><div class="split-seam-glow seam-left"></div></div>
+      <div class="split-curtain split-curtain-right"><div class="split-seam-glow seam-right"></div></div>
+    `;
+    document.body.prepend(overlay);
   }
 
-  // Handle smooth transition on View More, Show buttons, and internal brand links
-  const links = document.querySelectorAll('.projects-view-more a, .achieve-show-btn, .brand-logo, [data-transition-link]');
-  links.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  // Check if this page load is arriving from a portfolio page redirect transition
+  let wasTransition = false;
+  try {
+    wasTransition = sessionStorage.getItem('portfolio_page_transition') === '1';
+    if (wasTransition) {
+      sessionStorage.removeItem('portfolio_page_transition');
+    }
+  } catch (err) {}
 
-      e.preventDefault();
-      link.classList.add('btn-clicked');
-      document.body.classList.add('page-transitioning-out');
+  if (wasTransition) {
+    // Page arrived from transition: trigger smooth opening animation
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('split-transition-active');
+      overlay.classList.remove('is-closing');
+      overlay.classList.add('is-opening');
 
       setTimeout(() => {
-        window.location.href = href;
-      }, 260);
+        overlay.classList.remove('is-opening');
+      }, 500);
     });
+  } else {
+    // Direct visit or hard refresh: ensure clean initial state
+    document.documentElement.classList.remove('split-transition-active');
+    overlay.classList.remove('is-closing', 'is-opening');
+  }
+
+  // Handle browser back/forward cache (pageshow)
+  window.addEventListener('pageshow', () => {
+    document.documentElement.classList.remove('split-transition-active');
+    overlay.classList.remove('is-closing');
+    overlay.classList.add('is-opening');
+    setTimeout(() => {
+      overlay.classList.remove('is-opening');
+    }, 500);
   });
 
-  window.addEventListener('pageshow', () => {
-    document.body.classList.remove('page-transitioning-out');
+  // Helper: determine if anchor represents an internal portfolio redirection
+  function isPortfolioRedirect(anchor, e) {
+    // Ignore modifier keys / secondary mouse buttons
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (e.button && e.button !== 0)) {
+      return false;
+    }
+
+    // Ignore links with target="_blank"
+    if (anchor.target && anchor.target !== '_self') {
+      return false;
+    }
+
+    // Ignore download links
+    if (anchor.hasAttribute('download')) {
+      return false;
+    }
+
+    const rawHref = anchor.getAttribute('href');
+    if (!rawHref || rawHref.startsWith('javascript:') || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) {
+      return false;
+    }
+
+    // Same-page pure hash jumps (e.g. href="#projects" while on index.html)
+    if (rawHref.startsWith('#')) {
+      return false;
+    }
+
+    let targetUrl;
+    try {
+      targetUrl = new URL(anchor.href, window.location.href);
+    } catch (err) {
+      return false;
+    }
+
+    // Only transitions within portfolio origin
+    if (targetUrl.origin !== window.location.origin) {
+      return false;
+    }
+
+    // If pointing to exactly current page and only changing/jumping to hash
+    if (targetUrl.pathname === window.location.pathname && targetUrl.search === window.location.search && targetUrl.hash) {
+      return false;
+    }
+
+    // Portfolio HTML pages list
+    const portfolioPages = [
+      '',
+      '/',
+      'index.html',
+      'projects.html',
+      'certificates.html',
+      'research.html',
+      'about.html',
+      'contact.html'
+    ];
+
+    const targetFile = targetUrl.pathname.split('/').pop();
+    const isTargetPortfolioPage = portfolioPages.includes(targetFile) || targetUrl.pathname.endsWith('/');
+
+    return isTargetPortfolioPage;
+  }
+
+  // Delegated click handler for all redirecting links
+  document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a');
+    if (!anchor) return;
+
+    if (!isPortfolioRedirect(anchor, e)) return;
+
+    e.preventDefault();
+    const destination = anchor.href;
+
+    anchor.classList.add('btn-clicked');
+
+    try {
+      sessionStorage.setItem('portfolio_page_transition', '1');
+    } catch (err) {}
+
+    overlay.classList.remove('is-opening');
+    overlay.classList.add('is-closing');
+
+    // After dual screens meet and close the view, navigate to destination
+    setTimeout(() => {
+      window.location.href = destination;
+    }, 400);
+
+    // Safety timeout in case navigation is delayed or cancelled
+    setTimeout(() => {
+      overlay.classList.remove('is-closing');
+    }, 2500);
   });
 }
