@@ -648,30 +648,78 @@ function initPageTransitions() {
     }
   } catch (err) {}
 
-  if (wasTransition) {
-    requestAnimationFrame(() => {
-      document.documentElement.classList.remove('split-transition-active');
-      overlay.classList.remove('is-closing');
-      overlay.classList.add('is-opening');
+  try {
+    if (window.location.search.indexOf('transition=1') !== -1) {
+      wasTransition = true;
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete('transition');
+      window.history.replaceState({}, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+    }
+  } catch (err) {}
 
-      setTimeout(() => {
-        overlay.classList.remove('is-opening');
-      }, 760);
+  if (wasTransition || document.documentElement.classList.contains('split-transition-active')) {
+    overlay.classList.add('is-held-closed');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('split-transition-active');
+        overlay.classList.remove('is-held-closed');
+        overlay.classList.remove('is-closing');
+        overlay.classList.add('is-opening');
+
+        setTimeout(() => {
+          overlay.classList.remove('is-opening');
+        }, 760);
+      });
     });
   } else {
     document.documentElement.classList.remove('split-transition-active');
-    overlay.classList.remove('is-closing', 'is-opening');
+    overlay.classList.remove('is-closing', 'is-opening', 'is-held-closed');
   }
 
   // Handle browser back/forward cache (pageshow)
-  window.addEventListener('pageshow', () => {
-    document.documentElement.classList.remove('split-transition-active');
-    overlay.classList.remove('is-closing');
-    overlay.classList.add('is-opening');
-    setTimeout(() => {
-      overlay.classList.remove('is-opening');
-    }, 760);
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      document.documentElement.classList.remove('split-transition-active');
+      overlay.classList.remove('is-closing', 'is-opening', 'is-held-closed');
+    }
   });
+
+  // Support Browser Back Button with identical smooth closing transition
+  const currentFileName = window.location.pathname.split('/').pop() || 'index.html';
+  const isSubpage = ['projects.html', 'certificates.html', 'research.html'].includes(currentFileName);
+
+  if (isSubpage && window.history && window.history.pushState) {
+    try {
+      if (!window.history.state || !window.history.state.isTransitionSubpage) {
+        window.history.replaceState({ isTransitionSubpage: true, isBase: true }, '', window.location.href);
+        window.history.pushState({ isTransitionSubpage: true, isTop: true }, '', window.location.href);
+      }
+    } catch (e) {}
+
+    let isPoppingBack = false;
+    window.addEventListener('popstate', () => {
+      if (isPoppingBack) return;
+      isPoppingBack = true;
+
+      try {
+        sessionStorage.setItem('portfolio_page_transition', '1');
+      } catch (err) {}
+
+      overlay.classList.remove('is-opening', 'is-held-closed');
+      overlay.classList.add('is-closing');
+
+      let destination = 'index.html';
+      try {
+        const u = new URL('index.html', window.location.href);
+        u.searchParams.set('transition', '1');
+        destination = u.toString();
+      } catch (e) {}
+
+      setTimeout(() => {
+        window.location.href = destination;
+      }, 700);
+    });
+  }
 
   // Delegated click handler for navigation and transitions
   document.addEventListener('click', (e) => {
@@ -692,7 +740,6 @@ function initPageTransitions() {
 
     // In-page hash jumps on the same page (e.g., #projects, #achievements, #contact)
     if (rawHref.startsWith('#')) {
-      // Let native smooth scrolling glide to the section
       anchor.classList.add('btn-clicked');
       setTimeout(() => anchor.classList.remove('btn-clicked'), 300);
       return;
@@ -737,12 +784,19 @@ function initPageTransitions() {
       sessionStorage.setItem('portfolio_page_transition', '1');
     } catch (err) {}
 
-    overlay.classList.remove('is-opening');
+    overlay.classList.remove('is-opening', 'is-held-closed');
     overlay.classList.add('is-closing');
 
+    let destinationUrl = anchor.href;
+    try {
+      const u = new URL(anchor.href, window.location.href);
+      u.searchParams.set('transition', '1');
+      destinationUrl = u.toString();
+    } catch (e) {}
+
     setTimeout(() => {
-      window.location.href = anchor.href;
-    }, 720);
+      window.location.href = destinationUrl;
+    }, 700);
 
     setTimeout(() => {
       overlay.classList.remove('is-closing');

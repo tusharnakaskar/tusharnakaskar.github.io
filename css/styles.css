@@ -1381,15 +1381,18 @@ ul, ol { list-style: none; }
 }
 
 /* State 2: Held Closed (Preventing flash on destination page before opening) */
-html.split-transition-active .screen-split-overlay {
+html.split-transition-active .screen-split-overlay,
+.screen-split-overlay.is-held-closed {
   pointer-events: auto;
 }
 
-html.split-transition-active .split-curtain-left {
+html.split-transition-active .split-curtain-left,
+.screen-split-overlay.is-held-closed .split-curtain-left {
   transform: translateX(0) !important;
 }
 
-html.split-transition-active .split-curtain-right {
+html.split-transition-active .split-curtain-right,
+.screen-split-overlay.is-held-closed .split-curtain-right {
   transform: translateX(0) !important;
 }
 
@@ -1399,11 +1402,11 @@ html.split-transition-active .split-curtain-right {
 }
 
 .screen-split-overlay.is-opening .split-curtain-left {
-  animation: curtainOpenLeft 750ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: curtainOpenLeft 720ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 .screen-split-overlay.is-opening .split-curtain-right {
-  animation: curtainOpenRight 750ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: curtainOpenRight 720ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 @keyframes curtainCloseLeft {
@@ -1440,6 +1443,40 @@ html.split-transition-active .split-curtain-right {
   100% {
     transform: translateX(100%);
   }
+}
+
+.nav-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 0.38rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  transition: all var(--trans);
+}
+
+.nav-back-link:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.nav-back-link svg {
+  display: block;
+  flex-shrink: 0;
+  transition: transform var(--trans);
+}
+
+.nav-back-link:hover svg {
+  transform: translateX(-2px);
 }
 
 .btn-clicked {

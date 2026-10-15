@@ -34,9 +34,13 @@
 
   <!-- Page Transition Flash Prevention -->
   <script>
-    if (sessionStorage.getItem('portfolio_page_transition') === '1') {
-      document.documentElement.classList.add('split-transition-active');
-    }
+    (function() {
+      try {
+        if (sessionStorage.getItem('portfolio_page_transition') === '1' || window.location.search.indexOf('transition=1') !== -1) {
+          document.documentElement.classList.add('split-transition-active');
+        }
+      } catch (e) {}
+    })();
   </script>
 </head>
 <body>
