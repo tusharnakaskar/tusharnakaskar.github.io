@@ -415,6 +415,8 @@ function initMobileNav() {
    Dynamically shifts active shade between section links on scroll
    ========================================================================== */
 function initScrollspy() {
+  if (document.querySelector('.main-home')) return; // Main page uses dedicated single-section panel switcher
+
   const sectionIds = ['projects', 'achievements', 'contact'];
   const sections = sectionIds
     .map(id => document.getElementById(id))
@@ -619,9 +621,10 @@ function initHeaderScroll() {
 }
 
 /* ==========================================================================
-   9. Page Transitions (Dual-Screen Split Transition)
-      When navigating between portfolio pages (and returning), two screens
-      slide in from left & right to close the screen, and slide open on arrival.
+   9. Page & Section Transitions (Dual-Screen Black Shutters with White Seam)
+      Smooth closing (720ms) and opening (750ms).
+      When switching sections on the main page, only that particular section
+      is visible, fitting the interface completely (just like an info page).
    ========================================================================== */
 function initPageTransitions() {
   // Ensure overlay DOM exists
@@ -632,10 +635,86 @@ function initPageTransitions() {
     overlay.className = 'screen-split-overlay';
     overlay.setAttribute('aria-hidden', 'true');
     overlay.innerHTML = `
-      <div class="split-curtain split-curtain-left"><div class="split-seam-glow seam-left"></div></div>
-      <div class="split-curtain split-curtain-right"><div class="split-seam-glow seam-right"></div></div>
+      <div class="split-curtain split-curtain-left"></div>
+      <div class="split-curtain split-curtain-right"></div>
     `;
     document.body.prepend(overlay);
+  }
+
+  const isMainPage = document.querySelector('.main-home') !== null;
+  const sectionPanels = document.querySelectorAll('.main-section-panel');
+
+  // Helper: Show specific section on main page without playing closing animation
+  function setActiveSection(sectionId) {
+    if (!isMainPage || sectionPanels.length === 0) return;
+
+    let target = document.getElementById(sectionId);
+    if (!target) {
+      target = document.getElementById('home');
+      sectionId = 'home';
+    }
+
+    sectionPanels.forEach(panel => {
+      panel.classList.toggle('active', panel.id === sectionId);
+    });
+
+    if (sectionId === 'home') {
+      document.body.classList.remove('section-non-hero');
+    } else {
+      document.body.classList.add('section-non-hero');
+    }
+
+    // Update active state in desktop and mobile nav
+    const allNavLinks = document.querySelectorAll('.nav-desktop .nav-link, .mobile-drawer .mobile-link');
+    allNavLinks.forEach(link => {
+      const linkSection = link.getAttribute('data-section') || (link.getAttribute('href') || '').replace('#', '');
+      link.classList.toggle('active', linkSection === sectionId);
+    });
+
+    window.scrollTo(0, 0);
+  }
+
+  // Trigger smooth dual-screen transition to switch active section on main page
+  let isTransitioning = false;
+  function transitionToSection(sectionId) {
+    if (isTransitioning) return;
+
+    const currentActive = document.querySelector('.main-section-panel.active');
+    if (currentActive && currentActive.id === sectionId) return;
+
+    isTransitioning = true;
+    overlay.classList.remove('is-opening');
+    overlay.classList.add('is-closing');
+
+    // After two black screens close smoothly (720ms), swap active section
+    setTimeout(() => {
+      setActiveSection(sectionId);
+      history.pushState(null, '', '#' + sectionId);
+
+      // Smooth opening (750ms)
+      overlay.classList.remove('is-closing');
+      overlay.classList.add('is-opening');
+
+      setTimeout(() => {
+        overlay.classList.remove('is-opening');
+        isTransitioning = false;
+      }, 760);
+    }, 720);
+  }
+
+  // Initial Section setup on main page based on hash or default
+  if (isMainPage && sectionPanels.length > 0) {
+    const rawHash = (window.location.hash || '').replace('#', '').toLowerCase();
+    const validSections = ['home', 'projects', 'achievements', 'contact'];
+    const initialSection = validSections.includes(rawHash) ? rawHash : 'home';
+    setActiveSection(initialSection);
+
+    // Listen to browser Back/Forward between sections
+    window.addEventListener('popstate', () => {
+      const hash = (window.location.hash || '').replace('#', '').toLowerCase();
+      const target = validSections.includes(hash) ? hash : 'home';
+      transitionToSection(target);
+    });
   }
 
   // Check if this page load is arriving from a portfolio page redirect transition
@@ -648,7 +727,6 @@ function initPageTransitions() {
   } catch (err) {}
 
   if (wasTransition) {
-    // Page arrived from transition: trigger smooth opening animation
     requestAnimationFrame(() => {
       document.documentElement.classList.remove('split-transition-active');
       overlay.classList.remove('is-closing');
@@ -656,10 +734,9 @@ function initPageTransitions() {
 
       setTimeout(() => {
         overlay.classList.remove('is-opening');
-      }, 500);
+      }, 760);
     });
   } else {
-    // Direct visit or hard refresh: ensure clean initial state
     document.documentElement.classList.remove('split-transition-active');
     overlay.classList.remove('is-closing', 'is-opening');
   }
@@ -671,54 +748,53 @@ function initPageTransitions() {
     overlay.classList.add('is-opening');
     setTimeout(() => {
       overlay.classList.remove('is-opening');
-    }, 500);
+    }, 760);
   });
 
-  // Helper: determine if anchor represents an internal portfolio redirection
-  function isPortfolioRedirect(anchor, e) {
-    // Ignore modifier keys / secondary mouse buttons
+  // Delegated click handler for navigation and transitions
+  document.addEventListener('click', (e) => {
+    const anchor = e.target.closest('a');
+    if (!anchor) return;
+
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (e.button && e.button !== 0)) {
-      return false;
+      return;
     }
 
-    // Ignore links with target="_blank"
-    if (anchor.target && anchor.target !== '_self') {
-      return false;
-    }
-
-    // Ignore download links
-    if (anchor.hasAttribute('download')) {
-      return false;
-    }
+    if (anchor.target && anchor.target !== '_self') return;
+    if (anchor.hasAttribute('download')) return;
 
     const rawHref = anchor.getAttribute('href');
     if (!rawHref || rawHref.startsWith('javascript:') || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) {
-      return false;
+      return;
     }
 
-    // Same-page pure hash jumps (e.g. href="#projects" while on index.html)
-    if (rawHref.startsWith('#')) {
-      return false;
+    // Case 1: In-page section switch on the main page (e.g., #home, #projects, #achievements, #contact)
+    if (isMainPage && (rawHref.startsWith('#') || anchor.hasAttribute('data-section'))) {
+      const sectionId = anchor.getAttribute('data-section') || rawHref.replace('#', '');
+      const targetPanel = document.getElementById(sectionId);
+      if (targetPanel && targetPanel.classList.contains('main-section-panel')) {
+        e.preventDefault();
+        anchor.classList.add('btn-clicked');
+        transitionToSection(sectionId);
+        return;
+      }
     }
 
+    // Case 2: Redirection between different pages within the portfolio
     let targetUrl;
     try {
       targetUrl = new URL(anchor.href, window.location.href);
     } catch (err) {
-      return false;
+      return;
     }
 
-    // Only transitions within portfolio origin
-    if (targetUrl.origin !== window.location.origin) {
-      return false;
+    if (targetUrl.origin !== window.location.origin) return;
+
+    // Check if redirecting to a different page
+    if (targetUrl.pathname === window.location.pathname && targetUrl.search === window.location.search) {
+      return;
     }
 
-    // If pointing to exactly current page and only changing/jumping to hash
-    if (targetUrl.pathname === window.location.pathname && targetUrl.search === window.location.search && targetUrl.hash) {
-      return false;
-    }
-
-    // Portfolio HTML pages list
     const portfolioPages = [
       '',
       '/',
@@ -733,19 +809,10 @@ function initPageTransitions() {
     const targetFile = targetUrl.pathname.split('/').pop();
     const isTargetPortfolioPage = portfolioPages.includes(targetFile) || targetUrl.pathname.endsWith('/');
 
-    return isTargetPortfolioPage;
-  }
+    if (!isTargetPortfolioPage) return;
 
-  // Delegated click handler for all redirecting links
-  document.addEventListener('click', (e) => {
-    const anchor = e.target.closest('a');
-    if (!anchor) return;
-
-    if (!isPortfolioRedirect(anchor, e)) return;
-
+    // Trigger smooth closing transition and navigate
     e.preventDefault();
-    const destination = anchor.href;
-
     anchor.classList.add('btn-clicked');
 
     try {
@@ -755,14 +822,12 @@ function initPageTransitions() {
     overlay.classList.remove('is-opening');
     overlay.classList.add('is-closing');
 
-    // After dual screens meet and close the view, navigate to destination
     setTimeout(() => {
-      window.location.href = destination;
-    }, 400);
+      window.location.href = anchor.href;
+    }, 720);
 
-    // Safety timeout in case navigation is delayed or cancelled
     setTimeout(() => {
       overlay.classList.remove('is-closing');
-    }, 2500);
+    }, 3000);
   });
 }

@@ -42,8 +42,8 @@
 <body>
   <!-- Screen Split Transition Overlay (Two Screens Closing / Opening) -->
   <div class="screen-split-overlay" id="screen-split-overlay" aria-hidden="true">
-    <div class="split-curtain split-curtain-left"><div class="split-seam-glow seam-left"></div></div>
-    <div class="split-curtain split-curtain-right"><div class="split-seam-glow seam-right"></div></div>
+    <div class="split-curtain split-curtain-left"></div>
+    <div class="split-curtain split-curtain-right"></div>
   </div>
 
   <!-- Subtle Technical Canvas Background -->
@@ -78,15 +78,16 @@
   <!-- Header & Navigation (Projects, Achievements, About) -->
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="brand-logo" aria-label="Tushar Nakaskar Homepage">
+      <a href="#home" class="brand-logo" aria-label="Tushar Nakaskar Homepage" data-section="home">
         <span class="brand-text">tn_portfolio</span>
       </a>
 
-      <!-- Desktop Nav (Projects, Achievements, About) -->
+      <!-- Desktop Nav (Home, Projects, Achievements, About) -->
       <nav class="nav-desktop" aria-label="Main Navigation">
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#achievements" class="nav-link">Achievements</a>
-        <a href="#contact" class="nav-link">About</a>
+        <a href="#home" class="nav-link" data-section="home">Home</a>
+        <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+        <a href="#achievements" class="nav-link" data-section="achievements">Achievements</a>
+        <a href="#contact" class="nav-link" data-section="contact">About</a>
       </nav>
 
       <!-- Mobile Hamburger Toggle -->
@@ -101,9 +102,10 @@
 
     <!-- Mobile Drawer Menu -->
     <div class="mobile-drawer" id="mobile-drawer">
-      <a href="#projects" class="mobile-link">Projects</a>
-      <a href="#achievements" class="mobile-link">Achievements</a>
-      <a href="#contact" class="mobile-link">About</a>
+      <a href="#home" class="mobile-link" data-section="home">Home</a>
+      <a href="#projects" class="mobile-link" data-section="projects">Projects</a>
+      <a href="#achievements" class="mobile-link" data-section="achievements">Achievements</a>
+      <a href="#contact" class="mobile-link" data-section="contact">About</a>
     </div>
   </header>
 
@@ -112,7 +114,7 @@
     <div class="container">
       
       <!-- Centered Hero Section (Full Viewport Above the Fold) -->
-      <section class="hero-section-centered">
+      <section class="hero-section-centered main-section-panel active" id="home">
         
         <!-- Name in Pure Crisp White (Larger & Placed at Top) -->
         <h1 class="hero-name-center">Tushar Nakaskar</h1>
@@ -138,7 +140,7 @@
       </section>
 
       <!-- Featured Projects Overview (Recruiter-Ready Cards) -->
-      <section class="section-block" id="projects">
+      <section class="section-block main-section-panel" id="projects">
         <div class="section-header-compact">
           <div>
             <h2 class="section-title">Projects</h2>
@@ -232,7 +234,7 @@
       </section>
 
       <!-- Achievements & Activities Section -->
-      <section class="section-block" id="achievements">
+      <section class="section-block main-section-panel" id="achievements">
         <div class="section-header-compact">
           <div>
             <h2 class="section-title">Achievements &amp; Milestones</h2>
@@ -316,7 +318,7 @@
       </section>
 
       <!-- Contact & Connect Section (Accessible via Scrolling) -->
-      <section class="section-block" id="contact">
+      <section class="section-block main-section-panel" id="contact">
         <div class="section-header-compact">
           <div>
             <h2 class="section-title">Contact &amp; Connect</h2>

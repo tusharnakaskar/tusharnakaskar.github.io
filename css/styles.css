@@ -1281,7 +1281,7 @@ ul, ol { list-style: none; }
 }
 
 /* --------------------------------------------------------------------------
-   13. Dual-Screen Split Transition (Two Screens Closing & Opening)
+   13. Dual-Screen Split Transition (Smooth Pure Black Screens with Solid White Seam)
    -------------------------------------------------------------------------- */
 .screen-split-overlay {
   position: fixed;
@@ -1298,61 +1298,41 @@ ul, ol { list-style: none; }
   top: 0;
   bottom: 0;
   height: 100vh;
-  width: 50.5vw; /* 0.5vw overlap prevents subpixel seam gaps on Retina screens */
-  background-color: #07080c;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(20, 24, 36, 0.96) 0%, rgba(7, 8, 12, 0.99) 100%),
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 32px 32px, 32px 32px;
+  width: 50.5vw; /* 0.5vw overlap prevents subpixel seam gaps on Retina displays */
+  background: #000000 !important; /* Pure solid black screen */
+  background-image: none !important;
   will-change: transform;
 }
 
 .split-curtain-left {
   left: 0;
   transform: translateX(-100%);
-  border-right: 2px solid rgba(139, 92, 246, 0.75); /* Purple accent */
-  box-shadow: 8px 0 32px rgba(139, 92, 246, 0.4), 2px 0 10px rgba(6, 182, 212, 0.3);
+  border-right: 2px solid #ffffff !important; /* Crisp solid white border, no glow */
+  box-shadow: none !important;
 }
 
 .split-curtain-right {
   right: 0;
   transform: translateX(100%);
-  border-left: 2px solid rgba(6, 182, 212, 0.75); /* Cyan accent */
-  box-shadow: -8px 0 32px rgba(6, 182, 212, 0.4), -2px 0 10px rgba(139, 92, 246, 0.3);
+  border-left: 2px solid #ffffff !important; /* Crisp solid white border, no glow */
+  box-shadow: none !important;
 }
 
 .split-seam-glow {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  height: 100%;
+  display: none !important; /* No colored glow */
 }
 
-.seam-left {
-  right: -1px;
-  background: linear-gradient(180deg, transparent 0%, #8b5cf6 25%, #ec4899 50%, #8b5cf6 75%, transparent 100%);
-  filter: drop-shadow(0 0 10px #8b5cf6);
-}
-
-.seam-right {
-  left: -1px;
-  background: linear-gradient(180deg, transparent 0%, #06b6d4 25%, #3b82f6 50%, #06b6d4 75%, transparent 100%);
-  filter: drop-shadow(0 0 10px #06b6d4);
-}
-
-/* State 1: Closing Transition (Two screens closing inward) */
+/* State 1: Closing Transition (Smooth dual screens closing inward) */
 .screen-split-overlay.is-closing {
   pointer-events: auto;
 }
 
 .screen-split-overlay.is-closing .split-curtain-left {
-  animation: curtainCloseLeft 400ms cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  animation: curtainCloseLeft 720ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 .screen-split-overlay.is-closing .split-curtain-right {
-  animation: curtainCloseRight 400ms cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  animation: curtainCloseRight 720ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 /* State 2: Held Closed (Preventing flash on destination page before opening) */
@@ -1368,17 +1348,17 @@ html.split-transition-active .split-curtain-right {
   transform: translateX(0) !important;
 }
 
-/* State 3: Opening Transition (Two screens parting to reveal page) */
+/* State 3: Opening Transition (Smooth dual screens parting outward) */
 .screen-split-overlay.is-opening {
   pointer-events: none;
 }
 
 .screen-split-overlay.is-opening .split-curtain-left {
-  animation: curtainOpenLeft 460ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: curtainOpenLeft 750ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 .screen-split-overlay.is-opening .split-curtain-right {
-  animation: curtainOpenRight 460ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: curtainOpenRight 750ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
 @keyframes curtainCloseLeft {
@@ -1420,6 +1400,84 @@ html.split-transition-active .split-curtain-right {
 .btn-clicked {
   transform: scale(0.96) !important;
   opacity: 0.85;
+}
+
+/* ==========================================================================
+   Main Page Single-Section Views (Interface-Fitting Panels)
+   When visiting a section via navbar, only that section is visible,
+   perfectly framed in the viewport just like a dedicated info page.
+   ========================================================================== */
+.main-home {
+  padding: 0;
+}
+
+.main-home .container {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-section-panel {
+  display: none;
+  width: 100%;
+  min-height: calc(100vh - var(--header-height));
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.25rem 0 3.25rem;
+}
+
+.main-section-panel.active {
+  display: flex;
+}
+
+/* Hero Section: Centered in interface */
+.hero-section-centered.main-section-panel {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Projects Section: Framed cleanly in interface */
+#projects.main-section-panel {
+  justify-content: center;
+  padding: 2rem 0;
+}
+#projects.main-section-panel .section-header-compact {
+  margin-bottom: 1.5rem;
+}
+#projects.main-section-panel .home-projects-grid {
+  margin-bottom: 1.5rem;
+}
+#projects.main-section-panel .projects-view-more {
+  margin-top: 0.25rem;
+}
+
+/* Achievements Section: Framed cleanly with large squares */
+#achievements.main-section-panel {
+  justify-content: center;
+  padding: 2rem 0;
+}
+#achievements.main-section-panel .section-header-compact {
+  margin-bottom: 1.75rem;
+}
+#achievements.main-section-panel .achievements-grid {
+  margin-bottom: 0.5rem;
+}
+
+/* Contact / About Section: Framed cleanly in interface */
+#contact.main-section-panel {
+  justify-content: center;
+  padding: 2rem 0;
+}
+#contact.main-section-panel .section-header-compact {
+  margin-bottom: 1.5rem;
+}
+
+/* Dim video background softly when viewing non-hero sections */
+body.section-non-hero #video-bg-wrapper {
+  opacity: 0.16;
+  transition: opacity 600ms ease;
 }
 
 /* --------------------------------------------------------------------------
