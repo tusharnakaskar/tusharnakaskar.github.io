@@ -659,8 +659,49 @@ function initPageTransitions() {
 
   if (wasTransition || document.documentElement.classList.contains('split-transition-active')) {
     overlay.classList.add('is-held-closed');
+
+    // Prevent browser auto-scroll race conditions
+    if ('scrollRestoration' in history) {
+      try { history.scrollRestoration = 'manual'; } catch (e) {}
+    }
+
+    // Determine target section to restore on index.html
+    let targetSectionId = window.location.hash ? window.location.hash.substring(1) : '';
+    try {
+      const savedSection = sessionStorage.getItem('portfolio_return_section');
+      if (savedSection && !targetSectionId) {
+        targetSectionId = savedSection;
+      }
+      if (savedSection) {
+        sessionStorage.removeItem('portfolio_return_section');
+      }
+    } catch (e) {}
+
+    // Position behind closed curtains instantly
+    if (targetSectionId) {
+      const targetEl = document.getElementById(targetSectionId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'instant', block: 'start' });
+      }
+    }
+
     requestAnimationFrame(() => {
+      // Re-affirm position in case layout rendered
+      if (targetSectionId) {
+        const targetEl = document.getElementById(targetSectionId);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      }
+
       requestAnimationFrame(() => {
+        if (targetSectionId) {
+          const targetEl = document.getElementById(targetSectionId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'instant', block: 'start' });
+          }
+        }
+
         document.documentElement.classList.remove('split-transition-active');
         overlay.classList.remove('is-held-closed');
         overlay.classList.remove('is-closing');
@@ -708,10 +749,20 @@ function initPageTransitions() {
       overlay.classList.remove('is-opening', 'is-held-closed');
       overlay.classList.add('is-closing');
 
-      let destination = 'index.html';
+      let returnSection = '';
       try {
-        const u = new URL('index.html', window.location.href);
+        returnSection = sessionStorage.getItem('portfolio_return_section');
+      } catch (e) {}
+      if (!returnSection) {
+        if (currentFileName === 'projects.html') returnSection = 'projects';
+        else if (currentFileName === 'certificates.html' || currentFileName === 'research.html') returnSection = 'achievements';
+      }
+
+      let destination = 'index.html' + (returnSection ? '#' + returnSection : '');
+      try {
+        const u = new URL(destination, window.location.href);
         u.searchParams.set('transition', '1');
+        if (returnSection) u.hash = '#' + returnSection;
         destination = u.toString();
       } catch (e) {}
 
@@ -780,6 +831,21 @@ function initPageTransitions() {
     e.preventDefault();
     anchor.classList.add('btn-clicked');
 
+    // If navigating away from index.html, remember which section the visitor was on
+    const isLeavingIndex = currentFileName === 'index.html' || currentFileName === '';
+    if (isLeavingIndex) {
+      let originSection = anchor.closest('section[id]')?.id || '';
+      if (!originSection) {
+        if (targetFile === 'projects.html') originSection = 'projects';
+        else if (targetFile === 'certificates.html' || targetFile === 'research.html') originSection = 'achievements';
+      }
+      if (originSection) {
+        try {
+          sessionStorage.setItem('portfolio_return_section', originSection);
+        } catch (err) {}
+      }
+    }
+
     try {
       sessionStorage.setItem('portfolio_page_transition', '1');
     } catch (err) {}
@@ -787,9 +853,24 @@ function initPageTransitions() {
     overlay.classList.remove('is-opening', 'is-held-closed');
     overlay.classList.add('is-closing');
 
+    // If navigating back to index.html from a subpage, ensure target section hash is included
     let destinationUrl = anchor.href;
     try {
       const u = new URL(anchor.href, window.location.href);
+      const isTargetIndex = u.pathname.endsWith('index.html') || u.pathname.endsWith('/');
+      if (isTargetIndex && !u.hash) {
+        let returnSection = '';
+        try {
+          returnSection = sessionStorage.getItem('portfolio_return_section');
+        } catch (e) {}
+        if (!returnSection) {
+          if (currentFileName === 'projects.html') returnSection = 'projects';
+          else if (currentFileName === 'certificates.html' || currentFileName === 'research.html') returnSection = 'achievements';
+        }
+        if (returnSection) {
+          u.hash = '#' + returnSection;
+        }
+      }
       u.searchParams.set('transition', '1');
       destinationUrl = u.toString();
     } catch (e) {}
