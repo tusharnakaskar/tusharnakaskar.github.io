@@ -1198,6 +1198,56 @@ ul, ol { list-style: none; }
 .channel-link { font-size: 0.85rem; color: var(--text-dim); text-decoration: none; transition: color var(--trans); }
 .channel-link:hover { color: #ffffff; text-decoration: underline; }
 
+/* Academic Background panel (Gentle, single card) */
+.academic-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all var(--trans);
+}
+.academic-panel:hover {
+  background: var(--bg-surface-hover);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+}
+.academic-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
+}
+.academic-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.academic-degree {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.45;
+  margin: 0;
+}
+.academic-institution {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+.academic-period {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gold);
+  margin-top: 0.25rem;
+  display: inline-block;
+}
+
 /* Contact form panel */
 .contact-form-panel {
   background: var(--bg-surface);
