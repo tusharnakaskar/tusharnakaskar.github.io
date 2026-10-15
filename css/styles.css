@@ -1037,6 +1037,7 @@ ul, ol { list-style: none; }
 }
 .main-home {
   padding-top: 0;
+  padding-bottom: 0;
 }
 
 .page-header {
@@ -1193,7 +1194,7 @@ ul, ol { list-style: none; }
 .icon-purple   { background: var(--purple-subtle);   border: 1px solid var(--purple-border);   color: var(--purple); }
 .icon-gold     { background: var(--gold-subtle);     border: 1px solid var(--gold-border);     color: var(--gold); }
 
-.channel-info h4 { font-size: 0.95rem; color: #ffffff; margin-bottom: 0.2rem; }
+.channel-info h4 { font-size: 0.95rem; color: #ffffff; margin: 0; }
 .channel-info span,
 .channel-link { font-size: 0.85rem; color: var(--text-dim); text-decoration: none; transition: color var(--trans); }
 .channel-link:hover { color: #ffffff; text-decoration: underline; }
@@ -1203,10 +1204,10 @@ ul, ol { list-style: none; }
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 2.25rem 2.5rem;
+  padding: 1.75rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   transition: all var(--trans);
 }
 .academic-panel:hover {
@@ -1218,7 +1219,8 @@ ul, ol { list-style: none; }
   font-size: 1.25rem;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 1.15rem;
   letter-spacing: -0.01em;
 }
 .academic-details {
@@ -1593,7 +1595,7 @@ html.split-transition-active .split-curtain-right,
 }
 
 .section-block:last-of-type {
-  margin-bottom: 3.5rem;
+  margin-bottom: 0;
 }
 
 #projects .home-projects-grid {
@@ -1616,8 +1618,21 @@ html.split-transition-active .split-curtain-right,
   margin-bottom: 1.5rem;
 }
 
+#contact {
+  min-height: calc(100vh - var(--header-height));
+  min-height: calc(100dvh - var(--header-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  margin-bottom: 0;
+  padding: 1rem 0 0;
+  scroll-margin-top: var(--header-height);
+}
+
 #contact .contact-layout {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 /* --------------------------------------------------------------------------
