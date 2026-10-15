@@ -1559,6 +1559,18 @@ body.page-transitioning-out .site-header {
   margin-right: 0.4rem;
 }
 
+.research-meta-line a {
+  color: var(--purple);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color var(--trans);
+}
+
+.research-meta-line a:hover {
+  color: #d8b4fe;
+}
+
 .research-actions {
   margin-top: 1.75rem;
 }
