@@ -1613,12 +1613,17 @@ html.split-transition-active .split-curtain-right,
 #achievements {
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100dvh - var(--header-height));
-  padding-bottom: 3.5rem;
-  scroll-margin-top: calc(var(--header-height) + 0.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 1.5rem 0;
+  margin-bottom: 0;
+  scroll-margin-top: var(--header-height);
 }
 
 #achievements .achievements-grid {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
 }
 
 #contact {
@@ -1629,12 +1634,12 @@ html.split-transition-active .split-curtain-right,
   justify-content: center;
   box-sizing: border-box;
   margin-bottom: 0;
-  padding: 1rem 0 0;
+  padding: 1.5rem 0;
   scroll-margin-top: var(--header-height);
 }
 
 #contact .contact-layout {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
   margin-bottom: 0;
 }
 
