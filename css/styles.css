@@ -734,17 +734,17 @@ ul, ol { list-style: none; }
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 2.35rem 2.1rem 2.2rem;
+  padding: 2.65rem 2.35rem 2.45rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   transition: all var(--trans);
-  min-height: 350px;
+  min-height: 385px;
   height: 100%;
 }
 
 .achieve-card-header {
-  margin-bottom: 1rem;
+  margin-bottom: 1.15rem;
 }
 
 .achieve-card-meta {
@@ -758,42 +758,45 @@ ul, ol { list-style: none; }
 }
 
 .achieve-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
 }
 .achieve-icon.icon-gold {
-  background: var(--gold-subtle);
-  border: 1px solid var(--gold-border);
   color: var(--gold);
+  background: transparent;
+  border: none;
 }
 .achieve-icon.icon-blue {
-  background: var(--blue-subtle);
-  border: 1px solid var(--blue-border);
   color: var(--blue);
+  background: transparent;
+  border: none;
 }
 .achieve-icon.icon-purple {
-  background: var(--purple-subtle);
-  border: 1px solid var(--purple-border);
   color: var(--purple);
+  background: transparent;
+  border: none;
 }
 
 .achieve-card-heading {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
   line-height: 1.35;
 }
 
 .achieve-card-desc {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   color: var(--text-muted);
-  line-height: 1.65;
+  line-height: 1.68;
 }
 
 .achieve-card-footer {
@@ -815,7 +818,7 @@ ul, ol { list-style: none; }
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 1.25rem 1.35rem 1.15rem;
+  padding: 1.4rem 1.5rem 1.3rem;
   display: flex;
   flex-direction: column;
   transition: all var(--trans);
