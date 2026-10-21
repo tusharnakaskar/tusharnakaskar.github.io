@@ -1259,6 +1259,62 @@ ul, ol { list-style: none; }
   letter-spacing: -0.01em;
 }
 
+.academic-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.academic-card-box {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 1.15rem 1.4rem;
+  transition: all var(--trans);
+}
+
+.academic-card-box:hover {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+}
+
+.academic-card-inst {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.35rem 0;
+  line-height: 1.35;
+}
+
+.academic-card-meta {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.academic-card-meta .meta-dot {
+  margin: 0 0.45rem;
+  color: #64748b;
+}
+
+.academic-card-meta .meta-period {
+  color: #cbd5e1;
+}
+
+@media (max-width: 600px) {
+  .academic-card-box {
+    padding: 1rem 1.15rem;
+  }
+  .academic-card-inst {
+    font-size: 0.98rem;
+  }
+  .academic-card-meta {
+    font-size: 0.84rem;
+  }
+}
+
 .academic-details {
   display: flex;
   flex-direction: column;
