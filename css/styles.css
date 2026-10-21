@@ -1222,12 +1222,12 @@ ul, ol { list-style: none; }
 .channel-link { font-size: 0.85rem; color: var(--text-dim); text-decoration: none; transition: color var(--trans); }
 .channel-link:hover { color: #ffffff; text-decoration: underline; }
 
-/* Unified Contact & Academic Panel (Spacious, Roomy, No Clutter) */
+/* Unified Contact & Academic Panel - Direct Option B Layout */
 .contact-unified-panel {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  padding: 2.75rem 3rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -1239,9 +1239,9 @@ ul, ol { list-style: none; }
 }
 
 .contact-unified-panel:hover {
-  background: var(--bg-surface-hover);
-  border-color: rgba(255, 255, 255, 0.16);
-  transform: translateY(-2px);
+  background: transparent;
+  border-color: transparent;
+  transform: none;
 }
 
 .contact-panel-academic {
@@ -1526,7 +1526,7 @@ ul, ol { list-style: none; }
   .mobile-toggle    { display: block; }
   .contact-layout   { grid-template-columns: 1fr; }
   .contact-unified-panel {
-    padding: 2.25rem 1.75rem;
+    padding: 0;
     gap: 1.75rem;
   }
   .contact-panel-channels {
@@ -1539,7 +1539,7 @@ ul, ol { list-style: none; }
 
 @media (max-width: 600px) {
   .contact-unified-panel {
-    padding: 1.85rem 1.4rem;
+    padding: 0;
     gap: 1.75rem;
   }
   .hero-section-centered { padding: 2rem 0 1.75rem; min-height: auto; }
