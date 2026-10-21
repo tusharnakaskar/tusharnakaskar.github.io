@@ -850,10 +850,11 @@ ul, ol { list-style: none; }
 
 .home-project-card .card-tags {
   margin-top: auto;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 
 .home-project-card .project-card-footer {
+  margin-top: 0;
   padding-top: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
@@ -1146,10 +1147,11 @@ ul, ol { list-style: none; }
 
 .project-card .project-tags {
   margin-top: auto;
-  margin-bottom: 1.15rem;
+  margin-bottom: 0.75rem;
 }
 
 .project-footer {
+  margin-top: 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
