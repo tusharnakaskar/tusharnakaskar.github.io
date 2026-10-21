@@ -72,7 +72,7 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* ── Sizing & Radius ── */
-  --max-width:        1060px;
+  --max-width:        1140px;
   --header-height:    72px;
   --radius-sm:        6px;
   --radius-md:        10px;
@@ -719,13 +719,13 @@ ul, ol { list-style: none; }
 .achievements-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
   margin-bottom: 4rem;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .achievements-grid {
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
   }
 }
@@ -734,7 +734,7 @@ ul, ol { list-style: none; }
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 2.65rem 2.35rem 2.45rem;
+  padding: 2.5rem 1.65rem 2.25rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -786,11 +786,12 @@ ul, ol { list-style: none; }
 }
 
 .achieve-card-heading {
-  font-size: 1.35rem;
+  font-size: 1.12rem;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 0.85rem;
   line-height: 1.35;
+  letter-spacing: -0.02em;
 }
 
 .achieve-card-desc {
