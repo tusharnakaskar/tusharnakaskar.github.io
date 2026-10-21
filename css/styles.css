@@ -1826,9 +1826,19 @@ html.split-transition-active .split-curtain-right,
   scroll-margin-top: var(--header-height);
 }
 
+#contact .section-header-compact {
+  margin-bottom: 3.5rem;
+}
+
 #contact .contact-unified-panel {
-  margin-top: 1.25rem;
+  margin-top: 0;
   margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  #contact .section-header-compact {
+    margin-bottom: 2.25rem;
+  }
 }
 
 /* --------------------------------------------------------------------------
