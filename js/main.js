@@ -528,7 +528,7 @@ function initCopyEmail() {
       e.preventDefault();
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(email)
-          .then(() => showToast('✓ Email copied: ' + email))
+          .then(() => showToast('Mail Copied : ' + email))
           .catch(() => { window.location.href = 'mailto:' + email; });
       } else {
         window.location.href = 'mailto:' + email;
