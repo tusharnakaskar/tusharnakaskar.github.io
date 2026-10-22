@@ -501,7 +501,7 @@ ul, ol { list-style: none; }
   object-fit: cover;
   display: block;
   opacity: 0;
-  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.65s ease-in-out;
   will-change: opacity;
   transform: translateZ(0);
   backface-visibility: hidden;

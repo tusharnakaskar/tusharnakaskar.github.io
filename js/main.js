@@ -207,10 +207,10 @@ function initBgVideo() {
   let currentVideo = videos.sleep;
   let transitionTimer = null;
   let idleTimer = null;
-  const IDLE_DELAY_MS = 1800; // 1.8s inactivity threshold before relaxing
+  const IDLE_DELAY_MS = 2500; // 2.5s inactivity threshold before relaxing
 
   // Transition smoothly from current video to target video with instant play
-  function transitionTo(targetVideo, newState, onEnded = null, crossfadeMs = 250) {
+  function transitionTo(targetVideo, newState, onEnded = null, crossfadeMs = 600) {
     if (!targetVideo) return;
     if (currentVideo === targetVideo && targetVideo.classList.contains('active')) return;
 
@@ -251,15 +251,16 @@ function initBgVideo() {
     hasAwoken = true;
     removeWakeListeners();
 
-    // Waking clip is 2.8s: stirs, lifts head, opens eyes, sits up, hands to keyboard
+    // Waking clip: stirs, lifts head, opens eyes, sits up, hands to keyboard
+    // Smooth 750ms fade transition so sleeping softly dissolves into waking
     transitionTo(videos.wake, State.WAKING, () => {
       startCoding();
-    }, 200);
+    }, 750);
   }
 
   // Enter continuous coding state
   function startCoding() {
-    transitionTo(videos.code, State.CODING, null, 250);
+    transitionTo(videos.code, State.CODING, null, 500);
     resetIdleTimer();
   }
 
@@ -269,9 +270,9 @@ function initBgVideo() {
 
     transitionTo(videos.relaxEnter, State.RELAX_ENTER, () => {
       if (currentState === State.RELAX_ENTER) {
-        transitionTo(videos.relaxIdle, State.RELAX_IDLE, null, 200);
+        transitionTo(videos.relaxIdle, State.RELAX_IDLE, null, 400);
       }
-    }, 250);
+    }, 500);
   }
 
   // Resume coding from relaxing when visitor interacts
@@ -279,10 +280,10 @@ function initBgVideo() {
     if (currentState === State.RELAX_ENTER || currentState === State.RELAX_IDLE) {
       if (idleTimer) clearTimeout(idleTimer);
 
-      // Fast 1.3s reverse transition: hands move down onto keyboard
+      // Smooth, natural-paced transition: hands move down onto keyboard
       transitionTo(videos.relaxExit, State.RELAX_EXIT, () => {
         startCoding();
-      }, 200);
+      }, 400);
     } else if (currentState === State.CODING) {
       resetIdleTimer();
     }
