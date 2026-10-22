@@ -1261,8 +1261,8 @@ ul, ol { list-style: none; }
 
 .contact-about-layout {
   display: grid;
-  grid-template-columns: 1fr 1.22fr;
-  gap: 2.25rem;
+  grid-template-columns: 1fr auto;
+  gap: 2.5rem;
   align-items: center;
 }
 
@@ -1290,6 +1290,7 @@ ul, ol { list-style: none; }
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: fit-content;
 }
 
 .academic-card-box {
@@ -1334,6 +1335,10 @@ ul, ol { list-style: none; }
   .contact-about-layout {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .academic-cards-stack {
+    width: 100%;
   }
 }
 
