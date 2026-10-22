@@ -17,34 +17,42 @@
   /* ── Neutral Text & Borders ── */
   --border-subtle:    rgba(255, 255, 255, 0.08);
   --border-hover:     rgba(255, 255, 255, 0.22);
-  --text-main:        #ffffff;
+  --text-main:        #fcfcfc;
   --text-muted:       #9ca3af;
   --text-dim:         #6b7280;
 
-  /* ── Distinct Section & Accent Colors ── */
-  /* 1. Ruby Red / Crimson (Primary Theme & Hero Buttons) */
-  --red:              #e11d48;
-  --red-hover:        #be123c;
-  --red-subtle:       rgba(225, 29, 72, 0.12);
-  --red-border:       rgba(225, 29, 72, 0.35);
+  /* ── Palette Tokens (Exported Palette: Blue Slate, White, Vintage Berry, Brick Ember) ── */
+  --white:            #fcfcfc;
 
-  /* 2. Golden Amber (Accents & Highlights) */
-  --gold:             #f59e0b;
-  --gold-hover:       #d97706;
-  --gold-subtle:      rgba(245, 158, 11, 0.12);
-  --gold-border:      rgba(245, 158, 11, 0.35);
+  /* 1. Brick Ember (#c20114) - Primary Theme & Action */
+  --brick-ember:        #c20114;
+  --brick-ember-hover:  #9e0110;
+  --brick-ember-subtle: rgba(194, 1, 20, 0.12);
+  --brick-ember-border: rgba(194, 1, 20, 0.40);
+  --red:                #c20114;
+  --red-hover:          #9e0110;
+  --red-subtle:         rgba(194, 1, 20, 0.12);
+  --red-border:         rgba(194, 1, 20, 0.40);
 
-  /* 3. Electric Blue (Secondary Project Accents) */
-  --blue:             #3b82f6;
-  --blue-hover:       #2563eb;
-  --blue-subtle:      rgba(59, 130, 246, 0.12);
-  --blue-border:      rgba(59, 130, 246, 0.35);
+  /* 2. Vintage Berry (#a13d63) - Highlights & 3rd Accent */
+  --vintage-berry:        #a13d63;
+  --vintage-berry-hover:  #832e4e;
+  --vintage-berry-subtle: rgba(161, 61, 99, 0.14);
+  --vintage-berry-border: rgba(161, 61, 99, 0.42);
+  --gold:                 #a13d63;
+  --gold-hover:           #832e4e;
+  --gold-subtle:          rgba(161, 61, 99, 0.14);
+  --gold-border:          rgba(161, 61, 99, 0.42);
 
-  /* 3. Golden Amber (Education & CV) */
-  --gold:             #f59e0b;
-  --gold-hover:       #d97706;
-  --gold-subtle:      rgba(245, 158, 11, 0.12);
-  --gold-border:      rgba(245, 158, 11, 0.35);
+  /* 3. Blue Slate (#5d737e) - Calm Slate Accent */
+  --blue-slate:        #5d737e;
+  --blue-slate-hover:  #4a5d66;
+  --blue-slate-subtle: rgba(93, 115, 126, 0.14);
+  --blue-slate-border: rgba(93, 115, 126, 0.42);
+  --blue:              #5d737e;
+  --blue-hover:        #4a5d66;
+  --blue-subtle:       rgba(93, 115, 126, 0.14);
+  --blue-border:       rgba(93, 115, 126, 0.42);
 
   /* 4. Emerald Green (Backend APIs & Status) */
   --green:            #10b981;
@@ -57,12 +65,12 @@
   --linkedin-subtle:  rgba(10, 102, 194, 0.14);
   --linkedin-border:  rgba(10, 102, 194, 0.45);
 
-  /* 5b. Cyan / Azure (Databases) */
-  --cyan:             #06b6d4;
-  --cyan-subtle:      rgba(6, 182, 212, 0.12);
-  --cyan-border:      rgba(6, 182, 212, 0.35);
+  /* 5b. Cyan / Slate (Databases) */
+  --cyan:             #5d737e;
+  --cyan-subtle:      rgba(93, 115, 126, 0.14);
+  --cyan-border:      rgba(93, 115, 126, 0.42);
 
-  /* 6. Purple / Violet (GitHub & OOP) */
+  /* 6. Purple / Violet (GitHub & OOP - Preserved Untouched) */
   --purple:           #8b5cf6;
   --purple-subtle:    rgba(139, 92, 246, 0.12);
   --purple-border:    rgba(139, 92, 246, 0.35);
@@ -232,16 +240,16 @@ ul, ol { list-style: none; }
   width: 36px;
   height: 36px;
   border-radius: 9px;
-  background: linear-gradient(135deg, rgba(225, 29, 72, 0.18), rgba(245, 158, 11, 0.12));
-  border: 1px solid rgba(225, 29, 72, 0.35);
-  color: #ffffff;
+  background: linear-gradient(135deg, rgba(194, 1, 20, 0.20), rgba(161, 61, 99, 0.16));
+  border: 1px solid rgba(194, 1, 20, 0.40);
+  color: #fcfcfc;
   font-weight: 800;
   font-size: 0.95rem;
   display: flex;
   align-items: center;
   justify-content: center;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 12px rgba(225, 29, 72, 0.15);
+  box-shadow: 0 0 12px rgba(194, 1, 20, 0.20);
 }
 
 .brand-monogram-img {
@@ -289,19 +297,19 @@ ul, ol { list-style: none; }
   font-weight: 600;
 }
 
-/* Resume CTA nav link */
+/* Resume CTA nav link (Vintage Berry Accent) */
 .nav-cta {
   margin-left: 0.5rem;
-  color: var(--gold);
-  border: 1px solid var(--gold-border);
-  background: var(--gold-subtle);
+  color: var(--vintage-berry);
+  border: 1px solid var(--vintage-berry-border);
+  background: var(--vintage-berry-subtle);
   font-weight: 600;
 }
 .nav-cta:hover {
-  color: #000000;
-  background: var(--gold);
-  border-color: var(--gold);
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+  color: #fcfcfc;
+  background: var(--vintage-berry);
+  border-color: var(--vintage-berry);
+  box-shadow: 0 0 15px rgba(161, 61, 99, 0.35);
 }
 
 /* Mobile toggle */
@@ -412,7 +420,7 @@ ul, ol { list-style: none; }
   letter-spacing: -0.045em;
   line-height: 1.01;
   margin-bottom: 0.95rem;
-  color: #ffffff !important;
+  color: #fcfcfc !important;
   text-shadow: 0 4px 40px rgba(0, 0, 0, 0.8);
 }
 
@@ -425,7 +433,7 @@ ul, ol { list-style: none; }
 }
 
 .role-tag-accent {
-  color: var(--gold);
+  color: var(--vintage-berry);
 }
 
 .hero-bio-center {
@@ -538,31 +546,31 @@ ul, ol { list-style: none; }
   text-decoration: none;
 }
 
-/* Red Hollow Button (Email Channel, Form Submit, Red Projects) */
+/* Red Hollow Button (Email Channel, Form Submit, Red Projects) - Brick Ember */
 .btn-primary {
-  background: rgba(225, 29, 72, 0.08);
-  color: #ffffff;
-  border: 1px solid rgba(225, 29, 72, 0.5);
+  background: rgba(194, 1, 20, 0.10);
+  color: #fcfcfc;
+  border: 1px solid rgba(194, 1, 20, 0.55);
 }
 .btn-primary:hover {
-  background: rgba(225, 29, 72, 0.22);
-  border-color: var(--red);
-  color: #ffffff;
+  background: rgba(194, 1, 20, 0.28);
+  border-color: var(--brick-ember);
+  color: #fcfcfc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.35);
+  box-shadow: 0 4px 18px rgba(194, 1, 20, 0.38);
 }
 
 .btn-outline-red {
-  background: rgba(225, 29, 72, 0.08);
-  color: #ff6b81;
-  border: 1px solid rgba(225, 29, 72, 0.55);
+  background: rgba(194, 1, 20, 0.10);
+  color: #ff6b7a;
+  border: 1px solid rgba(194, 1, 20, 0.55);
 }
 .btn-outline-red:hover {
-  background: rgba(225, 29, 72, 0.24);
-  border-color: var(--red);
-  color: #ffffff;
+  background: rgba(194, 1, 20, 0.28);
+  border-color: var(--brick-ember);
+  color: #fcfcfc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(225, 29, 72, 0.35);
+  box-shadow: 0 4px 18px rgba(194, 1, 20, 0.38);
 }
 
 /* LinkedIn Official Blue Hollow Button (#0A66C2) */
@@ -595,34 +603,36 @@ ul, ol { list-style: none; }
   box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
 }
 
-/* Blue Hollow Button (Spring Boot Project) */
+/* Blue Hollow Button (Spring Boot Project) - Blue Slate */
 .btn-outline-blue {
-  background: rgba(59, 130, 246, 0.08);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.55);
+  background: rgba(93, 115, 126, 0.12);
+  color: #9cb3bf;
+  border: 1px solid rgba(93, 115, 126, 0.55);
 }
 .btn-outline-blue:hover {
-  background: rgba(59, 130, 246, 0.24);
-  border-color: var(--blue);
-  color: #ffffff;
+  background: rgba(93, 115, 126, 0.28);
+  border-color: var(--blue-slate);
+  color: #fcfcfc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 4px 18px rgba(93, 115, 126, 0.38);
 }
 
-/* Gold Hollow Button (Official Resume Channel, Core Java Project) */
+/* Berry/Gold Hollow Button (Official Resume Channel, Core Java Project) - Vintage Berry */
 .btn-outline-gold,
-.btn-gold {
-  background: rgba(245, 158, 11, 0.08);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.55);
+.btn-gold,
+.btn-outline-berry {
+  background: rgba(161, 61, 99, 0.10);
+  color: #e07ea3;
+  border: 1px solid rgba(161, 61, 99, 0.55);
 }
 .btn-outline-gold:hover,
-.btn-gold:hover {
-  background: rgba(245, 158, 11, 0.24);
-  border-color: var(--gold);
-  color: #ffffff;
+.btn-gold:hover,
+.btn-outline-berry:hover {
+  background: rgba(161, 61, 99, 0.28);
+  border-color: var(--vintage-berry);
+  color: #fcfcfc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 18px rgba(161, 61, 99, 0.38);
 }
 
 /* Neutral Secondary Button */
@@ -883,18 +893,18 @@ ul, ol { list-style: none; }
 
 /* Color accents on hover for each project / achievement */
 .card-accent-red:hover {
-  border-color: var(--red);
-  box-shadow: 0 8px 25px rgba(244, 63, 94, 0.15);
+  border-color: var(--brick-ember);
+  box-shadow: 0 8px 25px rgba(194, 1, 20, 0.22);
   transform: translateY(-3px);
 }
 .card-accent-blue:hover {
-  border-color: var(--blue);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+  border-color: var(--blue-slate);
+  box-shadow: 0 8px 25px rgba(93, 115, 126, 0.24);
   transform: translateY(-3px);
 }
 .card-accent-gold:hover {
-  border-color: var(--gold);
-  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15);
+  border-color: var(--vintage-berry);
+  box-shadow: 0 8px 25px rgba(161, 61, 99, 0.24);
   transform: translateY(-3px);
 }
 .card-accent-purple:hover {
@@ -903,8 +913,8 @@ ul, ol { list-style: none; }
   transform: translateY(-3px);
 }
 .card-accent-cyan:hover {
-  border-color: var(--cyan);
-  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.15);
+  border-color: var(--blue-slate);
+  box-shadow: 0 8px 25px rgba(93, 115, 126, 0.24);
   transform: translateY(-3px);
 }
 
@@ -917,11 +927,11 @@ ul, ol { list-style: none; }
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
 }
-.badge-red    { color: var(--red); }
-.badge-blue   { color: var(--blue); }
-.badge-gold   { color: var(--gold); }
+.badge-red    { color: #ff6b7a; }
+.badge-blue   { color: #9cb3bf; }
+.badge-gold   { color: #e07ea3; }
 .badge-purple { color: var(--purple); }
-.badge-cyan   { color: var(--cyan); }
+.badge-cyan   { color: #9cb3bf; }
 
 .project-card-heading {
   font-size: 1.3rem;
@@ -991,7 +1001,7 @@ ul, ol { list-style: none; }
 .card-accent-red .tag,
 .card-theme-red .tag,
 .tag-red {
-  color: #fca5a5 !important;
+  color: #ff949f !important;
   background: var(--red-subtle) !important;
   border: 1px solid var(--red-border) !important;
 }
@@ -999,7 +1009,7 @@ ul, ol { list-style: none; }
 .card-accent-blue .tag,
 .card-theme-blue .tag,
 .tag-blue {
-  color: #93c5fd !important;
+  color: #b5c7d1 !important;
   background: var(--blue-subtle) !important;
   border: 1px solid var(--blue-border) !important;
 }
@@ -1007,7 +1017,7 @@ ul, ol { list-style: none; }
 .card-accent-gold .tag,
 .card-theme-gold .tag,
 .tag-gold {
-  color: #fde68a !important;
+  color: #f1a4c0 !important;
   background: var(--gold-subtle) !important;
   border: 1px solid var(--gold-border) !important;
 }
@@ -1072,9 +1082,9 @@ ul, ol { list-style: none; }
   border-radius: var(--radius-pill);
   margin-bottom: 1rem;
 }
-.page-tag-red  { color: var(--red); background: var(--red-subtle); border: 1px solid var(--red-border); }
-.page-tag-gold { color: var(--gold); background: var(--gold-subtle); border: 1px solid var(--gold-border); }
-.page-tag-blue { color: var(--blue); background: var(--blue-subtle); border: 1px solid var(--blue-border); }
+.page-tag-red  { color: #ff6b7a; background: var(--red-subtle); border: 1px solid var(--red-border); }
+.page-tag-gold { color: #e07ea3; background: var(--gold-subtle); border: 1px solid var(--gold-border); }
+.page-tag-blue { color: #9cb3bf; background: var(--blue-subtle); border: 1px solid var(--blue-border); }
 
 .page-title {
   font-size: 2.5rem;
@@ -1106,9 +1116,9 @@ ul, ol { list-style: none; }
   transition: all var(--trans);
 }
 
-.card-theme-red:hover  { border-color: var(--red);  box-shadow: 0 8px 30px rgba(244, 63, 94, 0.15); transform: translateY(-2px); }
-.card-theme-blue:hover { border-color: var(--blue); box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15); transform: translateY(-2px); }
-.card-theme-gold:hover { border-color: var(--gold); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.15); transform: translateY(-2px); }
+.card-theme-red:hover  { border-color: var(--brick-ember);  box-shadow: 0 8px 30px rgba(194, 1, 20, 0.22); transform: translateY(-2px); }
+.card-theme-blue:hover { border-color: var(--blue-slate); box-shadow: 0 8px 30px rgba(93, 115, 126, 0.24); transform: translateY(-2px); }
+.card-theme-gold:hover { border-color: var(--vintage-berry); box-shadow: 0 8px 30px rgba(161, 61, 99, 0.24); transform: translateY(-2px); }
 
 .project-card-top {
   display: flex;
@@ -1150,9 +1160,9 @@ ul, ol { list-style: none; }
   content: "•";
   font-size: 1.2rem;
 }
-.bullet-red::before  { color: var(--red); }
-.bullet-blue::before { color: var(--blue); }
-.bullet-gold::before { color: var(--gold); }
+.bullet-red::before  { color: var(--brick-ember); }
+.bullet-blue::before { color: var(--blue-slate); }
+.bullet-gold::before { color: var(--vintage-berry); }
 
 .project-card .project-tags {
   margin-top: auto;
@@ -1196,10 +1206,10 @@ ul, ol { list-style: none; }
   background: var(--bg-surface-hover);
   transform: translateY(-2px);
 }
-.channel-card-email:hover    { border-color: var(--red);      box-shadow: 0 4px 20px rgba(225, 29, 72, 0.2); }
+.channel-card-email:hover    { border-color: var(--brick-ember);      box-shadow: 0 4px 20px rgba(194, 1, 20, 0.25); }
 .channel-card-linkedin:hover { border-color: var(--linkedin); box-shadow: 0 4px 20px rgba(10, 102, 194, 0.25); }
 .channel-card-github:hover   { border-color: var(--purple);   box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
-.channel-card-resume:hover   { border-color: var(--gold);     box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15); }
+.channel-card-resume:hover   { border-color: var(--vintage-berry);     box-shadow: 0 4px 20px rgba(161, 61, 99, 0.24); }
 
 .channel-left { display: flex; align-items: center; gap: 1rem; }
 .channel-icon {
@@ -1210,12 +1220,12 @@ ul, ol { list-style: none; }
   align-items: center;
   justify-content: center;
 }
-.icon-red      { background: var(--red-subtle);      border: 1px solid var(--red-border);      color: var(--red); }
-.icon-blue     { background: var(--blue-subtle);     border: 1px solid var(--blue-border);     color: var(--blue); }
+.icon-red      { background: var(--red-subtle);      border: 1px solid var(--red-border);      color: #ff6b7a; }
+.icon-blue     { background: var(--blue-subtle);     border: 1px solid var(--blue-border);     color: #9cb3bf; }
 .icon-linkedin { background: var(--linkedin-subtle); border: 1px solid var(--linkedin-border); color: var(--linkedin); }
-.icon-cyan     { background: var(--cyan-subtle);     border: 1px solid var(--cyan-border);     color: var(--cyan); }
+.icon-cyan     { background: var(--blue-subtle);     border: 1px solid var(--blue-border);     color: #9cb3bf; }
 .icon-purple   { background: var(--purple-subtle);   border: 1px solid var(--purple-border);   color: var(--purple); }
-.icon-gold     { background: var(--gold-subtle);     border: 1px solid var(--gold-border);     color: var(--gold); }
+.icon-gold     { background: var(--gold-subtle);     border: 1px solid var(--gold-border);     color: #e07ea3; }
 
 .channel-info h4 { font-size: 0.95rem; color: #ffffff; margin: 0; }
 .channel-info span,
@@ -1409,7 +1419,7 @@ ul, ol { list-style: none; }
 }
 
 .platform-email {
-  color: #fb7185;
+  color: #ff6b7a;
 }
 
 .platform-linkedin {
@@ -1469,12 +1479,12 @@ ul, ol { list-style: none; }
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: var(--red);
+  border-color: var(--brick-ember);
   box-shadow: 0 0 0 3px var(--red-subtle);
 }
 .form-textarea { resize: vertical; }
 .form-hint { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.75rem; }
-.form-hint code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--red); }
+.form-hint code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--brick-ember); }
 
 /* --------------------------------------------------------------------------
    9. Footer
@@ -1495,7 +1505,7 @@ ul, ol { list-style: none; }
 .footer-copy  { font-size: 0.875rem; color: var(--text-dim); }
 .footer-links { display: flex; align-items: center; gap: 1.25rem; }
 .footer-link  { color: var(--text-dim); font-size: 0.875rem; transition: color var(--trans); }
-.footer-link:hover { color: var(--red); }
+.footer-link:hover { color: var(--brick-ember); }
 
 /* --------------------------------------------------------------------------
    10. Toast
@@ -1504,19 +1514,19 @@ ul, ol { list-style: none; }
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  background: rgba(16, 18, 24, 0.92);
+  background: rgba(16, 18, 24, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(251, 113, 133, 0.45);
-  color: #ffffff;
+  border: 1px solid rgba(194, 1, 20, 0.45);
+  color: #fcfcfc;
   padding: 0.82rem 1.4rem;
   border-radius: 10px;
   font-size: 0.90rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.8),
-              0 0 28px rgba(225, 29, 72, 0.25),
-              0 0 14px rgba(251, 113, 133, 0.35),
+              0 0 28px rgba(194, 1, 20, 0.25),
+              0 0 14px rgba(194, 1, 20, 0.35),
               inset 0 1px 0 rgba(255, 255, 255, 0.15);
   opacity: 0;
   transform: translateY(10px);
