@@ -766,10 +766,12 @@ ul, ol { list-style: none; }
   margin-bottom: 1.35rem;
 }
 .section-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: clamp(1.85rem, 2.4vw, 2.15rem);
+  font-weight: 800;
   color: #ffffff;
   margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 .section-subtitle {
   color: var(--text-dim);
@@ -809,7 +811,7 @@ ul, ol { list-style: none; }
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 2.5rem 1.65rem 2.25rem;
+  padding: 2.35rem 1.35rem 2.15rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -844,6 +846,15 @@ ul, ol { list-style: none; }
   width: auto;
   height: auto;
 }
+.achieve-icon.icon-cyan,
+.achieve-icon.icon-dsa {
+  color: #8ec5e6;
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: auto;
+  height: auto;
+}
 .achieve-icon.icon-gold {
   color: var(--gold);
   background: transparent;
@@ -873,12 +884,13 @@ ul, ol { list-style: none; }
 }
 
 .achieve-card-heading {
-  font-size: 1.12rem;
+  font-size: clamp(1.1rem, 1.35vw + 0.8rem, 1.24rem);
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 0.85rem;
   line-height: 1.35;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
 }
 
 .achieve-card-desc {
@@ -1018,7 +1030,8 @@ ul, ol { list-style: none; }
 }
 .badge-red      { color: #ff7d8d; }
 .badge-blue     { color: #8ec5e6; }
-.badge-cyan     { color: #fdf0d5; }
+.badge-cyan,
+.badge-dsa      { color: #8ec5e6; }
 .badge-gold     { color: #8ec5e6; }
 .badge-purple   { color: var(--purple); }
 .badge-research,
