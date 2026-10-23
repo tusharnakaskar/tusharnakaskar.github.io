@@ -84,20 +84,10 @@
   --purple-subtle:    rgba(139, 92, 246, 0.12);
   --purple-border:    rgba(139, 92, 246, 0.35);
 
-  /* ── Preserved & Standard Colors ── */
-  --green:            #10b981;
-  --green-subtle:     rgba(16, 185, 129, 0.12);
-  --green-border:     rgba(16, 185, 129, 0.35);
-
-  --linkedin:         #0a66c2;
-  --linkedin-hover:   #004182;
-  --linkedin-subtle:  rgba(10, 102, 194, 0.14);
-  --linkedin-border:  rgba(10, 102, 194, 0.45);
-
-  /* 6. Purple / Violet (GitHub & OOP - Preserved Untouched) */
-  --purple:           #8b5cf6;
-  --purple-subtle:    rgba(139, 92, 246, 0.12);
-  --purple-border:    rgba(139, 92, 246, 0.35);
+  /* 7. Research Accent (#fad2e1 - Achievements Research Section) */
+  --research-pink:        #fad2e1;
+  --research-pink-subtle: rgba(250, 210, 225, 0.12);
+  --research-pink-border: rgba(250, 210, 225, 0.40);
 
   /* ── Typography ── */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -639,6 +629,22 @@ ul, ol { list-style: none; }
   box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
 }
 
+/* Research Pink Hollow Button (#fad2e1 - Achievements Research Section) */
+.btn-outline-research,
+.btn-outline-pink {
+  background: var(--research-pink-subtle);
+  color: var(--research-pink);
+  border: 1px solid var(--research-pink-border);
+}
+.btn-outline-research:hover,
+.btn-outline-pink:hover {
+  background: rgba(250, 210, 225, 0.22);
+  border-color: var(--research-pink);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(250, 210, 225, 0.35);
+}
+
 /* Blue Hollow Button (Spring Boot Project) - Steel Blue */
 .btn-outline-blue {
   background: rgba(102, 155, 188, 0.10);
@@ -832,6 +838,12 @@ ul, ol { list-style: none; }
   background: transparent;
   border: none;
 }
+.achieve-icon.icon-research,
+.achieve-icon.icon-pink {
+  color: var(--research-pink);
+  background: transparent;
+  border: none;
+}
 
 .achieve-card-heading {
   font-size: 1.12rem;
@@ -955,6 +967,12 @@ ul, ol { list-style: none; }
   box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
   transform: translateY(-3px);
 }
+.card-accent-research:hover,
+.card-accent-pink:hover {
+  border-color: var(--research-pink);
+  box-shadow: 0 8px 25px rgba(250, 210, 225, 0.22);
+  transform: translateY(-3px);
+}
 
 .project-card-badge {
   display: inline-block;
@@ -965,11 +983,13 @@ ul, ol { list-style: none; }
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
 }
-.badge-red    { color: #ff7d8d; }
-.badge-blue   { color: #8ec5e6; }
-.badge-cyan   { color: #fdf0d5; }
-.badge-gold   { color: #8ec5e6; }
-.badge-purple { color: var(--purple); }
+.badge-red      { color: #ff7d8d; }
+.badge-blue     { color: #8ec5e6; }
+.badge-cyan     { color: #fdf0d5; }
+.badge-gold     { color: #8ec5e6; }
+.badge-purple   { color: var(--purple); }
+.badge-research,
+.badge-pink     { color: var(--research-pink); }
 
 .project-card-heading {
   font-size: 1.3rem;
@@ -1075,6 +1095,15 @@ ul, ol { list-style: none; }
   color: #d8b4fe !important;
   background: var(--purple-subtle) !important;
   border: 1px solid var(--purple-border) !important;
+}
+
+.card-accent-research .tag,
+.card-accent-pink .tag,
+.tag-research,
+.tag-pink {
+  color: var(--research-pink) !important;
+  background: var(--research-pink-subtle) !important;
+  border: 1px solid var(--research-pink-border) !important;
 }
 
 /* Home Connect CTA Strip */
@@ -2144,10 +2173,12 @@ html.split-transition-active .split-curtain-right,
   align-items: center;
   gap: 0.45rem;
 }
+.research-tag-pill.pill-research,
+.research-tag-pill.pill-pink,
 .research-tag-pill.pill-purple {
-  color: var(--purple);
-  background: var(--purple-subtle);
-  border: 1px solid var(--purple-border);
+  color: var(--research-pink);
+  background: var(--research-pink-subtle);
+  border: 1px solid var(--research-pink-border);
 }
 .research-tag-pill.pill-gold {
   color: var(--gold);
@@ -2183,15 +2214,16 @@ html.split-transition-active .split-curtain-right,
 }
 
 .research-meta-line a {
-  color: var(--purple);
+  color: var(--research-pink);
   text-decoration: underline;
   text-underline-offset: 3px;
   font-weight: 600;
-  transition: color var(--trans);
+  transition: all var(--trans);
 }
 
 .research-meta-line a:hover {
-  color: #d8b4fe;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(250, 210, 225, 0.45);
 }
 
 .research-actions {
