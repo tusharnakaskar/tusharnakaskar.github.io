@@ -832,6 +832,9 @@ ul, ol { list-style: none; }
 
 .achieve-card-meta .project-card-badge {
   margin-bottom: 0;
+  font-size: clamp(0.85rem, 1.2vw + 0.6rem, 0.94rem);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .achieve-icon {
@@ -884,12 +887,12 @@ ul, ol { list-style: none; }
 }
 
 .achieve-card-heading {
-  font-size: clamp(1.1rem, 1.35vw + 0.8rem, 1.24rem);
+  font-size: clamp(1.02rem, 1.1vw + 0.72rem, 1.08rem);
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 0.85rem;
   line-height: 1.35;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   white-space: nowrap;
 }
 
