@@ -8,7 +8,7 @@
    1. Design Tokens & CSS Variables
    -------------------------------------------------------------------------- */
 :root {
-  /* ── Backgrounds (Black / Dark Grey Base) ── */
+  /* ── Backgrounds (Dark Grey Base) ── */
   --bg-body:          #0c0d10;
   --bg-surface:       #131519;
   --bg-surface-hover: #1b1e24;
@@ -21,20 +21,14 @@
   --text-muted:       #9ca3af;
   --text-dim:         #6b7280;
 
-  /* ── Palette Tokens (Exported Palette: Blue Slate, White, Vintage Berry, Brick Ember) ── */
-  --white:            #fcfcfc;
+  /* ── Palette 1 Tokens (Coolors: Brick Ember, Vintage Berry, Blue Slate, White) ── */
+  --white:                #fcfcfc;
 
-  /* 1. Brick Ember (#c20114) - Primary Theme & Action */
-  --brick-ember:        #c20114;
-  --brick-ember-hover:  #9e0110;
-  --brick-ember-subtle: rgba(194, 1, 20, 0.12);
-  --brick-ember-border: rgba(194, 1, 20, 0.40);
-  --red:                #c20114;
-  --red-hover:          #9e0110;
-  --red-subtle:         rgba(194, 1, 20, 0.12);
-  --red-border:         rgba(194, 1, 20, 0.40);
+  --brick-ember:          #c20114;
+  --brick-ember-hover:    #9e0110;
+  --brick-ember-subtle:   rgba(194, 1, 20, 0.12);
+  --brick-ember-border:   rgba(194, 1, 20, 0.40);
 
-  /* 2. Vintage Berry (#a13d63) - Highlights & 3rd Accent */
   --vintage-berry:        #a13d63;
   --vintage-berry-hover:  #832e4e;
   --vintage-berry-subtle: rgba(161, 61, 99, 0.14);
@@ -44,31 +38,56 @@
   --gold-subtle:          rgba(161, 61, 99, 0.14);
   --gold-border:          rgba(161, 61, 99, 0.42);
 
-  /* 3. Blue Slate (#5d737e) - Calm Slate Accent */
-  --blue-slate:        #5d737e;
-  --blue-slate-hover:  #4a5d66;
-  --blue-slate-subtle: rgba(93, 115, 126, 0.14);
-  --blue-slate-border: rgba(93, 115, 126, 0.42);
-  --blue:              #5d737e;
-  --blue-hover:        #4a5d66;
-  --blue-subtle:       rgba(93, 115, 126, 0.14);
-  --blue-border:       rgba(93, 115, 126, 0.42);
+  --blue-slate:           #5d737e;
+  --blue-slate-hover:     #4a5d66;
+  --blue-slate-subtle:    rgba(93, 115, 126, 0.14);
+  --blue-slate-border:    rgba(93, 115, 126, 0.42);
 
-  /* 4. Emerald Green (Backend APIs & Status) */
+  /* ── Palette 2 Tokens (Coolors: Classic Crimson, Prussian Blue, Dodger Blue, Pacific Cyan, Sky Blue) ── */
+  --classic-crimson:        #d7263d;
+  --classic-crimson-hover:  #b81c30;
+  --classic-crimson-subtle: rgba(215, 38, 61, 0.12);
+  --classic-crimson-border: rgba(215, 38, 61, 0.40);
+  --red:                    #d7263d;
+  --red-hover:              #b81c30;
+  --red-subtle:             rgba(215, 38, 61, 0.12);
+  --red-border:             rgba(215, 38, 61, 0.40);
+
+  --prussian-blue:          #02182b;
+  --prussian-blue-subtle:   rgba(2, 24, 43, 0.65);
+  --prussian-blue-border:   rgba(2, 24, 43, 0.85);
+
+  --dodger-blue:            #0197f6;
+  --dodger-blue-hover:      #007ed2;
+  --dodger-blue-subtle:     rgba(1, 151, 246, 0.14);
+  --dodger-blue-border:     rgba(1, 151, 246, 0.42);
+  --blue:                   #0197f6;
+  --blue-hover:             #007ed2;
+  --blue-subtle:            rgba(1, 151, 246, 0.14);
+  --blue-border:            rgba(1, 151, 246, 0.42);
+
+  --pacific-cyan:           #448fa3;
+  --pacific-cyan-hover:     #357485;
+  --pacific-cyan-subtle:    rgba(68, 143, 163, 0.14);
+  --pacific-cyan-border:    rgba(68, 143, 163, 0.42);
+  --cyan:                   #448fa3;
+  --cyan-subtle:            rgba(68, 143, 163, 0.14);
+  --cyan-border:            rgba(68, 143, 163, 0.42);
+
+  --sky-blue:               #68c5db;
+  --sky-blue-hover:         #4fb8d2;
+  --sky-blue-subtle:        rgba(104, 197, 219, 0.14);
+  --sky-blue-border:        rgba(104, 197, 219, 0.40);
+
+  /* ── Preserved & Standard Colors ── */
   --green:            #10b981;
   --green-subtle:     rgba(16, 185, 129, 0.12);
   --green-border:     rgba(16, 185, 129, 0.35);
 
-  /* 5. Official LinkedIn Blue (#0A66C2) */
   --linkedin:         #0a66c2;
   --linkedin-hover:   #004182;
   --linkedin-subtle:  rgba(10, 102, 194, 0.14);
   --linkedin-border:  rgba(10, 102, 194, 0.45);
-
-  /* 5b. Cyan / Slate (Databases) */
-  --cyan:             #5d737e;
-  --cyan-subtle:      rgba(93, 115, 126, 0.14);
-  --cyan-border:      rgba(93, 115, 126, 0.42);
 
   /* 6. Purple / Violet (GitHub & OOP - Preserved Untouched) */
   --purple:           #8b5cf6;
@@ -240,8 +259,8 @@ ul, ol { list-style: none; }
   width: 36px;
   height: 36px;
   border-radius: 9px;
-  background: linear-gradient(135deg, rgba(194, 1, 20, 0.20), rgba(161, 61, 99, 0.16));
-  border: 1px solid rgba(194, 1, 20, 0.40);
+  background: linear-gradient(135deg, rgba(215, 38, 61, 0.22), rgba(1, 151, 246, 0.18));
+  border: 1px solid rgba(215, 38, 61, 0.38);
   color: #fcfcfc;
   font-weight: 800;
   font-size: 0.95rem;
@@ -249,7 +268,7 @@ ul, ol { list-style: none; }
   align-items: center;
   justify-content: center;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 12px rgba(194, 1, 20, 0.20);
+  box-shadow: 0 0 14px rgba(215, 38, 61, 0.18);
 }
 
 .brand-monogram-img {
@@ -546,42 +565,40 @@ ul, ol { list-style: none; }
   text-decoration: none;
 }
 
-/* Red Hollow Button (Email Channel, Form Submit, Red Projects) - Brick Ember */
+/* Red Hollow Button (Email Channel, Form Submit, Red Projects) - Classic Crimson & Brick Ember */
 .btn-primary {
-  background: rgba(194, 1, 20, 0.10);
+  background: rgba(215, 38, 61, 0.12);
   color: #fcfcfc;
-  border: 1px solid rgba(194, 1, 20, 0.55);
+  border: 1px solid rgba(215, 38, 61, 0.55);
 }
 .btn-primary:hover {
-  background: rgba(194, 1, 20, 0.28);
-  border-color: var(--brick-ember);
+  background: rgba(215, 38, 61, 0.30);
+  border-color: var(--classic-crimson);
   color: #fcfcfc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(194, 1, 20, 0.38);
+  box-shadow: 0 4px 18px rgba(215, 38, 61, 0.38);
 }
 
 .btn-outline-red {
-  background: rgba(194, 1, 20, 0.10);
-  color: #ff6b7a;
-  border: 1px solid rgba(194, 1, 20, 0.55);
+  background: rgba(215, 38, 61, 0.10);
+  color: #ff6b7e;
+  border: 1px solid rgba(215, 38, 61, 0.55);
 }
 .btn-outline-red:hover {
-  background: rgba(194, 1, 20, 0.28);
-  border-color: var(--brick-ember);
+  background: rgba(215, 38, 61, 0.28);
+  border-color: var(--classic-crimson);
   color: #fcfcfc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(194, 1, 20, 0.38);
+  box-shadow: 0 4px 18px rgba(215, 38, 61, 0.38);
 }
 
 /* LinkedIn Official Blue Hollow Button (#0A66C2) */
-.btn-outline-linkedin,
-.btn-outline-cyan {
+.btn-outline-linkedin {
   background: rgba(10, 102, 194, 0.09);
   color: #70b5f9;
   border: 1px solid rgba(10, 102, 194, 0.6);
 }
-.btn-outline-linkedin:hover,
-.btn-outline-cyan:hover {
+.btn-outline-linkedin:hover {
   background: rgba(10, 102, 194, 0.28);
   border-color: #0a66c2;
   color: #ffffff;
@@ -589,7 +606,21 @@ ul, ol { list-style: none; }
   box-shadow: 0 4px 18px rgba(10, 102, 194, 0.45);
 }
 
-/* Purple Hollow Button (GitHub Channel, OOP Projects) */
+/* Pacific Cyan Hollow Button (View More CTA, DSA, System Designs) - Palette 2 */
+.btn-outline-cyan {
+  background: rgba(68, 143, 163, 0.10);
+  color: #68c5db;
+  border: 1px solid rgba(68, 143, 163, 0.55);
+}
+.btn-outline-cyan:hover {
+  background: rgba(68, 143, 163, 0.26);
+  border-color: var(--pacific-cyan);
+  color: #fcfcfc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(68, 143, 163, 0.38);
+}
+
+/* Purple Hollow Button (GitHub Channel, OOP Projects - Preserved) */
 .btn-outline-purple {
   background: rgba(139, 92, 246, 0.08);
   color: #c084fc;
@@ -603,18 +634,18 @@ ul, ol { list-style: none; }
   box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
 }
 
-/* Blue Hollow Button (Spring Boot Project) - Blue Slate */
+/* Blue Hollow Button (Spring Boot Project) - Dodger Blue */
 .btn-outline-blue {
-  background: rgba(93, 115, 126, 0.12);
-  color: #9cb3bf;
-  border: 1px solid rgba(93, 115, 126, 0.55);
+  background: rgba(1, 151, 246, 0.10);
+  color: #60beff;
+  border: 1px solid rgba(1, 151, 246, 0.55);
 }
 .btn-outline-blue:hover {
-  background: rgba(93, 115, 126, 0.28);
-  border-color: var(--blue-slate);
+  background: rgba(1, 151, 246, 0.26);
+  border-color: var(--dodger-blue);
   color: #fcfcfc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(93, 115, 126, 0.38);
+  box-shadow: 0 4px 18px rgba(1, 151, 246, 0.38);
 }
 
 /* Berry/Gold Hollow Button (Official Resume Channel, Core Java Project) - Vintage Berry */
@@ -893,13 +924,18 @@ ul, ol { list-style: none; }
 
 /* Color accents on hover for each project / achievement */
 .card-accent-red:hover {
-  border-color: var(--brick-ember);
-  box-shadow: 0 8px 25px rgba(194, 1, 20, 0.22);
+  border-color: var(--classic-crimson);
+  box-shadow: 0 8px 25px rgba(215, 38, 61, 0.22);
   transform: translateY(-3px);
 }
 .card-accent-blue:hover {
-  border-color: var(--blue-slate);
-  box-shadow: 0 8px 25px rgba(93, 115, 126, 0.24);
+  border-color: var(--dodger-blue);
+  box-shadow: 0 8px 25px rgba(1, 151, 246, 0.22);
+  transform: translateY(-3px);
+}
+.card-accent-cyan:hover {
+  border-color: var(--pacific-cyan);
+  box-shadow: 0 8px 25px rgba(68, 143, 163, 0.26);
   transform: translateY(-3px);
 }
 .card-accent-gold:hover {
@@ -912,11 +948,6 @@ ul, ol { list-style: none; }
   box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
   transform: translateY(-3px);
 }
-.card-accent-cyan:hover {
-  border-color: var(--blue-slate);
-  box-shadow: 0 8px 25px rgba(93, 115, 126, 0.24);
-  transform: translateY(-3px);
-}
 
 .project-card-badge {
   display: inline-block;
@@ -927,11 +958,11 @@ ul, ol { list-style: none; }
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
 }
-.badge-red    { color: #ff6b7a; }
-.badge-blue   { color: #9cb3bf; }
+.badge-red    { color: #ff6b7e; }
+.badge-blue   { color: #4db3ff; }
+.badge-cyan   { color: #68c5db; }
 .badge-gold   { color: #e07ea3; }
 .badge-purple { color: var(--purple); }
-.badge-cyan   { color: #9cb3bf; }
 
 .project-card-heading {
   font-size: 1.3rem;
@@ -962,9 +993,10 @@ ul, ol { list-style: none; }
   align-items: baseline;
   gap: 0.5rem;
 }
-.bullet-dot-red::before    { content: "•"; color: var(--red); font-size: 1.1rem; }
-.bullet-dot-blue::before   { content: "•"; color: var(--blue); font-size: 1.1rem; }
-.bullet-dot-gold::before   { content: "•"; color: var(--gold); font-size: 1.1rem; }
+.bullet-dot-red::before    { content: "•"; color: var(--classic-crimson); font-size: 1.1rem; }
+.bullet-dot-blue::before   { content: "•"; color: var(--dodger-blue); font-size: 1.1rem; }
+.bullet-dot-cyan::before   { content: "•"; color: var(--pacific-cyan); font-size: 1.1rem; }
+.bullet-dot-gold::before   { content: "•"; color: var(--vintage-berry); font-size: 1.1rem; }
 .bullet-dot-purple::before { content: "•"; color: var(--purple); font-size: 1.1rem; }
 
 .project-card-footer {
@@ -1002,24 +1034,32 @@ ul, ol { list-style: none; }
 .card-theme-red .tag,
 .tag-red {
   color: #ff949f !important;
-  background: var(--red-subtle) !important;
-  border: 1px solid var(--red-border) !important;
+  background: var(--classic-crimson-subtle) !important;
+  border: 1px solid var(--classic-crimson-border) !important;
 }
 
 .card-accent-blue .tag,
 .card-theme-blue .tag,
 .tag-blue {
-  color: #b5c7d1 !important;
-  background: var(--blue-subtle) !important;
-  border: 1px solid var(--blue-border) !important;
+  color: #7ecefd !important;
+  background: var(--dodger-blue-subtle) !important;
+  border: 1px solid var(--dodger-blue-border) !important;
+}
+
+.card-accent-cyan .tag,
+.card-theme-cyan .tag,
+.tag-cyan {
+  color: #9ee3f2 !important;
+  background: var(--pacific-cyan-subtle) !important;
+  border: 1px solid var(--pacific-cyan-border) !important;
 }
 
 .card-accent-gold .tag,
 .card-theme-gold .tag,
 .tag-gold {
   color: #f1a4c0 !important;
-  background: var(--gold-subtle) !important;
-  border: 1px solid var(--gold-border) !important;
+  background: var(--vintage-berry-subtle) !important;
+  border: 1px solid var(--vintage-berry-border) !important;
 }
 
 .card-accent-purple .tag,
@@ -1032,17 +1072,19 @@ ul, ol { list-style: none; }
 
 /* Home Connect CTA Strip */
 .home-cta-strip {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  background: linear-gradient(135deg, rgba(2, 24, 43, 0.65), var(--bg-surface));
+  border: 1px solid rgba(68, 143, 163, 0.25);
   border-radius: var(--radius-lg);
   padding: 2rem 2.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+  transition: all var(--trans);
 }
 .home-cta-strip:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(68, 143, 163, 0.45);
+  box-shadow: 0 8px 30px rgba(2, 24, 43, 0.6);
 }
 .cta-strip-text h3 { font-size: 1.25rem; color: #ffffff; margin-bottom: 0.25rem; }
 .cta-strip-code-title {
@@ -1082,9 +1124,10 @@ ul, ol { list-style: none; }
   border-radius: var(--radius-pill);
   margin-bottom: 1rem;
 }
-.page-tag-red  { color: #ff6b7a; background: var(--red-subtle); border: 1px solid var(--red-border); }
-.page-tag-gold { color: #e07ea3; background: var(--gold-subtle); border: 1px solid var(--gold-border); }
-.page-tag-blue { color: #9cb3bf; background: var(--blue-subtle); border: 1px solid var(--blue-border); }
+.page-tag-red  { color: #ff6b7e; background: var(--classic-crimson-subtle); border: 1px solid var(--classic-crimson-border); }
+.page-tag-blue { color: #5eb7ff; background: var(--dodger-blue-subtle); border: 1px solid var(--dodger-blue-border); }
+.page-tag-cyan { color: #68c5db; background: var(--pacific-cyan-subtle); border: 1px solid var(--pacific-cyan-border); }
+.page-tag-gold { color: #e07ea3; background: var(--vintage-berry-subtle); border: 1px solid var(--vintage-berry-border); }
 
 .page-title {
   font-size: 2.5rem;
@@ -1116,8 +1159,9 @@ ul, ol { list-style: none; }
   transition: all var(--trans);
 }
 
-.card-theme-red:hover  { border-color: var(--brick-ember);  box-shadow: 0 8px 30px rgba(194, 1, 20, 0.22); transform: translateY(-2px); }
-.card-theme-blue:hover { border-color: var(--blue-slate); box-shadow: 0 8px 30px rgba(93, 115, 126, 0.24); transform: translateY(-2px); }
+.card-theme-red:hover  { border-color: var(--classic-crimson); box-shadow: 0 8px 30px rgba(215, 38, 61, 0.24); transform: translateY(-2px); }
+.card-theme-blue:hover { border-color: var(--dodger-blue); box-shadow: 0 8px 30px rgba(1, 151, 246, 0.24); transform: translateY(-2px); }
+.card-theme-cyan:hover { border-color: var(--pacific-cyan); box-shadow: 0 8px 30px rgba(68, 143, 163, 0.26); transform: translateY(-2px); }
 .card-theme-gold:hover { border-color: var(--vintage-berry); box-shadow: 0 8px 30px rgba(161, 61, 99, 0.24); transform: translateY(-2px); }
 
 .project-card-top {
@@ -1160,8 +1204,9 @@ ul, ol { list-style: none; }
   content: "•";
   font-size: 1.2rem;
 }
-.bullet-red::before  { color: var(--brick-ember); }
-.bullet-blue::before { color: var(--blue-slate); }
+.bullet-red::before  { color: var(--classic-crimson); }
+.bullet-blue::before { color: var(--dodger-blue); }
+.bullet-cyan::before { color: var(--pacific-cyan); }
 .bullet-gold::before { color: var(--vintage-berry); }
 
 .project-card .project-tags {
@@ -1206,10 +1251,10 @@ ul, ol { list-style: none; }
   background: var(--bg-surface-hover);
   transform: translateY(-2px);
 }
-.channel-card-email:hover    { border-color: var(--brick-ember);      box-shadow: 0 4px 20px rgba(194, 1, 20, 0.25); }
-.channel-card-linkedin:hover { border-color: var(--linkedin); box-shadow: 0 4px 20px rgba(10, 102, 194, 0.25); }
-.channel-card-github:hover   { border-color: var(--purple);   box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
-.channel-card-resume:hover   { border-color: var(--vintage-berry);     box-shadow: 0 4px 20px rgba(161, 61, 99, 0.24); }
+.channel-card-email:hover    { border-color: var(--classic-crimson); box-shadow: 0 4px 20px rgba(215, 38, 61, 0.25); }
+.channel-card-linkedin:hover { border-color: var(--linkedin);        box-shadow: 0 4px 20px rgba(10, 102, 194, 0.25); }
+.channel-card-github:hover   { border-color: var(--purple);          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
+.channel-card-resume:hover   { border-color: var(--vintage-berry);   box-shadow: 0 4px 20px rgba(161, 61, 99, 0.24); }
 
 .channel-left { display: flex; align-items: center; gap: 1rem; }
 .channel-icon {
@@ -1220,12 +1265,12 @@ ul, ol { list-style: none; }
   align-items: center;
   justify-content: center;
 }
-.icon-red      { background: var(--red-subtle);      border: 1px solid var(--red-border);      color: #ff6b7a; }
-.icon-blue     { background: var(--blue-subtle);     border: 1px solid var(--blue-border);     color: #9cb3bf; }
-.icon-linkedin { background: var(--linkedin-subtle); border: 1px solid var(--linkedin-border); color: var(--linkedin); }
-.icon-cyan     { background: var(--blue-subtle);     border: 1px solid var(--blue-border);     color: #9cb3bf; }
-.icon-purple   { background: var(--purple-subtle);   border: 1px solid var(--purple-border);   color: var(--purple); }
-.icon-gold     { background: var(--gold-subtle);     border: 1px solid var(--gold-border);     color: #e07ea3; }
+.icon-red      { background: var(--classic-crimson-subtle); border: 1px solid var(--classic-crimson-border); color: #ff6b7e; }
+.icon-blue     { background: var(--dodger-blue-subtle);     border: 1px solid var(--dodger-blue-border);     color: #4db3ff; }
+.icon-linkedin { background: var(--linkedin-subtle);        border: 1px solid var(--linkedin-border);        color: var(--linkedin); }
+.icon-cyan     { background: var(--pacific-cyan-subtle);    border: 1px solid var(--pacific-cyan-border);    color: #68c5db; }
+.icon-purple   { background: var(--purple-subtle);          border: 1px solid var(--purple-border);          color: var(--purple); }
+.icon-gold     { background: var(--vintage-berry-subtle);   border: 1px solid var(--vintage-berry-border);   color: #e07ea3; }
 
 .channel-info h4 { font-size: 0.95rem; color: #ffffff; margin: 0; }
 .channel-info span,
@@ -1479,12 +1524,12 @@ ul, ol { list-style: none; }
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: var(--brick-ember);
-  box-shadow: 0 0 0 3px var(--red-subtle);
+  border-color: var(--classic-crimson);
+  box-shadow: 0 0 0 3px var(--classic-crimson-subtle);
 }
 .form-textarea { resize: vertical; }
 .form-hint { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.75rem; }
-.form-hint code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--brick-ember); }
+.form-hint code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--classic-crimson); }
 
 /* --------------------------------------------------------------------------
    9. Footer
@@ -1505,7 +1550,7 @@ ul, ol { list-style: none; }
 .footer-copy  { font-size: 0.875rem; color: var(--text-dim); }
 .footer-links { display: flex; align-items: center; gap: 1.25rem; }
 .footer-link  { color: var(--text-dim); font-size: 0.875rem; transition: color var(--trans); }
-.footer-link:hover { color: var(--brick-ember); }
+.footer-link:hover { color: var(--classic-crimson); }
 
 /* --------------------------------------------------------------------------
    10. Toast
@@ -1517,7 +1562,7 @@ ul, ol { list-style: none; }
   background: rgba(16, 18, 24, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(194, 1, 20, 0.45);
+  border: 1px solid rgba(215, 38, 61, 0.45);
   color: #fcfcfc;
   padding: 0.82rem 1.4rem;
   border-radius: 10px;
@@ -1525,8 +1570,8 @@ ul, ol { list-style: none; }
   font-weight: 500;
   letter-spacing: -0.01em;
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.8),
-              0 0 28px rgba(194, 1, 20, 0.25),
-              0 0 14px rgba(194, 1, 20, 0.35),
+              0 0 28px rgba(215, 38, 61, 0.25),
+              0 0 14px rgba(215, 38, 61, 0.35),
               inset 0 1px 0 rgba(255, 255, 255, 0.15);
   opacity: 0;
   transform: translateY(10px);
