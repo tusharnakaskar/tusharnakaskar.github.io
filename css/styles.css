@@ -94,6 +94,16 @@
   --cert-sage-subtle:     rgba(167, 201, 87, 0.12);
   --cert-sage-border:     rgba(167, 201, 87, 0.42);
 
+  /* 9. Project 1 Accent (#ffdd00 - Sunflower Yellow) */
+  --project-yellow:        #ffdd00;
+  --project-yellow-subtle: rgba(255, 221, 0, 0.12);
+  --project-yellow-border: rgba(255, 221, 0, 0.42);
+
+  /* 10. Project 2 Accent (#f62dae - Neon Pink / Magenta) */
+  --project-magenta:        #f62dae;
+  --project-magenta-subtle: rgba(246, 45, 174, 0.12);
+  --project-magenta-border: rgba(246, 45, 174, 0.42);
+
   /* ── Typography ── */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -666,6 +676,34 @@ ul, ol { list-style: none; }
   box-shadow: 0 4px 18px rgba(167, 201, 87, 0.35);
 }
 
+/* Project 1 Yellow Hollow Button (#ffdd00) */
+.btn-outline-yellow {
+  background: var(--project-yellow-subtle);
+  color: var(--project-yellow);
+  border: 1px solid var(--project-yellow-border);
+}
+.btn-outline-yellow:hover {
+  background: rgba(255, 221, 0, 0.22);
+  border-color: var(--project-yellow);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(255, 221, 0, 0.35);
+}
+
+/* Project 2 Magenta Hollow Button (#f62dae) */
+.btn-outline-magenta {
+  background: var(--project-magenta-subtle);
+  color: var(--project-magenta);
+  border: 1px solid var(--project-magenta-border);
+}
+.btn-outline-magenta:hover {
+  background: rgba(246, 45, 174, 0.22);
+  border-color: var(--project-magenta);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(246, 45, 174, 0.35);
+}
+
 /* Blue Hollow Button (Spring Boot Project) - Steel Blue */
 .btn-outline-blue {
   background: rgba(102, 155, 188, 0.10);
@@ -984,14 +1022,16 @@ ul, ol { list-style: none; }
 }
 
 /* Color accents on hover for each project / achievement */
-.card-accent-red:hover {
-  border-color: var(--brick-red);
-  box-shadow: 0 8px 25px rgba(193, 18, 31, 0.24);
+.card-accent-red:hover,
+.card-accent-yellow:hover {
+  border-color: var(--project-yellow);
+  box-shadow: 0 8px 25px rgba(255, 221, 0, 0.24);
   transform: translateY(-3px);
 }
-.card-accent-blue:hover {
-  border-color: var(--steel-blue);
-  box-shadow: 0 8px 25px rgba(102, 155, 188, 0.24);
+.card-accent-blue:hover,
+.card-accent-magenta:hover {
+  border-color: var(--project-magenta);
+  box-shadow: 0 8px 25px rgba(246, 45, 174, 0.24);
   transform: translateY(-3px);
 }
 .card-accent-cyan:hover {
@@ -1071,8 +1111,10 @@ ul, ol { list-style: none; }
   align-items: baseline;
   gap: 0.5rem;
 }
-.bullet-dot-red::before    { content: "•"; color: var(--brick-red); font-size: 1.1rem; }
-.bullet-dot-blue::before   { content: "•"; color: var(--steel-blue); font-size: 1.1rem; }
+.bullet-dot-red::before,
+.bullet-dot-yellow::before    { content: "•"; color: var(--project-yellow); font-size: 1.1rem; }
+.bullet-dot-blue::before,
+.bullet-dot-magenta::before   { content: "•"; color: var(--project-magenta); font-size: 1.1rem; }
 .bullet-dot-cyan::before   { content: "•"; color: var(--steel-blue); font-size: 1.1rem; }
 .bullet-dot-gold::before   { content: "•"; color: var(--steel-blue); font-size: 1.1rem; }
 .bullet-dot-purple::before { content: "•"; color: var(--purple); font-size: 1.1rem; }
@@ -1110,18 +1152,24 @@ ul, ol { list-style: none; }
 /* Skills in Particular Section / Card Color */
 .card-accent-red .tag,
 .card-theme-red .tag,
-.tag-red {
-  color: #ff99a6 !important;
-  background: var(--brick-red-subtle) !important;
-  border: 1px solid var(--brick-red-border) !important;
+.card-accent-yellow .tag,
+.card-theme-yellow .tag,
+.tag-red,
+.tag-yellow {
+  color: var(--project-yellow) !important;
+  background: var(--project-yellow-subtle) !important;
+  border: 1px solid var(--project-yellow-border) !important;
 }
 
 .card-accent-blue .tag,
 .card-theme-blue .tag,
-.tag-blue {
-  color: #a8d5f2 !important;
-  background: var(--steel-blue-subtle) !important;
-  border: 1px solid var(--steel-blue-border) !important;
+.card-accent-magenta .tag,
+.card-theme-magenta .tag,
+.tag-blue,
+.tag-magenta {
+  color: var(--project-magenta) !important;
+  background: var(--project-magenta-subtle) !important;
+  border: 1px solid var(--project-magenta-border) !important;
 }
 
 .card-accent-cyan .tag,
@@ -1255,8 +1303,10 @@ ul, ol { list-style: none; }
   transition: all var(--trans);
 }
 
-.card-theme-red:hover  { border-color: var(--brick-red); box-shadow: 0 8px 30px rgba(193, 18, 31, 0.24); transform: translateY(-2px); }
-.card-theme-blue:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(102, 155, 188, 0.24); transform: translateY(-2px); }
+.card-theme-red:hover,
+.card-theme-yellow:hover  { border-color: var(--project-yellow); box-shadow: 0 8px 30px rgba(255, 221, 0, 0.24); transform: translateY(-2px); }
+.card-theme-blue:hover,
+.card-theme-magenta:hover { border-color: var(--project-magenta); box-shadow: 0 8px 30px rgba(246, 45, 174, 0.24); transform: translateY(-2px); }
 .card-theme-cyan:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(0, 48, 73, 0.45); transform: translateY(-2px); }
 .card-theme-gold:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(0, 48, 73, 0.45); transform: translateY(-2px); }
 
@@ -1300,8 +1350,10 @@ ul, ol { list-style: none; }
   content: "•";
   font-size: 1.2rem;
 }
-.bullet-red::before  { color: var(--brick-red); }
-.bullet-blue::before { color: var(--steel-blue); }
+.bullet-red::before,
+.bullet-yellow::before  { color: var(--project-yellow); }
+.bullet-blue::before,
+.bullet-magenta::before { color: var(--project-magenta); }
 .bullet-cyan::before { color: var(--steel-blue); }
 .bullet-gold::before { color: var(--steel-blue); }
 
