@@ -17,67 +17,72 @@
   /* ── Neutral Text & Borders ── */
   --border-subtle:    rgba(255, 255, 255, 0.08);
   --border-hover:     rgba(255, 255, 255, 0.22);
-  --text-main:        #fcfcfc;
+  --text-main:        #fdf0d5;
   --text-muted:       #9ca3af;
   --text-dim:         #6b7280;
 
-  /* ── Palette 1 Tokens (Coolors: Brick Ember, Vintage Berry, Blue Slate, White) ── */
-  --white:                #fcfcfc;
+  /* ── Palette Tokens: Molten Lava, Brick Red, Papaya Whip, Deep Space Blue, Steel Blue ── */
+  --papaya-whip:          #fdf0d5;
+  --papaya-whip-subtle:   rgba(253, 240, 213, 0.12);
+  --papaya-whip-border:   rgba(253, 240, 213, 0.35);
+  --white:                #fdf0d5;
 
-  --brick-ember:          #c20114;
-  --brick-ember-hover:    #9e0110;
-  --brick-ember-subtle:   rgba(194, 1, 20, 0.12);
-  --brick-ember-border:   rgba(194, 1, 20, 0.40);
+  /* 1. Brick Red & Molten Lava (Primary Actions & Theme) */
+  --brick-red:            #c1121f;
+  --brick-red-hover:      #9c0e18;
+  --brick-red-subtle:     rgba(193, 18, 31, 0.14);
+  --brick-red-border:     rgba(193, 18, 31, 0.42);
 
-  --vintage-berry:        #a13d63;
-  --vintage-berry-hover:  #832e4e;
-  --vintage-berry-subtle: rgba(161, 61, 99, 0.14);
-  --vintage-berry-border: rgba(161, 61, 99, 0.42);
-  --gold:                 #a13d63;
-  --gold-hover:           #832e4e;
-  --gold-subtle:          rgba(161, 61, 99, 0.14);
-  --gold-border:          rgba(161, 61, 99, 0.42);
+  --molten-lava:          #780000;
+  --molten-lava-hover:    #5a0000;
+  --molten-lava-subtle:   rgba(120, 0, 0, 0.16);
+  --molten-lava-border:   rgba(120, 0, 0, 0.45);
 
-  --blue-slate:           #5d737e;
-  --blue-slate-hover:     #4a5d66;
-  --blue-slate-subtle:    rgba(93, 115, 126, 0.14);
-  --blue-slate-border:    rgba(93, 115, 126, 0.42);
+  --red:                  #c1121f;
+  --red-hover:            #780000;
+  --red-subtle:           rgba(193, 18, 31, 0.14);
+  --red-border:           rgba(193, 18, 31, 0.42);
 
-  /* ── Palette 2 Tokens (Coolors: Classic Crimson, Prussian Blue, Dodger Blue, Pacific Cyan, Sky Blue) ── */
-  --classic-crimson:        #d7263d;
-  --classic-crimson-hover:  #b81c30;
-  --classic-crimson-subtle: rgba(215, 38, 61, 0.12);
-  --classic-crimson-border: rgba(215, 38, 61, 0.40);
-  --red:                    #d7263d;
-  --red-hover:              #b81c30;
-  --red-subtle:             rgba(215, 38, 61, 0.12);
-  --red-border:             rgba(215, 38, 61, 0.40);
+  /* 2. Steel Blue (Secondary Accent & Links) */
+  --steel-blue:           #669bbc;
+  --steel-blue-hover:     #4e82a3;
+  --steel-blue-subtle:    rgba(102, 155, 188, 0.14);
+  --steel-blue-border:    rgba(102, 155, 188, 0.42);
 
-  --prussian-blue:          #02182b;
-  --prussian-blue-subtle:   rgba(2, 24, 43, 0.65);
-  --prussian-blue-border:   rgba(2, 24, 43, 0.85);
+  --blue:                 #669bbc;
+  --blue-hover:           #4e82a3;
+  --blue-subtle:          rgba(102, 155, 188, 0.14);
+  --blue-border:          rgba(102, 155, 188, 0.42);
 
-  --dodger-blue:            #0197f6;
-  --dodger-blue-hover:      #007ed2;
-  --dodger-blue-subtle:     rgba(1, 151, 246, 0.14);
-  --dodger-blue-border:     rgba(1, 151, 246, 0.42);
-  --blue:                   #0197f6;
-  --blue-hover:             #007ed2;
-  --blue-subtle:            rgba(1, 151, 246, 0.14);
-  --blue-border:            rgba(1, 151, 246, 0.42);
+  --cyan:                 #669bbc;
+  --cyan-subtle:          rgba(102, 155, 188, 0.14);
+  --cyan-border:          rgba(102, 155, 188, 0.42);
 
-  --pacific-cyan:           #448fa3;
-  --pacific-cyan-hover:     #357485;
-  --pacific-cyan-subtle:    rgba(68, 143, 163, 0.14);
-  --pacific-cyan-border:    rgba(68, 143, 163, 0.42);
-  --cyan:                   #448fa3;
-  --cyan-subtle:            rgba(68, 143, 163, 0.14);
-  --cyan-border:            rgba(68, 143, 163, 0.42);
+  --gold:                 #669bbc;
+  --gold-hover:           #4e82a3;
+  --gold-subtle:          rgba(102, 155, 188, 0.14);
+  --gold-border:          rgba(102, 155, 188, 0.42);
 
-  --sky-blue:               #68c5db;
-  --sky-blue-hover:         #4fb8d2;
-  --sky-blue-subtle:        rgba(104, 197, 219, 0.14);
-  --sky-blue-border:        rgba(104, 197, 219, 0.40);
+  /* 3. Deep Space Blue (Atmospheric Surfacing & Backdrops) */
+  --deep-space-blue:        #003049;
+  --deep-space-blue-hover:  #00466c;
+  --deep-space-blue-subtle: rgba(0, 48, 73, 0.35);
+  --deep-space-blue-border: rgba(0, 48, 73, 0.65);
+
+  /* ── Preserved & Standard Colors ── */
+  --green:            #10b981;
+  --green-subtle:     rgba(16, 185, 129, 0.12);
+  --green-border:     rgba(16, 185, 129, 0.35);
+
+  --linkedin:         #0a66c2;
+  --linkedin-hover:   #004182;
+  --linkedin-subtle:  rgba(10, 102, 194, 0.14);
+  --linkedin-border:  rgba(10, 102, 194, 0.45);
+
+  /* 6. Purple / Violet (GitHub & OOP - Preserved Untouched) */
+  --purple:           #8b5cf6;
+  --purple-subtle:    rgba(139, 92, 246, 0.12);
+  --purple-border:    rgba(139, 92, 246, 0.35);
 
   /* ── Preserved & Standard Colors ── */
   --green:            #10b981;
@@ -259,16 +264,16 @@ ul, ol { list-style: none; }
   width: 36px;
   height: 36px;
   border-radius: 9px;
-  background: linear-gradient(135deg, rgba(215, 38, 61, 0.22), rgba(1, 151, 246, 0.18));
-  border: 1px solid rgba(215, 38, 61, 0.38);
-  color: #fcfcfc;
+  background: linear-gradient(135deg, rgba(193, 18, 31, 0.24), rgba(0, 48, 73, 0.45));
+  border: 1px solid rgba(193, 18, 31, 0.45);
+  color: #fdf0d5;
   font-weight: 800;
   font-size: 0.95rem;
   display: flex;
   align-items: center;
   justify-content: center;
   letter-spacing: 0.5px;
-  box-shadow: 0 0 14px rgba(215, 38, 61, 0.18);
+  box-shadow: 0 0 14px rgba(193, 18, 31, 0.22);
 }
 
 .brand-monogram-img {
@@ -316,19 +321,19 @@ ul, ol { list-style: none; }
   font-weight: 600;
 }
 
-/* Resume CTA nav link (Vintage Berry Accent) */
+/* Resume CTA nav link (Steel Blue / Deep Space Blue Accent) */
 .nav-cta {
   margin-left: 0.5rem;
-  color: var(--vintage-berry);
-  border: 1px solid var(--vintage-berry-border);
-  background: var(--vintage-berry-subtle);
+  color: var(--papaya-whip);
+  border: 1px solid rgba(102, 155, 188, 0.5);
+  background: rgba(0, 48, 73, 0.35);
   font-weight: 600;
 }
 .nav-cta:hover {
-  color: #fcfcfc;
-  background: var(--vintage-berry);
-  border-color: var(--vintage-berry);
-  box-shadow: 0 0 15px rgba(161, 61, 99, 0.35);
+  color: #003049;
+  background: var(--steel-blue);
+  border-color: var(--steel-blue);
+  box-shadow: 0 0 15px rgba(102, 155, 188, 0.4);
 }
 
 /* Mobile toggle */
@@ -432,14 +437,14 @@ ul, ol { list-style: none; }
   50%       { opacity: 0.45; transform: scale(0.9); }
 }
 
-/* Centered Name: PURE CRISP WHITE (INCREASED PROMINENT SIZE) */
+/* Centered Name: PAPAYA WHIP (INCREASED PROMINENT SIZE) */
 .hero-name-center {
   font-size: clamp(4.6rem, 9.6vw, 7.85rem);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.01;
   margin-bottom: 0.95rem;
-  color: #fcfcfc !important;
+  color: var(--papaya-whip) !important;
   text-shadow: 0 4px 40px rgba(0, 0, 0, 0.8);
 }
 
@@ -452,7 +457,7 @@ ul, ol { list-style: none; }
 }
 
 .role-tag-accent {
-  color: var(--vintage-berry);
+  color: var(--brick-red);
 }
 
 .hero-bio-center {
@@ -565,31 +570,31 @@ ul, ol { list-style: none; }
   text-decoration: none;
 }
 
-/* Red Hollow Button (Email Channel, Form Submit, Red Projects) - Classic Crimson & Brick Ember */
+/* Red Hollow Button (Email Channel, Form Submit, Red Projects) - Brick Red & Molten Lava */
 .btn-primary {
-  background: rgba(215, 38, 61, 0.12);
-  color: #fcfcfc;
-  border: 1px solid rgba(215, 38, 61, 0.55);
+  background: rgba(193, 18, 31, 0.12);
+  color: var(--papaya-whip);
+  border: 1px solid rgba(193, 18, 31, 0.55);
 }
 .btn-primary:hover {
-  background: rgba(215, 38, 61, 0.30);
-  border-color: var(--classic-crimson);
-  color: #fcfcfc;
+  background: rgba(193, 18, 31, 0.30);
+  border-color: var(--brick-red);
+  color: var(--papaya-whip);
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(215, 38, 61, 0.38);
+  box-shadow: 0 4px 18px rgba(193, 18, 31, 0.38);
 }
 
 .btn-outline-red {
-  background: rgba(215, 38, 61, 0.10);
-  color: #ff6b7e;
-  border: 1px solid rgba(215, 38, 61, 0.55);
+  background: rgba(193, 18, 31, 0.10);
+  color: #ff7d8d;
+  border: 1px solid rgba(193, 18, 31, 0.55);
 }
 .btn-outline-red:hover {
-  background: rgba(215, 38, 61, 0.28);
-  border-color: var(--classic-crimson);
-  color: #fcfcfc;
+  background: rgba(193, 18, 31, 0.28);
+  border-color: var(--brick-red);
+  color: var(--papaya-whip);
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(215, 38, 61, 0.38);
+  box-shadow: 0 4px 18px rgba(193, 18, 31, 0.38);
 }
 
 /* LinkedIn Official Blue Hollow Button (#0A66C2) */
@@ -606,18 +611,18 @@ ul, ol { list-style: none; }
   box-shadow: 0 4px 18px rgba(10, 102, 194, 0.45);
 }
 
-/* Pacific Cyan Hollow Button (View More CTA, DSA, System Designs) - Palette 2 */
+/* Steel Blue Hollow Button (View More CTA, DSA, System Designs) - Palette */
 .btn-outline-cyan {
-  background: rgba(68, 143, 163, 0.10);
-  color: #68c5db;
-  border: 1px solid rgba(68, 143, 163, 0.55);
+  background: rgba(102, 155, 188, 0.10);
+  color: #8ec5e6;
+  border: 1px solid rgba(102, 155, 188, 0.55);
 }
 .btn-outline-cyan:hover {
-  background: rgba(68, 143, 163, 0.26);
-  border-color: var(--pacific-cyan);
-  color: #fcfcfc;
+  background: rgba(102, 155, 188, 0.26);
+  border-color: var(--steel-blue);
+  color: var(--papaya-whip);
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(68, 143, 163, 0.38);
+  box-shadow: 0 4px 18px rgba(102, 155, 188, 0.38);
 }
 
 /* Purple Hollow Button (GitHub Channel, OOP Projects - Preserved) */
@@ -634,35 +639,37 @@ ul, ol { list-style: none; }
   box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
 }
 
-/* Blue Hollow Button (Spring Boot Project) - Dodger Blue */
+/* Blue Hollow Button (Spring Boot Project) - Steel Blue */
 .btn-outline-blue {
-  background: rgba(1, 151, 246, 0.10);
-  color: #60beff;
-  border: 1px solid rgba(1, 151, 246, 0.55);
+  background: rgba(102, 155, 188, 0.10);
+  color: #8ec5e6;
+  border: 1px solid rgba(102, 155, 188, 0.55);
 }
 .btn-outline-blue:hover {
-  background: rgba(1, 151, 246, 0.26);
-  border-color: var(--dodger-blue);
-  color: #fcfcfc;
+  background: rgba(102, 155, 188, 0.26);
+  border-color: var(--steel-blue);
+  color: var(--papaya-whip);
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(1, 151, 246, 0.38);
+  box-shadow: 0 4px 18px rgba(102, 155, 188, 0.38);
 }
 
-/* Berry/Gold Hollow Button (Official Resume Channel, Core Java Project) - Vintage Berry */
+/* Deep Space Blue Hollow Button (Official Resume Channel, Core Java Project) */
 .btn-outline-gold,
 .btn-gold,
 .btn-outline-berry {
-  background: rgba(161, 61, 99, 0.10);
-  color: #e07ea3;
-  border: 1px solid rgba(161, 61, 99, 0.55);
+  background: rgba(0, 48, 73, 0.35);
+  color: #a8d5f2;
+  border: 1px solid rgba(102, 155, 188, 0.50);
 }
 .btn-outline-gold:hover,
 .btn-gold:hover,
 .btn-outline-berry:hover {
-  background: rgba(161, 61, 99, 0.28);
-  border-color: var(--vintage-berry);
-  color: #fcfcfc;
+  background: rgba(102, 155, 188, 0.28);
+  border-color: var(--steel-blue);
+  color: var(--papaya-whip);
   transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(0, 48, 73, 0.55);
+}
   box-shadow: 0 4px 18px rgba(161, 61, 99, 0.38);
 }
 
@@ -924,23 +931,23 @@ ul, ol { list-style: none; }
 
 /* Color accents on hover for each project / achievement */
 .card-accent-red:hover {
-  border-color: var(--classic-crimson);
-  box-shadow: 0 8px 25px rgba(215, 38, 61, 0.22);
+  border-color: var(--brick-red);
+  box-shadow: 0 8px 25px rgba(193, 18, 31, 0.24);
   transform: translateY(-3px);
 }
 .card-accent-blue:hover {
-  border-color: var(--dodger-blue);
-  box-shadow: 0 8px 25px rgba(1, 151, 246, 0.22);
+  border-color: var(--steel-blue);
+  box-shadow: 0 8px 25px rgba(102, 155, 188, 0.24);
   transform: translateY(-3px);
 }
 .card-accent-cyan:hover {
-  border-color: var(--pacific-cyan);
-  box-shadow: 0 8px 25px rgba(68, 143, 163, 0.26);
+  border-color: var(--steel-blue);
+  box-shadow: 0 8px 25px rgba(102, 155, 188, 0.26);
   transform: translateY(-3px);
 }
 .card-accent-gold:hover {
-  border-color: var(--vintage-berry);
-  box-shadow: 0 8px 25px rgba(161, 61, 99, 0.24);
+  border-color: var(--steel-blue);
+  box-shadow: 0 8px 25px rgba(0, 48, 73, 0.40);
   transform: translateY(-3px);
 }
 .card-accent-purple:hover {
@@ -958,10 +965,10 @@ ul, ol { list-style: none; }
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
 }
-.badge-red    { color: #ff6b7e; }
-.badge-blue   { color: #4db3ff; }
-.badge-cyan   { color: #68c5db; }
-.badge-gold   { color: #e07ea3; }
+.badge-red    { color: #ff7d8d; }
+.badge-blue   { color: #8ec5e6; }
+.badge-cyan   { color: #fdf0d5; }
+.badge-gold   { color: #8ec5e6; }
 .badge-purple { color: var(--purple); }
 
 .project-card-heading {
@@ -993,10 +1000,10 @@ ul, ol { list-style: none; }
   align-items: baseline;
   gap: 0.5rem;
 }
-.bullet-dot-red::before    { content: "•"; color: var(--classic-crimson); font-size: 1.1rem; }
-.bullet-dot-blue::before   { content: "•"; color: var(--dodger-blue); font-size: 1.1rem; }
-.bullet-dot-cyan::before   { content: "•"; color: var(--pacific-cyan); font-size: 1.1rem; }
-.bullet-dot-gold::before   { content: "•"; color: var(--vintage-berry); font-size: 1.1rem; }
+.bullet-dot-red::before    { content: "•"; color: var(--brick-red); font-size: 1.1rem; }
+.bullet-dot-blue::before   { content: "•"; color: var(--steel-blue); font-size: 1.1rem; }
+.bullet-dot-cyan::before   { content: "•"; color: var(--steel-blue); font-size: 1.1rem; }
+.bullet-dot-gold::before   { content: "•"; color: var(--steel-blue); font-size: 1.1rem; }
 .bullet-dot-purple::before { content: "•"; color: var(--purple); font-size: 1.1rem; }
 
 .project-card-footer {
@@ -1033,33 +1040,33 @@ ul, ol { list-style: none; }
 .card-accent-red .tag,
 .card-theme-red .tag,
 .tag-red {
-  color: #ff949f !important;
-  background: var(--classic-crimson-subtle) !important;
-  border: 1px solid var(--classic-crimson-border) !important;
+  color: #ff99a6 !important;
+  background: var(--brick-red-subtle) !important;
+  border: 1px solid var(--brick-red-border) !important;
 }
 
 .card-accent-blue .tag,
 .card-theme-blue .tag,
 .tag-blue {
-  color: #7ecefd !important;
-  background: var(--dodger-blue-subtle) !important;
-  border: 1px solid var(--dodger-blue-border) !important;
+  color: #a8d5f2 !important;
+  background: var(--steel-blue-subtle) !important;
+  border: 1px solid var(--steel-blue-border) !important;
 }
 
 .card-accent-cyan .tag,
 .card-theme-cyan .tag,
 .tag-cyan {
-  color: #9ee3f2 !important;
-  background: var(--pacific-cyan-subtle) !important;
-  border: 1px solid var(--pacific-cyan-border) !important;
+  color: #fdf0d5 !important;
+  background: rgba(0, 48, 73, 0.35) !important;
+  border: 1px solid rgba(102, 155, 188, 0.45) !important;
 }
 
 .card-accent-gold .tag,
 .card-theme-gold .tag,
 .tag-gold {
-  color: #f1a4c0 !important;
-  background: var(--vintage-berry-subtle) !important;
-  border: 1px solid var(--vintage-berry-border) !important;
+  color: #a8d5f2 !important;
+  background: rgba(0, 48, 73, 0.35) !important;
+  border: 1px solid rgba(102, 155, 188, 0.45) !important;
 }
 
 .card-accent-purple .tag,
@@ -1072,8 +1079,8 @@ ul, ol { list-style: none; }
 
 /* Home Connect CTA Strip */
 .home-cta-strip {
-  background: linear-gradient(135deg, rgba(2, 24, 43, 0.65), var(--bg-surface));
-  border: 1px solid rgba(68, 143, 163, 0.25);
+  background: linear-gradient(135deg, rgba(0, 48, 73, 0.70), var(--bg-surface));
+  border: 1px solid rgba(102, 155, 188, 0.28);
   border-radius: var(--radius-lg);
   padding: 2rem 2.25rem;
   display: flex;
@@ -1083,8 +1090,8 @@ ul, ol { list-style: none; }
   transition: all var(--trans);
 }
 .home-cta-strip:hover {
-  border-color: rgba(68, 143, 163, 0.45);
-  box-shadow: 0 8px 30px rgba(2, 24, 43, 0.6);
+  border-color: rgba(102, 155, 188, 0.55);
+  box-shadow: 0 8px 30px rgba(0, 48, 73, 0.65);
 }
 .cta-strip-text h3 { font-size: 1.25rem; color: #ffffff; margin-bottom: 0.25rem; }
 .cta-strip-code-title {
@@ -1124,10 +1131,10 @@ ul, ol { list-style: none; }
   border-radius: var(--radius-pill);
   margin-bottom: 1rem;
 }
-.page-tag-red  { color: #ff6b7e; background: var(--classic-crimson-subtle); border: 1px solid var(--classic-crimson-border); }
-.page-tag-blue { color: #5eb7ff; background: var(--dodger-blue-subtle); border: 1px solid var(--dodger-blue-border); }
-.page-tag-cyan { color: #68c5db; background: var(--pacific-cyan-subtle); border: 1px solid var(--pacific-cyan-border); }
-.page-tag-gold { color: #e07ea3; background: var(--vintage-berry-subtle); border: 1px solid var(--vintage-berry-border); }
+.page-tag-red  { color: #ff7d8d; background: var(--brick-red-subtle); border: 1px solid var(--brick-red-border); }
+.page-tag-blue { color: #8ec5e6; background: var(--steel-blue-subtle); border: 1px solid var(--steel-blue-border); }
+.page-tag-cyan { color: #fdf0d5; background: rgba(0, 48, 73, 0.40); border: 1px solid rgba(102, 155, 188, 0.45); }
+.page-tag-gold { color: #8ec5e6; background: rgba(0, 48, 73, 0.40); border: 1px solid rgba(102, 155, 188, 0.45); }
 
 .page-title {
   font-size: 2.5rem;
@@ -1159,10 +1166,10 @@ ul, ol { list-style: none; }
   transition: all var(--trans);
 }
 
-.card-theme-red:hover  { border-color: var(--classic-crimson); box-shadow: 0 8px 30px rgba(215, 38, 61, 0.24); transform: translateY(-2px); }
-.card-theme-blue:hover { border-color: var(--dodger-blue); box-shadow: 0 8px 30px rgba(1, 151, 246, 0.24); transform: translateY(-2px); }
-.card-theme-cyan:hover { border-color: var(--pacific-cyan); box-shadow: 0 8px 30px rgba(68, 143, 163, 0.26); transform: translateY(-2px); }
-.card-theme-gold:hover { border-color: var(--vintage-berry); box-shadow: 0 8px 30px rgba(161, 61, 99, 0.24); transform: translateY(-2px); }
+.card-theme-red:hover  { border-color: var(--brick-red); box-shadow: 0 8px 30px rgba(193, 18, 31, 0.24); transform: translateY(-2px); }
+.card-theme-blue:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(102, 155, 188, 0.24); transform: translateY(-2px); }
+.card-theme-cyan:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(0, 48, 73, 0.45); transform: translateY(-2px); }
+.card-theme-gold:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(0, 48, 73, 0.45); transform: translateY(-2px); }
 
 .project-card-top {
   display: flex;
@@ -1204,10 +1211,10 @@ ul, ol { list-style: none; }
   content: "•";
   font-size: 1.2rem;
 }
-.bullet-red::before  { color: var(--classic-crimson); }
-.bullet-blue::before { color: var(--dodger-blue); }
-.bullet-cyan::before { color: var(--pacific-cyan); }
-.bullet-gold::before { color: var(--vintage-berry); }
+.bullet-red::before  { color: var(--brick-red); }
+.bullet-blue::before { color: var(--steel-blue); }
+.bullet-cyan::before { color: var(--steel-blue); }
+.bullet-gold::before { color: var(--steel-blue); }
 
 .project-card .project-tags {
   margin-top: auto;
@@ -1251,10 +1258,10 @@ ul, ol { list-style: none; }
   background: var(--bg-surface-hover);
   transform: translateY(-2px);
 }
-.channel-card-email:hover    { border-color: var(--classic-crimson); box-shadow: 0 4px 20px rgba(215, 38, 61, 0.25); }
-.channel-card-linkedin:hover { border-color: var(--linkedin);        box-shadow: 0 4px 20px rgba(10, 102, 194, 0.25); }
-.channel-card-github:hover   { border-color: var(--purple);          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
-.channel-card-resume:hover   { border-color: var(--vintage-berry);   box-shadow: 0 4px 20px rgba(161, 61, 99, 0.24); }
+.channel-card-email:hover    { border-color: var(--brick-red);  box-shadow: 0 4px 20px rgba(193, 18, 31, 0.25); }
+.channel-card-linkedin:hover { border-color: var(--linkedin);   box-shadow: 0 4px 20px rgba(10, 102, 194, 0.25); }
+.channel-card-github:hover   { border-color: var(--purple);     box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
+.channel-card-resume:hover   { border-color: var(--steel-blue); box-shadow: 0 4px 20px rgba(102, 155, 188, 0.28); }
 
 .channel-left { display: flex; align-items: center; gap: 1rem; }
 .channel-icon {
@@ -1265,12 +1272,12 @@ ul, ol { list-style: none; }
   align-items: center;
   justify-content: center;
 }
-.icon-red      { background: var(--classic-crimson-subtle); border: 1px solid var(--classic-crimson-border); color: #ff6b7e; }
-.icon-blue     { background: var(--dodger-blue-subtle);     border: 1px solid var(--dodger-blue-border);     color: #4db3ff; }
-.icon-linkedin { background: var(--linkedin-subtle);        border: 1px solid var(--linkedin-border);        color: var(--linkedin); }
-.icon-cyan     { background: var(--pacific-cyan-subtle);    border: 1px solid var(--pacific-cyan-border);    color: #68c5db; }
-.icon-purple   { background: var(--purple-subtle);          border: 1px solid var(--purple-border);          color: var(--purple); }
-.icon-gold     { background: var(--vintage-berry-subtle);   border: 1px solid var(--vintage-berry-border);   color: #e07ea3; }
+.icon-red      { background: var(--brick-red-subtle);      border: 1px solid var(--brick-red-border);      color: #ff7d8d; }
+.icon-blue     { background: var(--steel-blue-subtle);     border: 1px solid var(--steel-blue-border);     color: #8ec5e6; }
+.icon-linkedin { background: var(--linkedin-subtle);       border: 1px solid var(--linkedin-border);       color: var(--linkedin); }
+.icon-cyan     { background: rgba(0, 48, 73, 0.45);        border: 1px solid rgba(102, 155, 188, 0.45);   color: #8ec5e6; }
+.icon-purple   { background: var(--purple-subtle);         border: 1px solid var(--purple-border);         color: var(--purple); }
+.icon-gold     { background: rgba(0, 48, 73, 0.45);        border: 1px solid rgba(102, 155, 188, 0.45);   color: #8ec5e6; }
 
 .channel-info h4 { font-size: 0.95rem; color: #ffffff; margin: 0; }
 .channel-info span,
@@ -1524,12 +1531,12 @@ ul, ol { list-style: none; }
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: var(--classic-crimson);
-  box-shadow: 0 0 0 3px var(--classic-crimson-subtle);
+  border-color: var(--brick-red);
+  box-shadow: 0 0 0 3px var(--brick-red-subtle);
 }
 .form-textarea { resize: vertical; }
 .form-hint { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.75rem; }
-.form-hint code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--classic-crimson); }
+.form-hint code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--brick-red); }
 
 /* --------------------------------------------------------------------------
    9. Footer
@@ -1550,7 +1557,7 @@ ul, ol { list-style: none; }
 .footer-copy  { font-size: 0.875rem; color: var(--text-dim); }
 .footer-links { display: flex; align-items: center; gap: 1.25rem; }
 .footer-link  { color: var(--text-dim); font-size: 0.875rem; transition: color var(--trans); }
-.footer-link:hover { color: var(--classic-crimson); }
+.footer-link:hover { color: var(--brick-red); }
 
 /* --------------------------------------------------------------------------
    10. Toast
@@ -1562,16 +1569,16 @@ ul, ol { list-style: none; }
   background: rgba(16, 18, 24, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(215, 38, 61, 0.45);
-  color: #fcfcfc;
+  border: 1px solid rgba(193, 18, 31, 0.45);
+  color: var(--papaya-whip);
   padding: 0.82rem 1.4rem;
   border-radius: 10px;
   font-size: 0.90rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.8),
-              0 0 28px rgba(215, 38, 61, 0.25),
-              0 0 14px rgba(215, 38, 61, 0.35),
+              0 0 28px rgba(193, 18, 31, 0.25),
+              0 0 14px rgba(193, 18, 31, 0.35),
               inset 0 1px 0 rgba(255, 255, 255, 0.15);
   opacity: 0;
   transform: translateY(10px);
