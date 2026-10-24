@@ -529,7 +529,11 @@ function initCopyEmail() {
       e.preventDefault();
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(email)
-          .then(() => showToast('Mail Copied : ' + email))
+          .then(() => {
+            showToast('Mail Copied : ' + email);
+            btn.classList.add('copied');
+            setTimeout(() => btn.classList.remove('copied'), 2200);
+          })
           .catch(() => { window.location.href = 'mailto:' + email; });
       } else {
         window.location.href = 'mailto:' + email;

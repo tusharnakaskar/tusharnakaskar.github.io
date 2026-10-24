@@ -109,8 +109,8 @@
   --platinum-subtle:       rgba(224, 225, 221, 0.08);
   --platinum-border:       rgba(224, 225, 221, 0.45);
 
-  /* 12. Contact Email Heading (#F5EE9E) */
-  --email-heading:         #F5EE9E;
+  /* 12. Contact Email Heading (#A7C957) */
+  --email-heading:         #A7C957;
 
   /* ── Typography ── */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -470,7 +470,7 @@ ul, ol { list-style: none; }
 }
 
 .role-tag-accent {
-  color: var(--brick-red);
+  color: #62BBC1;
 }
 
 .hero-bio-center {
@@ -1558,18 +1558,18 @@ ul, ol { list-style: none; }
 
 .academic-card-meta {
   font-size: 0.80rem;
-  color: #94a3b8;
+  color: #e2e8f0;
   margin: 0;
   line-height: 1.45;
 }
 
 .academic-card-meta .meta-dot {
   margin: 0 0.35rem;
-  color: #64748b;
+  color: rgba(226, 232, 240, 0.5);
 }
 
 .academic-card-meta .meta-period {
-  color: #cbd5e1;
+  color: #e2e8f0;
 }
 
 @media (max-width: 860px) {
@@ -1650,7 +1650,7 @@ ul, ol { list-style: none; }
 }
 
 .platform-email {
-  color: #F5EE9E;
+  color: #A7C957;
 }
 
 .platform-linkedin {
@@ -1669,7 +1669,8 @@ ul, ol { list-style: none; }
   transition: color var(--trans);
 }
 
-.platform-link:hover {
+.platform-link:hover,
+.platform-link.copied {
   color: #ffffff;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -1748,16 +1749,16 @@ ul, ol { list-style: none; }
   background: rgba(14, 18, 26, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(245, 238, 158, 0.55);
-  color: #F5EE9E;
+  border: 1px solid rgba(167, 201, 87, 0.55);
+  color: #ffffff;
   padding: 0.82rem 1.4rem;
   border-radius: 10px;
   font-size: 0.90rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.8),
-              0 0 28px rgba(245, 238, 158, 0.28),
-              0 0 14px rgba(245, 238, 158, 0.38),
+              0 0 28px rgba(167, 201, 87, 0.28),
+              0 0 14px rgba(167, 201, 87, 0.38),
               inset 0 1px 0 rgba(255, 255, 255, 0.18);
   opacity: 0;
   transform: translateY(10px);
