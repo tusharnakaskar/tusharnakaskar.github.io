@@ -99,10 +99,10 @@
   --project-yellow-subtle: rgba(255, 221, 0, 0.12);
   --project-yellow-border: rgba(255, 221, 0, 0.42);
 
-  /* 10. Project 2 Accent (#f62dae - Neon Pink / Magenta) */
-  --project-magenta:        #f62dae;
-  --project-magenta-subtle: rgba(246, 45, 174, 0.12);
-  --project-magenta-border: rgba(246, 45, 174, 0.42);
+  /* 10. Project 2 Accent (#34D399 - Electric Mint) */
+  --project-magenta:        #34D399;
+  --project-magenta-subtle: rgba(52, 211, 153, 0.12);
+  --project-magenta-border: rgba(52, 211, 153, 0.42);
 
   /* 11. View More Accent (#e0e1dd - Platinum / Light Slate) */
   --platinum:              #e0e1dd;
@@ -709,11 +709,11 @@ ul, ol { list-style: none; }
   border: 1px solid var(--project-magenta-border);
 }
 .btn-outline-magenta:hover {
-  background: rgba(246, 45, 174, 0.22);
+  background: rgba(52, 211, 153, 0.22);
   border-color: var(--project-magenta);
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(246, 45, 174, 0.35);
+  box-shadow: 0 4px 18px rgba(52, 211, 153, 0.35);
 }
 
 /* Blue Hollow Button (Spring Boot Project) - Steel Blue */
@@ -1043,7 +1043,7 @@ ul, ol { list-style: none; }
 .card-accent-blue:hover,
 .card-accent-magenta:hover {
   border-color: var(--project-magenta);
-  box-shadow: 0 8px 25px rgba(246, 45, 174, 0.24);
+  box-shadow: 0 8px 25px rgba(52, 211, 153, 0.24);
   transform: translateY(-3px);
 }
 .card-accent-cyan:hover {
@@ -1318,7 +1318,7 @@ ul, ol { list-style: none; }
 .card-theme-red:hover,
 .card-theme-yellow:hover  { border-color: var(--project-yellow); box-shadow: 0 8px 30px rgba(255, 221, 0, 0.24); transform: translateY(-2px); }
 .card-theme-blue:hover,
-.card-theme-magenta:hover { border-color: var(--project-magenta); box-shadow: 0 8px 30px rgba(246, 45, 174, 0.24); transform: translateY(-2px); }
+.card-theme-magenta:hover { border-color: var(--project-magenta); box-shadow: 0 8px 30px rgba(52, 211, 153, 0.24); transform: translateY(-2px); }
 .card-theme-cyan:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(0, 48, 73, 0.45); transform: translateY(-2px); }
 .card-theme-gold:hover { border-color: var(--steel-blue); box-shadow: 0 8px 30px rgba(0, 48, 73, 0.45); transform: translateY(-2px); }
 
