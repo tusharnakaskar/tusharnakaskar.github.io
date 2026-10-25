@@ -2535,4 +2535,37 @@ html.split-transition-active .split-curtain-right,
   }
 }
 
+/* ==========================================================================
+   Foreground Content Parallax Scrolling
+   Exclusively applied to foreground elements — background video & canvas untouched
+   ========================================================================== */
+.hero-name-center,
+.hero-role-center,
+.hero-bio-center,
+.quick-skills-strip,
+.section-header-compact,
+.home-projects-grid,
+.achievements-grid,
+.contact-unified-panel,
+.page-header {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-name-center,
+  .hero-role-center,
+  .hero-bio-center,
+  .quick-skills-strip,
+  .section-header-compact,
+  .home-projects-grid,
+  .achievements-grid,
+  .contact-unified-panel,
+  .page-header {
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto;
+  }
+}
+
+
 

@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initResumeDownload();
   initCurrentYear();
   initScrollUnfold();
+  initParallax();
 });
 
 /* ==========================================================================
@@ -973,4 +974,121 @@ function initScrollUnfold() {
 
   elements.forEach(el => observer.observe(el));
 }
+
+/* ==========================================================================
+   5. Foreground Parallax Scrolling
+      Subtle multi-plane depth exclusively for foreground content.
+      Background canvas (#bg-canvas) and video layer (#video-bg-wrapper)
+      remain completely fixed, isolated, and undisturbed.
+   ========================================================================== */
+function initParallax() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  // Cache element references for zero DOM querying during scroll
+  const heroSection = document.getElementById('home');
+  const heroName = heroSection ? heroSection.querySelector('.hero-name-center') : null;
+  const heroRole = heroSection ? heroSection.querySelector('.hero-role-center') : null;
+  const heroBio = heroSection ? heroSection.querySelector('.hero-bio-center') : null;
+  const heroSkills = heroSection ? heroSection.querySelector('.quick-skills-strip') : null;
+
+  // Sections on the page (Projects, Achievements, About)
+  const sections = [
+    document.getElementById('projects'),
+    document.getElementById('achievements'),
+    document.getElementById('contact')
+  ].filter(Boolean);
+
+  const sectionData = sections.map(sec => ({
+    sec,
+    header: sec.querySelector('.section-header-compact'),
+    content: sec.querySelector('.home-projects-grid') || 
+             sec.querySelector('.achievements-grid') || 
+             sec.querySelector('.contact-unified-panel')
+  }));
+
+  // Subpages support (e.g. projects.html)
+  const pageHeader = document.querySelector('.page-header');
+
+  let ticking = false;
+
+  function update() {
+    const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    const vh = window.innerHeight;
+
+    // 1. Hero Multi-Layer Exit Parallax
+    if (heroSection) {
+      if (scrollY <= vh * 1.25) {
+        const p1 = Math.min(120, scrollY * 0.28); // Name floats up slower than scroll
+        const p2 = Math.min(80, scrollY * 0.18);  // Role
+        const p3 = Math.min(50, scrollY * 0.12);  // Bio
+        const p4 = Math.min(30, scrollY * 0.06);  // Skills strip
+        const opacity = Math.max(0, 1 - (scrollY / (vh * 0.72)) * 0.95);
+
+        if (heroName) heroName.style.transform = `translate3d(0, ${p1.toFixed(1)}px, 0)`;
+        if (heroRole) heroRole.style.transform = `translate3d(0, ${p2.toFixed(1)}px, 0)`;
+        if (heroBio) heroBio.style.transform = `translate3d(0, ${p3.toFixed(1)}px, 0)`;
+        if (heroSkills) heroSkills.style.transform = `translate3d(0, ${p4.toFixed(1)}px, 0)`;
+
+        heroSection.style.opacity = opacity.toFixed(3);
+      } else {
+        if (heroSection.style.opacity !== '0') {
+          heroSection.style.opacity = '0';
+        }
+      }
+    }
+
+    // 2. Sections Parallax (Header vs Content depth differential)
+    const viewportCenter = vh / 2;
+
+    for (let i = 0; i < sectionData.length; i++) {
+      const item = sectionData[i];
+      const rect = item.sec.getBoundingClientRect();
+
+      // Only calculate if section is in or near viewport
+      if (rect.bottom > -80 && rect.top < vh + 80) {
+        const secCenter = rect.top + rect.height / 2;
+        const diff = Math.max(-vh, Math.min(vh, secCenter - viewportCenter));
+
+        // Header has subtle negative drift (floating in front)
+        if (item.header) {
+          const headerY = Math.max(-35, Math.min(35, diff * -0.05)).toFixed(1);
+          item.header.style.transform = `translate3d(0, ${headerY}px, 0)`;
+        }
+
+        // Content / Grid has subtle positive drift (depth behind)
+        if (item.content) {
+          const contentY = Math.max(-25, Math.min(25, diff * 0.035)).toFixed(1);
+          item.content.style.transform = `translate3d(0, ${contentY}px, 0)`;
+        }
+      }
+    }
+
+    // 3. Subpage header parallax (if on projects.html or similar)
+    if (pageHeader && scrollY <= vh) {
+      pageHeader.style.transform = `translate3d(0, ${(scrollY * 0.22).toFixed(1)}px, 0)`;
+      pageHeader.style.opacity = Math.max(0, 1 - (scrollY / (vh * 0.7))).toFixed(3);
+    }
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  update();
+}
+
 
