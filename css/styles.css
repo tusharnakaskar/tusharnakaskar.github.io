@@ -2495,77 +2495,65 @@ html.split-transition-active .split-curtain-right,
 }
 
 /* ==========================================================================
-   Foreground Content Scroll Transitions - Vertical Scale Unfold (Option 2)
-   Starts squished flat at baseline (scaleY: 0.25) and springs open vertically.
-   Completely isolated to above content — background canvas & video are untouched.
+   Continuous Bidirectional Parallax Scrolling (Foreground Interfaces Only)
+   Completely isolated from background canvas and background video layer.
+   Smooth multi-plane depth responsive for both scrolling down and scrolling up.
    ========================================================================== */
-.has-scroll-animations .scroll-unfold {
-  opacity: 0;
-  transform: translateY(28px) scaleY(0.25) scaleX(1.08);
-  transform-origin: 50% 100%;
-  filter: blur(4px);
-  transition: 
-    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity, filter;
-  backface-visibility: hidden;
-}
-
-.has-scroll-animations .scroll-unfold.is-unfolded {
-  opacity: 1;
-  transform: translateY(0) scaleY(1) scaleX(1);
-  filter: blur(0);
-}
-
-/* Ensure hover interactions on cards remain crisp during and after transition */
-.has-scroll-animations .scroll-unfold.is-unfolded.home-project-card:hover,
-.has-scroll-animations .scroll-unfold.is-unfolded.achievement-card:hover,
-.has-scroll-animations .scroll-unfold.is-unfolded.project-card:hover {
-  transform: translateY(-3px) scale(1) !important;
-}
-
-/* Reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .has-scroll-animations .scroll-unfold {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    transition: none !important;
-  }
-}
-
-/* ==========================================================================
-   Foreground Content Parallax Scrolling
-   Exclusively applied to foreground elements — background video & canvas untouched
-   ========================================================================== */
+.hero-status-pill,
 .hero-name-center,
 .hero-role-center,
 .hero-bio-center,
 .quick-skills-strip,
 .section-header-compact,
-.home-projects-grid,
-.achievements-grid,
-.contact-unified-panel,
+.projects-view-more,
+.contact-about-text,
+.academic-card-box,
+.contact-panel-channels,
+.home-project-card,
+.achievement-card,
 .page-header {
   will-change: transform;
 }
 
+/* Card Parallax & Hover Composition */
+.home-project-card,
+.achievement-card,
+.academic-card-box {
+  transform: translate3d(0, var(--parallax-card-y, 0px), 0);
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color var(--trans),
+              box-shadow var(--trans);
+}
+
+.home-project-card:hover,
+.achievement-card:hover {
+  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 3px), 0) !important;
+}
+
+.academic-card-box:hover {
+  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 2px), 0) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .hero-status-pill,
   .hero-name-center,
   .hero-role-center,
   .hero-bio-center,
   .quick-skills-strip,
   .section-header-compact,
-  .home-projects-grid,
-  .achievements-grid,
-  .contact-unified-panel,
+  .projects-view-more,
+  .contact-about-text,
+  .academic-card-box,
+  .contact-panel-channels,
+  .home-project-card,
+  .achievement-card,
   .page-header {
     transform: none !important;
     opacity: 1 !important;
     will-change: auto;
   }
 }
+
 
 
 

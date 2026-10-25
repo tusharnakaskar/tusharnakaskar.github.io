@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initResumeDownload();
   initCurrentYear();
-  initScrollUnfold();
   initParallax();
 });
 
@@ -893,91 +892,8 @@ function initPageTransitions() {
 }
 
 /* ==========================================================================
-   4. Compress-to-Expand Vertical Scale Unfold on Scroll (Option 2)
-      Applies strictly to foreground content interfaces above the background.
-      The background canvas and video player are completely undisturbed.
-   ========================================================================== */
-function initScrollUnfold() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return;
-  }
-
-  // Mark HTML document as supporting scroll animations
-  document.documentElement.classList.add('has-scroll-animations');
-
-  // Select foreground interfaces that animate on scroll
-  const selectors = [
-    '.section-block .section-title',
-    '.section-block .section-subtitle',
-    '.home-project-card',
-    '.projects-view-more',
-    '.achievement-card',
-    '.contact-about-layout',
-    '.contact-panel-channels',
-    '.page-header .page-title',
-    '.page-header .page-subtitle',
-    '.project-card'
-  ];
-
-  const elements = document.querySelectorAll(selectors.join(', '));
-  if (!elements.length) return;
-
-  // Stagger delays for natural rhythm
-  elements.forEach((el) => {
-    el.classList.add('scroll-unfold');
-
-    if (el.classList.contains('section-subtitle') || el.classList.contains('page-subtitle')) {
-      el.style.transitionDelay = '0.1s';
-    } else if (el.classList.contains('home-project-card') || el.classList.contains('achievement-card') || el.classList.contains('project-card')) {
-      const parent = el.parentElement;
-      if (parent) {
-        const siblings = Array.from(parent.children).filter(c => 
-          c.classList.contains('home-project-card') || 
-          c.classList.contains('achievement-card') || 
-          c.classList.contains('project-card')
-        );
-        const idx = siblings.indexOf(el);
-        el.style.transitionDelay = `${0.12 + Math.max(0, idx) * 0.1}s`;
-      }
-    } else if (el.classList.contains('projects-view-more')) {
-      el.style.transitionDelay = '0.32s';
-    } else if (el.classList.contains('contact-panel-channels')) {
-      el.style.transitionDelay = '0.18s';
-    }
-  });
-
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        el.classList.add('is-unfolded');
-
-        // Once unfold completes, clean up transform and delays so hover effects work seamlessly
-        const onTransEnd = (e) => {
-          if (e.propertyName === 'transform') {
-            el.removeEventListener('transitionend', onTransEnd);
-            el.classList.remove('scroll-unfold', 'is-unfolded');
-            el.style.transitionDelay = '';
-            el.style.willChange = '';
-          }
-        };
-        el.addEventListener('transitionend', onTransEnd);
-
-        obs.unobserve(el);
-      }
-    });
-  }, {
-    root: null,
-    rootMargin: '0px 0px -8% 0px',
-    threshold: 0.08
-  });
-
-  elements.forEach(el => observer.observe(el));
-}
-
-/* ==========================================================================
-   5. Foreground Parallax Scrolling
-      Subtle multi-plane depth exclusively for foreground content.
+   4. Continuous Bidirectional Parallax Scrolling (Foreground Interfaces Only)
+      Smooth multi-plane depth responsive for both scrolling down and scrolling up.
       Background canvas (#bg-canvas) and video layer (#video-bg-wrapper)
       remain completely fixed, isolated, and undisturbed.
    ========================================================================== */
@@ -986,46 +902,62 @@ function initParallax() {
     return;
   }
 
-  // Cache element references for zero DOM querying during scroll
+  // 1. Hero Section cached elements
   const heroSection = document.getElementById('home');
+  const heroPill = heroSection ? heroSection.querySelector('.hero-status-pill') : null;
   const heroName = heroSection ? heroSection.querySelector('.hero-name-center') : null;
   const heroRole = heroSection ? heroSection.querySelector('.hero-role-center') : null;
   const heroBio = heroSection ? heroSection.querySelector('.hero-bio-center') : null;
   const heroSkills = heroSection ? heroSection.querySelector('.quick-skills-strip') : null;
 
-  // Sections on the page (Projects, Achievements, About)
-  const sections = [
-    document.getElementById('projects'),
-    document.getElementById('achievements'),
-    document.getElementById('contact')
-  ].filter(Boolean);
+  // 2. Sections cached data (Projects, Achievements, About)
+  const projectsSection = document.getElementById('projects');
+  const achievementsSection = document.getElementById('achievements');
+  const contactSection = document.getElementById('contact');
 
-  const sectionData = sections.map(sec => ({
-    sec,
-    header: sec.querySelector('.section-header-compact'),
-    content: sec.querySelector('.home-projects-grid') || 
-             sec.querySelector('.achievements-grid') || 
-             sec.querySelector('.contact-unified-panel')
-  }));
+  const projectsData = projectsSection ? {
+    sec: projectsSection,
+    header: projectsSection.querySelector('.section-header-compact'),
+    cards: Array.from(projectsSection.querySelectorAll('.home-project-card')),
+    viewMore: projectsSection.querySelector('.projects-view-more')
+  } : null;
 
-  // Subpages support (e.g. projects.html)
+  const achievementsData = achievementsSection ? {
+    sec: achievementsSection,
+    header: achievementsSection.querySelector('.section-header-compact'),
+    cards: Array.from(achievementsSection.querySelectorAll('.achievement-card'))
+  } : null;
+
+  const contactData = contactSection ? {
+    sec: contactSection,
+    header: contactSection.querySelector('.section-header-compact'),
+    aboutText: contactSection.querySelector('.contact-about-text'),
+    academicBoxes: Array.from(contactSection.querySelectorAll('.academic-card-box')),
+    channels: contactSection.querySelector('.contact-panel-channels')
+  } : null;
+
+  // 3. Subpage elements (e.g., projects.html)
   const pageHeader = document.querySelector('.page-header');
+  const subpageCards = Array.from(document.querySelectorAll('.projects-stack .project-card'));
 
   let ticking = false;
 
   function update() {
     const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
     const vh = window.innerHeight;
+    const viewportCenter = vh / 2;
 
-    // 1. Hero Multi-Layer Exit Parallax
+    // A. Hero Exit & Return Parallax (Fully reversible down & up)
     if (heroSection) {
       if (scrollY <= vh * 1.25) {
-        const p1 = Math.min(120, scrollY * 0.28); // Name floats up slower than scroll
+        const p0 = Math.min(140, scrollY * 0.36); // Status Pill
+        const p1 = Math.min(120, scrollY * 0.28); // Name
         const p2 = Math.min(80, scrollY * 0.18);  // Role
         const p3 = Math.min(50, scrollY * 0.12);  // Bio
-        const p4 = Math.min(30, scrollY * 0.06);  // Skills strip
+        const p4 = Math.min(30, scrollY * 0.06);  // Skills Strip
         const opacity = Math.max(0, 1 - (scrollY / (vh * 0.72)) * 0.95);
 
+        if (heroPill) heroPill.style.transform = `translate3d(0, ${p0.toFixed(1)}px, 0)`;
         if (heroName) heroName.style.transform = `translate3d(0, ${p1.toFixed(1)}px, 0)`;
         if (heroRole) heroRole.style.transform = `translate3d(0, ${p2.toFixed(1)}px, 0)`;
         if (heroBio) heroBio.style.transform = `translate3d(0, ${p3.toFixed(1)}px, 0)`;
@@ -1039,36 +971,99 @@ function initParallax() {
       }
     }
 
-    // 2. Sections Parallax (Header vs Content depth differential)
-    const viewportCenter = vh / 2;
+    // Helper: calculate signed distance from viewport center
+    function getCenterDiff(el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < -100 || rect.top > vh + 100) return null;
+      const secCenter = rect.top + rect.height / 2;
+      return Math.max(-vh, Math.min(vh, secCenter - viewportCenter));
+    }
 
-    for (let i = 0; i < sectionData.length; i++) {
-      const item = sectionData[i];
-      const rect = item.sec.getBoundingClientRect();
-
-      // Only calculate if section is in or near viewport
-      if (rect.bottom > -80 && rect.top < vh + 80) {
-        const secCenter = rect.top + rect.height / 2;
-        const diff = Math.max(-vh, Math.min(vh, secCenter - viewportCenter));
-
-        // Header has subtle negative drift (floating in front)
-        if (item.header) {
-          const headerY = Math.max(-35, Math.min(35, diff * -0.05)).toFixed(1);
-          item.header.style.transform = `translate3d(0, ${headerY}px, 0)`;
+    // B. Projects Section Parallax (Multi-plane depth across cards)
+    if (projectsData) {
+      const diff = getCenterDiff(projectsData.sec);
+      if (diff !== null) {
+        if (projectsData.header) {
+          const hy = Math.max(-38, Math.min(38, diff * -0.065)).toFixed(1);
+          projectsData.header.style.transform = `translate3d(0, ${hy}px, 0)`;
         }
 
-        // Content / Grid has subtle positive drift (depth behind)
-        if (item.content) {
-          const contentY = Math.max(-25, Math.min(25, diff * 0.035)).toFixed(1);
-          item.content.style.transform = `translate3d(0, ${contentY}px, 0)`;
+        // Staggered depth per card
+        const cardMultipliers = [0.038, -0.022, 0.048];
+        projectsData.cards.forEach((card, idx) => {
+          const mult = cardMultipliers[idx % cardMultipliers.length];
+          const cy = Math.max(-28, Math.min(28, diff * mult)).toFixed(1);
+          card.style.setProperty('--parallax-card-y', `${cy}px`);
+        });
+
+        if (projectsData.viewMore) {
+          const vy = Math.max(-20, Math.min(20, diff * 0.030)).toFixed(1);
+          projectsData.viewMore.style.transform = `translate3d(0, ${vy}px, 0)`;
         }
       }
     }
 
-    // 3. Subpage header parallax (if on projects.html or similar)
+    // C. Achievements Section Parallax
+    if (achievementsData) {
+      const diff = getCenterDiff(achievementsData.sec);
+      if (diff !== null) {
+        if (achievementsData.header) {
+          const hy = Math.max(-38, Math.min(38, diff * -0.065)).toFixed(1);
+          achievementsData.header.style.transform = `translate3d(0, ${hy}px, 0)`;
+        }
+
+        const cardMultipliers = [0.038, -0.022, 0.048];
+        achievementsData.cards.forEach((card, idx) => {
+          const mult = cardMultipliers[idx % cardMultipliers.length];
+          const cy = Math.max(-28, Math.min(28, diff * mult)).toFixed(1);
+          card.style.setProperty('--parallax-card-y', `${cy}px`);
+        });
+      }
+    }
+
+    // D. About / Contact Section Parallax
+    if (contactData) {
+      const diff = getCenterDiff(contactData.sec);
+      if (diff !== null) {
+        if (contactData.header) {
+          const hy = Math.max(-38, Math.min(38, diff * -0.065)).toFixed(1);
+          contactData.header.style.transform = `translate3d(0, ${hy}px, 0)`;
+        }
+
+        if (contactData.aboutText) {
+          const ay = Math.max(-26, Math.min(26, diff * -0.035)).toFixed(1);
+          contactData.aboutText.style.transform = `translate3d(0, ${ay}px, 0)`;
+        }
+
+        const boxMultipliers = [0.025, 0.052];
+        contactData.academicBoxes.forEach((box, idx) => {
+          const mult = boxMultipliers[idx % boxMultipliers.length];
+          const by = Math.max(-26, Math.min(26, diff * mult)).toFixed(1);
+          box.style.setProperty('--parallax-card-y', `${by}px`);
+        });
+
+        if (contactData.channels) {
+          const chy = Math.max(-20, Math.min(20, diff * 0.028)).toFixed(1);
+          contactData.channels.style.transform = `translate3d(0, ${chy}px, 0)`;
+        }
+      }
+    }
+
+    // E. Subpage Header & Cards Parallax
     if (pageHeader && scrollY <= vh) {
       pageHeader.style.transform = `translate3d(0, ${(scrollY * 0.22).toFixed(1)}px, 0)`;
       pageHeader.style.opacity = Math.max(0, 1 - (scrollY / (vh * 0.7))).toFixed(3);
+    }
+
+    if (subpageCards.length) {
+      subpageCards.forEach((card, idx) => {
+        const diff = getCenterDiff(card);
+        if (diff !== null) {
+          const mult = idx % 2 === 0 ? 0.03 : -0.02;
+          const cy = Math.max(-24, Math.min(24, diff * mult)).toFixed(1);
+          card.style.setProperty('--parallax-card-y', `${cy}px`);
+        }
+      });
     }
 
     ticking = false;
@@ -1090,5 +1085,6 @@ function initParallax() {
 
   update();
 }
+
 
 
