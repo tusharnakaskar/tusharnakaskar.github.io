@@ -892,8 +892,9 @@ function initPageTransitions() {
 }
 
 /* ==========================================================================
-   4. Continuous Bidirectional Parallax Scrolling (Foreground Interfaces Only)
-      Smooth multi-plane depth responsive for both scrolling down and scrolling up.
+   4. Continuous 3D Spatial Parallax Scrolling (Foreground Interfaces Only)
+      Sections and text recede backward in 3D depth with fading and scale shrinking,
+      and expand forward vice versa when scrolling up.
       Background canvas (#bg-canvas) and video layer (#video-bg-wrapper)
       remain completely fixed, isolated, and undisturbed.
    ========================================================================== */
@@ -911,30 +912,18 @@ function initParallax() {
   const heroSkills = heroSection ? heroSection.querySelector('.quick-skills-strip') : null;
 
   // 2. Sections cached data (Projects, Achievements, About)
-  const projectsSection = document.getElementById('projects');
-  const achievementsSection = document.getElementById('achievements');
-  const contactSection = document.getElementById('contact');
+  const sectionIds = ['projects', 'achievements', 'contact'];
+  const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
 
-  const projectsData = projectsSection ? {
-    sec: projectsSection,
-    header: projectsSection.querySelector('.section-header-compact'),
-    cards: Array.from(projectsSection.querySelectorAll('.home-project-card')),
-    viewMore: projectsSection.querySelector('.projects-view-more')
-  } : null;
-
-  const achievementsData = achievementsSection ? {
-    sec: achievementsSection,
-    header: achievementsSection.querySelector('.section-header-compact'),
-    cards: Array.from(achievementsSection.querySelectorAll('.achievement-card'))
-  } : null;
-
-  const contactData = contactSection ? {
-    sec: contactSection,
-    header: contactSection.querySelector('.section-header-compact'),
-    aboutText: contactSection.querySelector('.contact-about-text'),
-    academicBoxes: Array.from(contactSection.querySelectorAll('.academic-card-box')),
-    channels: contactSection.querySelector('.contact-panel-channels')
-  } : null;
+  const sectionData = sections.map(sec => ({
+    sec,
+    header: sec.querySelector('.section-header-compact'),
+    cards: Array.from(sec.querySelectorAll('.home-project-card, .achievement-card')),
+    academicBoxes: Array.from(sec.querySelectorAll('.academic-card-box')),
+    viewMore: sec.querySelector('.projects-view-more'),
+    aboutText: sec.querySelector('.contact-about-text'),
+    channels: sec.querySelector('.contact-panel-channels')
+  }));
 
   // 3. Subpage elements (e.g., projects.html)
   const pageHeader = document.querySelector('.page-header');
@@ -947,121 +936,127 @@ function initParallax() {
     const vh = window.innerHeight;
     const viewportCenter = vh / 2;
 
-    // A. Hero Exit & Return Parallax (Fully reversible down & up)
+    // A. Hero Section 3D Recede & Zoom Forward (Vice Versa)
     if (heroSection) {
       if (scrollY <= vh * 1.25) {
-        const p0 = Math.min(140, scrollY * 0.36); // Status Pill
-        const p1 = Math.min(120, scrollY * 0.28); // Name
-        const p2 = Math.min(80, scrollY * 0.18);  // Role
-        const p3 = Math.min(50, scrollY * 0.12);  // Bio
-        const p4 = Math.min(30, scrollY * 0.06);  // Skills Strip
-        const opacity = Math.max(0, 1 - (scrollY / (vh * 0.72)) * 0.95);
+        // Progress goes from 0 (at top) to 1 (scrolled away)
+        const progress = Math.min(1.15, Math.max(0, scrollY / (vh * 0.72)));
+        
+        // 3D backward movement: Z goes from 0px to -160px
+        const heroZ = (-progress * 160).toFixed(1);
+        // Scale shrinks from 1.00 down to 0.82 (text gets smaller in 3D)
+        const heroScale = Math.max(0.82, 1.0 - progress * 0.18).toFixed(3);
+        // Opacity fades smoothly from 1.00 down to 0
+        const heroOpacity = Math.max(0, 1.0 - progress * 1.15).toFixed(3);
+        // Subtle vertical inertia
+        const heroY = (scrollY * 0.28).toFixed(1);
 
-        if (heroPill) heroPill.style.transform = `translate3d(0, ${p0.toFixed(1)}px, 0)`;
-        if (heroName) heroName.style.transform = `translate3d(0, ${p1.toFixed(1)}px, 0)`;
-        if (heroRole) heroRole.style.transform = `translate3d(0, ${p2.toFixed(1)}px, 0)`;
-        if (heroBio) heroBio.style.transform = `translate3d(0, ${p3.toFixed(1)}px, 0)`;
-        if (heroSkills) heroSkills.style.transform = `translate3d(0, ${p4.toFixed(1)}px, 0)`;
+        heroSection.style.setProperty('--section-y', `${heroY}px`);
+        heroSection.style.setProperty('--section-z', `${heroZ}px`);
+        heroSection.style.setProperty('--section-scale', heroScale);
+        heroSection.style.setProperty('--section-opacity', heroOpacity);
 
-        heroSection.style.opacity = opacity.toFixed(3);
+        // Internal element 3D parallax shifts
+        if (heroPill) heroPill.style.transform = `translate3d(0, ${(scrollY * 0.12).toFixed(1)}px, 15px)`;
+        if (heroName) heroName.style.transform = `translate3d(0, ${(scrollY * 0.08).toFixed(1)}px, 25px)`;
+        if (heroRole) heroRole.style.transform = `translate3d(0, ${(scrollY * 0.05).toFixed(1)}px, 18px)`;
+        if (heroBio) heroBio.style.transform = `translate3d(0, ${(scrollY * 0.03).toFixed(1)}px, 10px)`;
+        if (heroSkills) heroSkills.style.transform = `translate3d(0, 0px, 5px)`;
       } else {
-        if (heroSection.style.opacity !== '0') {
-          heroSection.style.opacity = '0';
+        if (heroSection.style.getPropertyValue('--section-opacity') !== '0') {
+          heroSection.style.setProperty('--section-opacity', '0');
         }
       }
     }
 
-    // Helper: calculate signed distance from viewport center
-    function getCenterDiff(el) {
-      const rect = el.getBoundingClientRect();
-      if (rect.bottom < -100 || rect.top > vh + 100) return null;
-      const secCenter = rect.top + rect.height / 2;
-      return Math.max(-vh, Math.min(vh, secCenter - viewportCenter));
-    }
+    // B. Sections 3D Parallax: recedes backward as it scrolls past, expands forward as it centers (vice versa)
+    for (let i = 0; i < sectionData.length; i++) {
+      const item = sectionData[i];
+      const rect = item.sec.getBoundingClientRect();
 
-    // B. Projects Section Parallax (Multi-plane depth across cards)
-    if (projectsData) {
-      const diff = getCenterDiff(projectsData.sec);
-      if (diff !== null) {
-        if (projectsData.header) {
-          const hy = Math.max(-38, Math.min(38, diff * -0.065)).toFixed(1);
-          projectsData.header.style.transform = `translate3d(0, ${hy}px, 0)`;
+      // Only calculate if in or near viewport
+      if (rect.bottom > -150 && rect.top < vh + 150) {
+        const secCenter = rect.top + rect.height / 2;
+        const dist = secCenter - viewportCenter; // negative when above center, positive when below
+        
+        // Normalized distance from center (0 = centered, 1 = far away)
+        const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.65)));
+
+        // 3D Depth: pushed backward into screen as it moves away from center
+        const secZ = (-norm * 140).toFixed(1);
+        // Scale: text and cards get smaller like 3D (1.00 -> 0.86)
+        const secScale = (1.0 - norm * 0.14).toFixed(3);
+        // Fading: fades out into the distance (1.00 -> 0.22)
+        const secOpacity = Math.max(0.18, 1.0 - norm * 0.78).toFixed(3);
+        // Gentle Y drift
+        const secY = (dist * 0.06).toFixed(1);
+
+        item.sec.style.setProperty('--section-y', `${secY}px`);
+        item.sec.style.setProperty('--section-z', `${secZ}px`);
+        item.sec.style.setProperty('--section-scale', secScale);
+        item.sec.style.setProperty('--section-opacity', secOpacity);
+
+        // Header floats slightly in front in 3D
+        if (item.header) {
+          const hy = (dist * -0.04).toFixed(1);
+          item.sec.style.setProperty('--header-y', `${hy}px`);
         }
 
-        // Staggered depth per card
-        const cardMultipliers = [0.038, -0.022, 0.048];
-        projectsData.cards.forEach((card, idx) => {
-          const mult = cardMultipliers[idx % cardMultipliers.length];
-          const cy = Math.max(-28, Math.min(28, diff * mult)).toFixed(1);
-          card.style.setProperty('--parallax-card-y', `${cy}px`);
-        });
-
-        if (projectsData.viewMore) {
-          const vy = Math.max(-20, Math.min(20, diff * 0.030)).toFixed(1);
-          projectsData.viewMore.style.transform = `translate3d(0, ${vy}px, 0)`;
-        }
-      }
-    }
-
-    // C. Achievements Section Parallax
-    if (achievementsData) {
-      const diff = getCenterDiff(achievementsData.sec);
-      if (diff !== null) {
-        if (achievementsData.header) {
-          const hy = Math.max(-38, Math.min(38, diff * -0.065)).toFixed(1);
-          achievementsData.header.style.transform = `translate3d(0, ${hy}px, 0)`;
+        // Staggered micro-depth between cards inside section
+        if (item.cards.length) {
+          const cardMultipliers = [0.03, -0.015, 0.04];
+          const zOffsets = [5, 0, 8];
+          item.cards.forEach((card, idx) => {
+            const mult = cardMultipliers[idx % cardMultipliers.length];
+            const cy = (dist * mult).toFixed(1);
+            const cz = zOffsets[idx % zOffsets.length];
+            card.style.setProperty('--parallax-card-y', `${cy}px`);
+            card.style.setProperty('--parallax-card-z', `${cz}px`);
+          });
         }
 
-        const cardMultipliers = [0.038, -0.022, 0.048];
-        achievementsData.cards.forEach((card, idx) => {
-          const mult = cardMultipliers[idx % cardMultipliers.length];
-          const cy = Math.max(-28, Math.min(28, diff * mult)).toFixed(1);
-          card.style.setProperty('--parallax-card-y', `${cy}px`);
-        });
-      }
-    }
-
-    // D. About / Contact Section Parallax
-    if (contactData) {
-      const diff = getCenterDiff(contactData.sec);
-      if (diff !== null) {
-        if (contactData.header) {
-          const hy = Math.max(-38, Math.min(38, diff * -0.065)).toFixed(1);
-          contactData.header.style.transform = `translate3d(0, ${hy}px, 0)`;
+        // Academic boxes
+        if (item.academicBoxes.length) {
+          item.academicBoxes.forEach((box, idx) => {
+            const mult = idx === 0 ? 0.02 : 0.04;
+            const by = (dist * mult).toFixed(1);
+            box.style.setProperty('--parallax-card-y', `${by}px`);
+            box.style.setProperty('--parallax-card-z', `${idx * 6}px`);
+          });
         }
 
-        if (contactData.aboutText) {
-          const ay = Math.max(-26, Math.min(26, diff * -0.035)).toFixed(1);
-          contactData.aboutText.style.transform = `translate3d(0, ${ay}px, 0)`;
+        if (item.aboutText) {
+          item.aboutText.style.transform = `translate3d(0, ${(dist * -0.025).toFixed(1)}px, 12px)`;
         }
 
-        const boxMultipliers = [0.025, 0.052];
-        contactData.academicBoxes.forEach((box, idx) => {
-          const mult = boxMultipliers[idx % boxMultipliers.length];
-          const by = Math.max(-26, Math.min(26, diff * mult)).toFixed(1);
-          box.style.setProperty('--parallax-card-y', `${by}px`);
-        });
+        if (item.channels) {
+          item.channels.style.transform = `translate3d(0, ${(dist * 0.02).toFixed(1)}px, 8px)`;
+        }
 
-        if (contactData.channels) {
-          const chy = Math.max(-20, Math.min(20, diff * 0.028)).toFixed(1);
-          contactData.channels.style.transform = `translate3d(0, ${chy}px, 0)`;
+        if (item.viewMore) {
+          item.viewMore.style.transform = `translate3d(0, ${(dist * 0.025).toFixed(1)}px, 10px)`;
         }
       }
     }
 
-    // E. Subpage Header & Cards Parallax
+    // C. Subpage Header & Cards
     if (pageHeader && scrollY <= vh) {
-      pageHeader.style.transform = `translate3d(0, ${(scrollY * 0.22).toFixed(1)}px, 0)`;
-      pageHeader.style.opacity = Math.max(0, 1 - (scrollY / (vh * 0.7))).toFixed(3);
+      const p = Math.min(1.0, scrollY / (vh * 0.7));
+      pageHeader.style.setProperty('--section-z', `${(-p * 140).toFixed(1)}px`);
+      pageHeader.style.setProperty('--section-scale', (1.0 - p * 0.16).toFixed(3));
+      pageHeader.style.setProperty('--section-opacity', Math.max(0, 1.0 - p * 1.15).toFixed(3));
+      pageHeader.style.setProperty('--section-y', `${(scrollY * 0.22).toFixed(1)}px`);
     }
 
     if (subpageCards.length) {
       subpageCards.forEach((card, idx) => {
-        const diff = getCenterDiff(card);
-        if (diff !== null) {
-          const mult = idx % 2 === 0 ? 0.03 : -0.02;
-          const cy = Math.max(-24, Math.min(24, diff * mult)).toFixed(1);
-          card.style.setProperty('--parallax-card-y', `${cy}px`);
+        const rect = card.getBoundingClientRect();
+        if (rect.bottom > -100 && rect.top < vh + 100) {
+          const cardCenter = rect.top + rect.height / 2;
+          const dist = cardCenter - viewportCenter;
+          const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.65)));
+          card.style.setProperty('--parallax-card-z', `${(-norm * 100).toFixed(1)}px`);
+          card.style.setProperty('--parallax-card-y', `${(dist * 0.03).toFixed(1)}px`);
         }
       });
     }
@@ -1085,6 +1080,7 @@ function initParallax() {
 
   update();
 }
+
 
 
 

@@ -2495,10 +2495,28 @@ html.split-transition-active .split-curtain-right,
 }
 
 /* ==========================================================================
-   Continuous Bidirectional Parallax Scrolling (Foreground Interfaces Only)
+   Continuous 3D Spatial Parallax Scrolling (Foreground Interfaces Only)
    Completely isolated from background canvas and background video layer.
-   Smooth multi-plane depth responsive for both scrolling down and scrolling up.
+   Sections, headings, and cards recede backward in 3D depth with smooth scale
+   and fading as they scroll, and expand forward vice versa when scrolling up.
    ========================================================================== */
+.main-content {
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+.hero-section-centered,
+.section-block,
+.page-header {
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  transform: translate3d(0, var(--section-y, 0px), var(--section-z, 0px)) scale(var(--section-scale, 1));
+  opacity: var(--section-opacity, 1);
+  backface-visibility: hidden;
+}
+
+/* Internal Section Depth Layers */
 .hero-status-pill,
 .hero-name-center,
 .hero-role-center,
@@ -2510,16 +2528,19 @@ html.split-transition-active .split-curtain-right,
 .academic-card-box,
 .contact-panel-channels,
 .home-project-card,
-.achievement-card,
-.page-header {
+.achievement-card {
   will-change: transform;
 }
 
-/* Card Parallax & Hover Composition */
+.section-header-compact {
+  transform: translate3d(0, var(--header-y, 0px), 24px);
+}
+
+/* Card Parallax & 3D Hover Lift */
 .home-project-card,
 .achievement-card,
 .academic-card-box {
-  transform: translate3d(0, var(--parallax-card-y, 0px), 0);
+  transform: translate3d(0, var(--parallax-card-y, 0px), var(--parallax-card-z, 0px));
   transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
               border-color var(--trans),
               box-shadow var(--trans);
@@ -2527,14 +2548,17 @@ html.split-transition-active .split-curtain-right,
 
 .home-project-card:hover,
 .achievement-card:hover {
-  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 3px), 0) !important;
+  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 4px), 25px) !important;
 }
 
 .academic-card-box:hover {
-  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 2px), 0) !important;
+  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 3px), 18px) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-section-centered,
+  .section-block,
+  .page-header,
   .hero-status-pill,
   .hero-name-center,
   .hero-role-center,
@@ -2546,13 +2570,13 @@ html.split-transition-active .split-curtain-right,
   .academic-card-box,
   .contact-panel-channels,
   .home-project-card,
-  .achievement-card,
-  .page-header {
+  .achievement-card {
     transform: none !important;
     opacity: 1 !important;
     will-change: auto;
   }
 }
+
 
 
 
