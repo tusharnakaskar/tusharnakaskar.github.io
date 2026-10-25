@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initResumeDownload();
   initCurrentYear();
+  initScrollUnfold();
 });
 
 /* ==========================================================================
@@ -889,3 +890,87 @@ function initPageTransitions() {
     }, 3000);
   });
 }
+
+/* ==========================================================================
+   4. Compress-to-Expand Vertical Scale Unfold on Scroll (Option 2)
+      Applies strictly to foreground content interfaces above the background.
+      The background canvas and video player are completely undisturbed.
+   ========================================================================== */
+function initScrollUnfold() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  // Mark HTML document as supporting scroll animations
+  document.documentElement.classList.add('has-scroll-animations');
+
+  // Select foreground interfaces that animate on scroll
+  const selectors = [
+    '.section-block .section-title',
+    '.section-block .section-subtitle',
+    '.home-project-card',
+    '.projects-view-more',
+    '.achievement-card',
+    '.contact-about-layout',
+    '.contact-panel-channels',
+    '.page-header .page-title',
+    '.page-header .page-subtitle',
+    '.project-card'
+  ];
+
+  const elements = document.querySelectorAll(selectors.join(', '));
+  if (!elements.length) return;
+
+  // Stagger delays for natural rhythm
+  elements.forEach((el) => {
+    el.classList.add('scroll-unfold');
+
+    if (el.classList.contains('section-subtitle') || el.classList.contains('page-subtitle')) {
+      el.style.transitionDelay = '0.1s';
+    } else if (el.classList.contains('home-project-card') || el.classList.contains('achievement-card') || el.classList.contains('project-card')) {
+      const parent = el.parentElement;
+      if (parent) {
+        const siblings = Array.from(parent.children).filter(c => 
+          c.classList.contains('home-project-card') || 
+          c.classList.contains('achievement-card') || 
+          c.classList.contains('project-card')
+        );
+        const idx = siblings.indexOf(el);
+        el.style.transitionDelay = `${0.12 + Math.max(0, idx) * 0.1}s`;
+      }
+    } else if (el.classList.contains('projects-view-more')) {
+      el.style.transitionDelay = '0.32s';
+    } else if (el.classList.contains('contact-panel-channels')) {
+      el.style.transitionDelay = '0.18s';
+    }
+  });
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        el.classList.add('is-unfolded');
+
+        // Once unfold completes, clean up transform and delays so hover effects work seamlessly
+        const onTransEnd = (e) => {
+          if (e.propertyName === 'transform') {
+            el.removeEventListener('transitionend', onTransEnd);
+            el.classList.remove('scroll-unfold', 'is-unfolded');
+            el.style.transitionDelay = '';
+            el.style.willChange = '';
+          }
+        };
+        el.addEventListener('transitionend', onTransEnd);
+
+        obs.unobserve(el);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -8% 0px',
+    threshold: 0.08
+  });
+
+  elements.forEach(el => observer.observe(el));
+}
+

@@ -2494,3 +2494,45 @@ html.split-transition-active .split-curtain-right,
   word-break: break-word;
 }
 
+/* ==========================================================================
+   Foreground Content Scroll Transitions - Vertical Scale Unfold (Option 2)
+   Starts squished flat at baseline (scaleY: 0.25) and springs open vertically.
+   Completely isolated to above content — background canvas & video are untouched.
+   ========================================================================== */
+.has-scroll-animations .scroll-unfold {
+  opacity: 0;
+  transform: translateY(28px) scaleY(0.25) scaleX(1.08);
+  transform-origin: 50% 100%;
+  filter: blur(4px);
+  transition: 
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+}
+
+.has-scroll-animations .scroll-unfold.is-unfolded {
+  opacity: 1;
+  transform: translateY(0) scaleY(1) scaleX(1);
+  filter: blur(0);
+}
+
+/* Ensure hover interactions on cards remain crisp during and after transition */
+.has-scroll-animations .scroll-unfold.is-unfolded.home-project-card:hover,
+.has-scroll-animations .scroll-unfold.is-unfolded.achievement-card:hover,
+.has-scroll-animations .scroll-unfold.is-unfolded.project-card:hover {
+  transform: translateY(-3px) scale(1) !important;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .has-scroll-animations .scroll-unfold {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+
