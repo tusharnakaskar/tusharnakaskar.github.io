@@ -2516,12 +2516,26 @@ html.split-transition-active .split-curtain-right,
   backface-visibility: hidden;
 }
 
-/* Internal Section Depth Layers */
-.hero-status-pill,
-.hero-name-center,
+/* Hero Centered Name 3D Shrink */
+.hero-name-center {
+  transform-origin: 50% 50%;
+  transform: translate3d(0, var(--name-y, 0px), var(--name-z, 0px)) scale(var(--name-scale, 1));
+  opacity: var(--name-opacity, 1);
+  will-change: transform, opacity;
+}
+
+/* Hero Subtitle, Bio, and Skills Strip 3D Alignment */
 .hero-role-center,
 .hero-bio-center,
-.quick-skills-strip,
+.quick-skills-strip {
+  transform-origin: 50% 50%;
+  transform: translate3d(0, var(--role-y, 0px), var(--role-z, 0px)) scale(var(--role-scale, 1));
+  opacity: var(--role-opacity, 1);
+  will-change: transform, opacity;
+}
+
+/* Internal Section Depth Layers */
+.hero-status-pill,
 .section-header-compact,
 .projects-view-more,
 .contact-about-text,
