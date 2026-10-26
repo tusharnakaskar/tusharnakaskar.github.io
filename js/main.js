@@ -1051,18 +1051,16 @@ function initParallax() {
     // A. Hero Section 3D Recede & Name Shrinking (Vice Versa)
     if (heroSection) {
       if (scrollY <= vh * 1.35) {
-        // Hero stays 100% original crisp look while in view; triggers only when exiting off-screen
-        const heroExitThreshold = Math.max(120, vh * 0.18);
+        // Starts transition immediately as scrolling begins from top (no delay)
         let p = 0;
-        if (scrollY > heroExitThreshold) {
-          p = Math.min(1.0, (scrollY - heroExitThreshold) / (vh * 0.50));
+        if (scrollY > 25) {
+          p = Math.min(1.0, (scrollY - 25) / (vh * 0.55));
         }
 
-        // 1. Name shrinks smoothly into 3D backward depth just when scrolling off
-        const ease = p * p * (3 - 2 * p);
-        const nameScale = (1.0 - ease * 0.54).toFixed(3);
-        const nameY = (ease * 40).toFixed(1);
-        const nameOpacity = Math.max(0, 1.0 - ease * 1.25).toFixed(3);
+        // 1. Name shrinks smoothly into 3D backward depth on scroll
+        const nameScale = (1.0 - p * 0.54).toFixed(3);
+        const nameY = (p * 40).toFixed(1);
+        const nameOpacity = Math.max(0, 1.0 - p * 1.25).toFixed(3);
 
         if (heroName) {
           heroName.style.setProperty('--name-scale', nameScale);
@@ -1071,9 +1069,9 @@ function initParallax() {
         }
 
         // 2. Below text (role, bio, skills) steps forward in sync
-        const roleScale = (1.0 + ease * 0.02).toFixed(3);
-        const roleY = (ease * 50).toFixed(1);
-        const roleOpacity = Math.max(0, 1.0 - ease * 1.15).toFixed(3);
+        const roleScale = (1.0 + p * 0.02).toFixed(3);
+        const roleY = (p * 50).toFixed(1);
+        const roleOpacity = Math.max(0, 1.0 - p * 1.15).toFixed(3);
 
         if (heroRole) {
           heroRole.style.setProperty('--role-scale', roleScale);
@@ -1089,16 +1087,16 @@ function initParallax() {
 
         if (heroSkills) {
           heroSkills.style.setProperty('--role-scale', roleScale);
-          heroSkills.style.setProperty('--role-y', `${(ease * 45).toFixed(1)}px`);
+          heroSkills.style.setProperty('--role-y', `${(p * 45).toFixed(1)}px`);
           heroSkills.style.setProperty('--role-opacity', roleOpacity);
         }
 
         if (heroPill) {
-          heroPill.style.transform = `translate3d(0, ${(ease * 20).toFixed(1)}px, 0)`;
-          heroPill.style.opacity = Math.max(0, 1.0 - ease * 1.35).toFixed(3);
+          heroPill.style.transform = `translate3d(0, ${(p * 20).toFixed(1)}px, 0)`;
+          heroPill.style.opacity = Math.max(0, 1.0 - p * 1.35).toFixed(3);
         }
 
-        const heroSectionOpacity = Math.max(0, 1.0 - ease * 1.15).toFixed(3);
+        const heroSectionOpacity = Math.max(0, 1.0 - p * 1.15).toFixed(3);
         heroSection.style.setProperty('--section-opacity', heroSectionOpacity);
       } else {
         if (heroSection.style.getPropertyValue('--section-opacity') !== '0') {
@@ -1108,8 +1106,8 @@ function initParallax() {
     }
 
     // B. Sections Middle-Aligned Parallax:
-    // Sections stay 100% in their original crisp look while on the interface.
-    // The 3D recede and fade effect triggers just when the section is going off the screen.
+    // When centered in middle, section is in 100% original crisp look (scale 1.0, opacity 1.0).
+    // The transition begins immediately from that point as you scroll away (no delay).
     // All cards stay strictly level in the same horizontal line without vertical shifts.
     for (let i = 0; i < sectionData.length; i++) {
       const item = sectionData[i];
@@ -1136,14 +1134,11 @@ function initParallax() {
         let secScale = 1.0;
         let secOpacity = 1.0;
 
-        // Interface viewing zone: remains 100% original crisp look.
-        // Effect triggers just as the section starts going off the interface.
-        const exitThreshold = Math.max(220, availableHeight * 0.30);
-        if (absDist > exitThreshold) {
-          const norm = Math.min(1.0, (absDist - exitThreshold) / (availableHeight * 0.40));
-          const ease = norm * norm * (3 - 2 * norm); // smoothstep
-          secScale = (1.0 - ease * 0.12).toFixed(3);
-          secOpacity = Math.max(0.20, 1.0 - ease * 0.80).toFixed(3);
+        // Transition starts immediately as scrolling begins away from middle (no delay)
+        if (absDist > 25) {
+          const norm = Math.min(1.0, (absDist - 25) / (availableHeight * 0.58));
+          secScale = (1.0 - norm * 0.12).toFixed(3);
+          secOpacity = Math.max(0.20, 1.0 - norm * 0.80).toFixed(3);
         }
 
         item.sec.style.setProperty('--section-scale', secScale);
@@ -1153,14 +1148,12 @@ function initParallax() {
 
     // C. Subpage Header & Cards
     if (pageHeader && scrollY <= vh) {
-      const headerThreshold = Math.max(80, vh * 0.15);
       let p = 0;
-      if (scrollY > headerThreshold) {
-        p = Math.min(1.0, (scrollY - headerThreshold) / (vh * 0.55));
+      if (scrollY > 25) {
+        p = Math.min(1.0, (scrollY - 25) / (vh * 0.65));
       }
-      const ease = p * p * (3 - 2 * p);
-      pageHeader.style.setProperty('--section-scale', (1.0 - ease * 0.14).toFixed(3));
-      pageHeader.style.setProperty('--section-opacity', Math.max(0, 1.0 - ease * 1.15).toFixed(3));
+      pageHeader.style.setProperty('--section-scale', (1.0 - p * 0.14).toFixed(3));
+      pageHeader.style.setProperty('--section-opacity', Math.max(0, 1.0 - p * 1.15).toFixed(3));
     }
 
     if (subpageCards.length) {
@@ -1171,12 +1164,10 @@ function initParallax() {
         const absDist = Math.abs(dist);
         let cardScale = 1.0;
         let cardOpacity = 1.0;
-        const cardExitThreshold = Math.max(160, vh * 0.25);
-        if (absDist > cardExitThreshold) {
-          const norm = Math.min(1.0, (absDist - cardExitThreshold) / (vh * 0.4));
-          const ease = norm * norm * (3 - 2 * norm);
-          cardScale = (1.0 - ease * 0.08).toFixed(3);
-          cardOpacity = Math.max(0.35, 1.0 - ease * 0.65).toFixed(3);
+        if (absDist > 25) {
+          const norm = Math.min(1.0, (absDist - 25) / (vh * 0.52));
+          cardScale = (1.0 - norm * 0.08).toFixed(3);
+          cardOpacity = Math.max(0.35, 1.0 - norm * 0.65).toFixed(3);
         }
         card.style.transform = `scale(${cardScale})`;
         card.style.opacity = cardOpacity;
@@ -1189,7 +1180,7 @@ function initParallax() {
     const diff = targetScrollY - currentScrollY;
 
     if (Math.abs(diff) > 0.08) {
-      currentScrollY += diff * 0.18;
+      currentScrollY += diff * 0.22;
       render(currentScrollY);
       requestAnimationFrame(loop);
     } else {
