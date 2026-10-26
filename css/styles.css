@@ -1509,21 +1509,22 @@ ul, ol { list-style: none; }
 }
 
 .academic-card-box {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(255, 255, 255, 0.02) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 11px;
-  padding: 0.90rem 1.25rem;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
-              inset 0 1px 1px 0 rgba(255, 255, 255, 0.18);
-  transition: all var(--trans);
+  background: rgba(18, 22, 28, 0.60);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.025) 100%), rgba(14, 16, 20, 0.58);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 0.95rem 1.35rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.40),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.20);
+  transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans), background var(--trans);
 }
 
 .academic-card-box:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.035) 100%);
-  border-color: rgba(255, 255, 255, 0.26);
-  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45),
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 100%), rgba(20, 24, 30, 0.72);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.48),
               inset 0 1px 1px 0 rgba(255, 255, 255, 0.28);
   transform: translateY(-2px);
 }
@@ -2495,78 +2496,48 @@ html.split-transition-active .split-curtain-right,
 }
 
 /* ==========================================================================
-   Continuous 3D Spatial Parallax Scrolling (Foreground Interfaces Only)
+   Continuous Middle-Aligned Parallax (Foreground Interfaces Only)
    Completely isolated from background canvas and background video layer.
-   Sections, headings, and cards recede backward in 3D depth with smooth scale
-   and fading as they scroll, and expand forward vice versa when scrolling up.
+   Sections expand forward to 1.0 scale and 100% opacity when in the middle of
+   the screen, and smoothly shrink/fade when scrolling up or down away from middle.
+   All cards and section boxes stay level in the same horizontal line.
    ========================================================================== */
-.main-content {
-  perspective: 1200px;
-  perspective-origin: 50% 50%;
-}
-
 .hero-section-centered,
 .section-block,
 .page-header {
-  transform-style: preserve-3d;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
-  transform: translate3d(0, var(--section-y, 0px), var(--section-z, 0px)) scale(var(--section-scale, 1));
+  transform: translate3d(0, var(--section-y, 0px), 0) scale(var(--section-scale, 1));
   opacity: var(--section-opacity, 1);
-  backface-visibility: hidden;
 }
 
-/* Hero Centered Name 3D Shrink */
+/* Hero Centered Name 3D Shrink on Scroll */
 .hero-name-center {
   transform-origin: 50% 50%;
-  transform: translate3d(0, var(--name-y, 0px), var(--name-z, 0px)) scale(var(--name-scale, 1));
+  transform: translate3d(0, var(--name-y, 0px), 0) scale(var(--name-scale, 1));
   opacity: var(--name-opacity, 1);
   will-change: transform, opacity;
 }
 
-/* Hero Subtitle, Bio, and Skills Strip 3D Alignment */
+/* Hero Subtitle, Bio, and Skills Strip Synchronized Alignment */
 .hero-role-center,
 .hero-bio-center,
 .quick-skills-strip {
   transform-origin: 50% 50%;
-  transform: translate3d(0, var(--role-y, 0px), var(--role-z, 0px)) scale(var(--role-scale, 1));
+  transform: translate3d(0, var(--role-y, 0px), 0) scale(var(--role-scale, 1));
   opacity: var(--role-opacity, 1);
   will-change: transform, opacity;
 }
 
-/* Internal Section Depth Layers */
-.hero-status-pill,
-.section-header-compact,
-.projects-view-more,
-.contact-about-text,
-.academic-card-box,
-.contact-panel-channels,
+/* Card Hover Lift (Level in the same line without uneven vertical offsets) */
 .home-project-card,
 .achievement-card {
-  will-change: transform;
-}
-
-.section-header-compact {
-  transform: translate3d(0, var(--header-y, 0px), 24px);
-}
-
-/* Card Parallax & 3D Hover Lift */
-.home-project-card,
-.achievement-card,
-.academic-card-box {
-  transform: translate3d(0, var(--parallax-card-y, 0px), var(--parallax-card-z, 0px));
-  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
-              border-color var(--trans),
-              box-shadow var(--trans);
+  transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
 }
 
 .home-project-card:hover,
 .achievement-card:hover {
-  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 4px), 25px) !important;
-}
-
-.academic-card-box:hover {
-  transform: translate3d(0, calc(var(--parallax-card-y, 0px) - 3px), 18px) !important;
+  transform: translateY(-4px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2578,18 +2549,15 @@ html.split-transition-active .split-curtain-right,
   .hero-role-center,
   .hero-bio-center,
   .quick-skills-strip,
-  .section-header-compact,
-  .projects-view-more,
-  .contact-about-text,
-  .academic-card-box,
-  .contact-panel-channels,
   .home-project-card,
-  .achievement-card {
+  .achievement-card,
+  .academic-card-box {
     transform: none !important;
     opacity: 1 !important;
     will-change: auto;
   }
 }
+
 
 
 

@@ -897,41 +897,51 @@ function initPageTransitions() {
       Centers targeted sections (Projects, Achievements, About) directly in the
       middle of the viewport upon clicking navigation buttons.
    ========================================================================== */
-function initCenteredNavScroll() {
-  const links = document.querySelectorAll('a[href^="#"]');
+function scrollToSectionMiddle(targetEl) {
+  if (!targetEl) return;
+  const vh = window.innerHeight;
+  const header = document.querySelector('.site-header');
+  const headerHeight = header ? header.offsetHeight : 70;
+  
+  // The true visual middle of the available viewing screen beneath sticky header
+  const visualMiddle = headerHeight + (vh - headerHeight) / 2;
 
-  links.forEach(link => {
+  // Measure true document position of target element
+  const rect = targetEl.getBoundingClientRect();
+  const currentScroll = window.scrollY || window.pageYOffset || 0;
+  const elTop = rect.top + currentScroll;
+  const elHeight = rect.height;
+
+  // The scroll position that aligns the target's center with visualMiddle
+  let targetScrollY = Math.round((elTop + elHeight / 2) - visualMiddle);
+
+  const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
+  targetScrollY = Math.max(0, Math.min(maxScroll, targetScrollY));
+
+  window.scrollTo({
+    top: targetScrollY,
+    behavior: 'smooth'
+  });
+}
+
+function initCenteredNavScroll() {
+  // Capture all navigation and in-page anchor links
+  document.querySelectorAll('a[href^="#"], a[href*="index.html#"]').forEach(link => {
     link.addEventListener('click', (e) => {
-      const hash = link.getAttribute('href');
-      if (!hash || hash === '#') return;
+      const rawHref = link.getAttribute('href');
+      if (!rawHref) return;
+
+      const hashIndex = rawHref.indexOf('#');
+      if (hashIndex === -1) return;
+      const hash = rawHref.slice(hashIndex);
+      if (!hash || hash === '#' || hash === '#main') return;
 
       const targetId = hash.slice(1);
       const targetEl = document.getElementById(targetId);
       if (!targetEl) return;
 
       e.preventDefault();
-
-      const vh = window.innerHeight;
-      const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 70;
-
-      const elTop = targetEl.offsetTop;
-      const elHeight = targetEl.offsetHeight;
-
-      // Perfectly center the section vertically in the available viewport
-      let targetScrollY = Math.round(elTop + (elHeight / 2) - (vh / 2));
-
-      // If section is taller than available space, align top comfortably beneath header
-      if (elHeight > vh - headerHeight - 30) {
-        targetScrollY = elTop - headerHeight - 15;
-      }
-
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
-      targetScrollY = Math.max(0, Math.min(maxScroll, targetScrollY));
-
-      window.scrollTo({
-        top: targetScrollY,
-        behavior: 'smooth'
-      });
+      scrollToSectionMiddle(targetEl);
 
       try {
         history.pushState(null, '', hash);
@@ -939,12 +949,24 @@ function initCenteredNavScroll() {
     });
   });
 
+  // Handle initial page load with a hash (e.g. index.html#achievements)
+  if (window.location.hash) {
+    const hash = window.location.hash;
+    const initialTarget = document.getElementById(hash.slice(1));
+    if (initialTarget) {
+      setTimeout(() => {
+        scrollToSectionMiddle(initialTarget);
+      }, 150);
+    }
+  }
+
   // Smooth scroll to top when clicking brand logo on home page
   const brandLogo = document.querySelector('.brand-logo');
-  if (brandLogo && (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '')) {
+  if (brandLogo) {
     brandLogo.addEventListener('click', (e) => {
       const href = brandLogo.getAttribute('href') || '';
-      if (href === 'index.html' || href === '/' || href.startsWith('#')) {
+      const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '';
+      if (isHomePage && (href === 'index.html' || href === '/' || href.startsWith('#'))) {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
         try {
@@ -956,10 +978,11 @@ function initCenteredNavScroll() {
 }
 
 /* ==========================================================================
-   5. Continuous 3D Spatial Parallax Scrolling (Foreground Interfaces Only)
+   5. Continuous Middle-Aligned Parallax (Foreground Interfaces Only)
       Kinetic damped lerp for buttery lag-free 60fps/120fps smoothness.
-      Name shrinks on scroll and below text appears in sync; sections recede
-      backward in 3D depth and expand forward vice versa when scrolling up.
+      Sections expand to 1.0 scale and 100% opacity in middle of screen,
+      and shrink/fade when moving up or down away from middle.
+      All cards and section boxes stay level in the same horizontal line.
       Background canvas (#bg-canvas) and video layer (#video-bg-wrapper)
       remain completely fixed, isolated, and undisturbed.
    ========================================================================== */
@@ -982,12 +1005,6 @@ function initParallax() {
 
   const sectionData = sections.map(sec => ({
     sec,
-    header: sec.querySelector('.section-header-compact'),
-    cards: Array.from(sec.querySelectorAll('.home-project-card, .achievement-card')),
-    academicBoxes: Array.from(sec.querySelectorAll('.academic-card-box')),
-    viewMore: sec.querySelector('.projects-view-more'),
-    aboutText: sec.querySelector('.contact-about-text'),
-    channels: sec.querySelector('.contact-panel-channels'),
     top: 0,
     height: 0
   }));
@@ -1013,7 +1030,10 @@ function initParallax() {
 
   function render(scrollY) {
     const vh = window.innerHeight;
-    const viewportCenter = scrollY + vh / 2;
+    const header = document.querySelector('.site-header');
+    const headerHeight = header ? header.offsetHeight : 70;
+    const visualMiddle = headerHeight + (vh - headerHeight) / 2;
+    const viewportCenter = scrollY + visualMiddle;
 
     // A. Hero Section 3D Recede & Name Shrinking (Vice Versa)
     if (heroSection) {
@@ -1021,53 +1041,44 @@ function initParallax() {
         // Progress goes from 0 (at top) to 1.0 (scrolled away)
         const p = Math.min(1.0, Math.max(0, scrollY / (vh * 0.65)));
 
-        // 1. Name shrinks dramatically from 1.00 down to 0.44 as it pushes deep into 3D space
+        // 1. Name shrinks dramatically from 1.00 down to 0.44 on scroll
         const nameScale = (1.0 - p * 0.56).toFixed(3);
-        const nameZ = (-p * 220).toFixed(1);
         const nameY = (p * 45).toFixed(1);
         const nameOpacity = Math.max(0, 1.0 - p * 1.25).toFixed(3);
 
         heroName.style.setProperty('--name-scale', nameScale);
-        heroName.style.setProperty('--name-z', `${nameZ}px`);
         heroName.style.setProperty('--name-y', `${nameY}px`);
         heroName.style.setProperty('--name-opacity', nameOpacity);
 
         // 2. Below text (role, bio, skills) steps forward in sync
-        const roleScale = (1.0 + p * 0.03).toFixed(3);
+        const roleScale = (1.0 + p * 0.02).toFixed(3);
         const roleY = (p * 55).toFixed(1);
-        const roleZ = (-p * 90).toFixed(1);
         const roleOpacity = Math.max(0, 0.95 - p * 1.05).toFixed(3);
 
         if (heroRole) {
           heroRole.style.setProperty('--role-scale', roleScale);
           heroRole.style.setProperty('--role-y', `${roleY}px`);
-          heroRole.style.setProperty('--role-z', `${roleZ}px`);
           heroRole.style.setProperty('--role-opacity', roleOpacity);
         }
 
         if (heroBio) {
           heroBio.style.setProperty('--role-scale', roleScale);
           heroBio.style.setProperty('--role-y', `${roleY}px`);
-          heroBio.style.setProperty('--role-z', `${roleZ}px`);
           heroBio.style.setProperty('--role-opacity', roleOpacity);
         }
 
         if (heroSkills) {
-          heroSkills.style.setProperty('--role-scale', (1.0 + p * 0.02).toFixed(3));
+          heroSkills.style.setProperty('--role-scale', roleScale);
           heroSkills.style.setProperty('--role-y', `${(p * 50).toFixed(1)}px`);
-          heroSkills.style.setProperty('--role-z', `${(-p * 70).toFixed(1)}px`);
           heroSkills.style.setProperty('--role-opacity', roleOpacity);
         }
 
         if (heroPill) {
-          heroPill.style.transform = `translate3d(0, ${(p * 25).toFixed(1)}px, 15px)`;
+          heroPill.style.transform = `translate3d(0, ${(p * 25).toFixed(1)}px, 0)`;
           heroPill.style.opacity = Math.max(0, 1.0 - p * 1.35).toFixed(3);
         }
 
-        // Section container subtle depth
-        const heroSectionZ = (-p * 120).toFixed(1);
         const heroSectionOpacity = Math.max(0, 1.0 - p * 1.15).toFixed(3);
-        heroSection.style.setProperty('--section-z', `${heroSectionZ}px`);
         heroSection.style.setProperty('--section-opacity', heroSectionOpacity);
       } else {
         if (heroSection.style.getPropertyValue('--section-opacity') !== '0') {
@@ -1076,91 +1087,51 @@ function initParallax() {
       }
     }
 
-    // B. Sections 3D Parallax: recedes backward as it scrolls past, expands forward as it centers (vice versa)
+    // B. Sections Middle-Aligned Parallax:
+    // Sections scale to 1.0 & 100% opacity in middle of screen,
+    // and shrink/fade as they scroll up or down away from middle.
+    // ALL CARDS IN THE SAME LINE!
     for (let i = 0; i < sectionData.length; i++) {
       const item = sectionData[i];
       const secCenter = item.top + item.height / 2;
-      const dist = secCenter - viewportCenter; // negative when above center, positive when below
+      const dist = secCenter - viewportCenter; // negative when above middle, positive when below middle
 
-      // Only calculate if in or near viewport (buffer of 180px)
+      // Only calculate if in or near viewport (buffer of 200px)
       if (Math.abs(dist) < vh * 0.95 + item.height / 2) {
-        // Normalized distance from center (0 = centered, 1 = far away)
-        const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.65)));
+        // Normalized distance from middle (0 = dead center, 1 = far away)
+        const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.55)));
 
-        // 3D Depth: pushed backward into screen as it moves away from center
-        const secZ = (-norm * 140).toFixed(1);
-        // Scale: text and cards get smaller like 3D (1.00 -> 0.86)
-        const secScale = (1.0 - norm * 0.14).toFixed(3);
-        // Fading: fades smoothly into the distance (1.00 -> 0.22)
-        const secOpacity = Math.max(0.18, 1.0 - norm * 0.78).toFixed(3);
+        // Scale: when centered in middle -> 1.000. When moving up or down away from middle -> 0.880
+        const secScale = (1.0 - norm * 0.12).toFixed(3);
+        // Fading: fades smoothly as it moves away from middle (1.00 -> 0.25)
+        const secOpacity = Math.max(0.25, 1.0 - norm * 0.75).toFixed(3);
         // Gentle Y drift
-        const secY = (dist * 0.05).toFixed(1);
+        const secY = (dist * 0.04).toFixed(1);
 
         item.sec.style.setProperty('--section-y', `${secY}px`);
-        item.sec.style.setProperty('--section-z', `${secZ}px`);
         item.sec.style.setProperty('--section-scale', secScale);
         item.sec.style.setProperty('--section-opacity', secOpacity);
-
-        // Header floats slightly in front in 3D
-        if (item.header) {
-          const hy = (dist * -0.04).toFixed(1);
-          item.sec.style.setProperty('--header-y', `${hy}px`);
-        }
-
-        // Staggered micro-depth between cards inside section
-        if (item.cards.length) {
-          const cardMultipliers = [0.03, -0.015, 0.04];
-          const zOffsets = [5, 0, 8];
-          item.cards.forEach((card, idx) => {
-            const mult = cardMultipliers[idx % cardMultipliers.length];
-            const cy = (dist * mult).toFixed(1);
-            const cz = zOffsets[idx % zOffsets.length];
-            card.style.setProperty('--parallax-card-y', `${cy}px`);
-            card.style.setProperty('--parallax-card-z', `${cz}px`);
-          });
-        }
-
-        // Academic boxes
-        if (item.academicBoxes.length) {
-          item.academicBoxes.forEach((box, idx) => {
-            const mult = idx === 0 ? 0.02 : 0.04;
-            const by = (dist * mult).toFixed(1);
-            box.style.setProperty('--parallax-card-y', `${by}px`);
-            box.style.setProperty('--parallax-card-z', `${idx * 6}px`);
-          });
-        }
-
-        if (item.aboutText) {
-          item.aboutText.style.transform = `translate3d(0, ${(dist * -0.025).toFixed(1)}px, 12px)`;
-        }
-
-        if (item.channels) {
-          item.channels.style.transform = `translate3d(0, ${(dist * 0.02).toFixed(1)}px, 8px)`;
-        }
-
-        if (item.viewMore) {
-          item.viewMore.style.transform = `translate3d(0, ${(dist * 0.025).toFixed(1)}px, 10px)`;
-        }
       }
     }
 
     // C. Subpage Header & Cards
     if (pageHeader && scrollY <= vh) {
       const p = Math.min(1.0, scrollY / (vh * 0.7));
-      pageHeader.style.setProperty('--section-z', `${(-p * 140).toFixed(1)}px`);
-      pageHeader.style.setProperty('--section-scale', (1.0 - p * 0.16).toFixed(3));
+      pageHeader.style.setProperty('--section-scale', (1.0 - p * 0.14).toFixed(3));
       pageHeader.style.setProperty('--section-opacity', Math.max(0, 1.0 - p * 1.15).toFixed(3));
-      pageHeader.style.setProperty('--section-y', `${(scrollY * 0.22).toFixed(1)}px`);
+      pageHeader.style.setProperty('--section-y', `${(scrollY * 0.18).toFixed(1)}px`);
     }
 
     if (subpageCards.length) {
-      subpageCards.forEach((card, idx) => {
+      subpageCards.forEach((card) => {
         const cardTop = card.offsetTop;
         const cardCenter = cardTop + card.offsetHeight / 2;
         const dist = cardCenter - viewportCenter;
-        const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.65)));
-        card.style.setProperty('--parallax-card-z', `${(-norm * 100).toFixed(1)}px`);
-        card.style.setProperty('--parallax-card-y', `${(dist * 0.03).toFixed(1)}px`);
+        const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.55)));
+        const cardScale = (1.0 - norm * 0.08).toFixed(3);
+        const cardOpacity = Math.max(0.35, 1.0 - norm * 0.65).toFixed(3);
+        card.style.transform = `scale(${cardScale})`;
+        card.style.opacity = cardOpacity;
       });
     }
   }
@@ -1170,7 +1141,6 @@ function initParallax() {
     const diff = targetScrollY - currentScrollY;
 
     if (Math.abs(diff) > 0.08) {
-      // Damped interpolation factor: 0.16 gives instant responsiveness with liquid smoothness
       currentScrollY += diff * 0.16;
       render(currentScrollY);
       requestAnimationFrame(loop);
@@ -1198,6 +1168,7 @@ function initParallax() {
 
   render(currentScrollY);
 }
+
 
 
 
