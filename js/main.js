@@ -413,6 +413,17 @@ function initMobileNav() {
   });
 }
 
+/* Helper: Compute true unscaled document offset top */
+function getElementDocTop(el) {
+  let top = 0;
+  let curr = el;
+  while (curr) {
+    top += curr.offsetTop;
+    curr = curr.offsetParent;
+  }
+  return top;
+}
+
 /* ==========================================================================
    Scrollspy Navigation Indicator
    Dynamically shifts active shade between section links on scroll
@@ -447,7 +458,8 @@ function initScrollspy() {
 
     for (let i = 0; i < sections.length; i++) {
       const section = sections[i];
-      if (triggerLine >= section.offsetTop) {
+      const secDocTop = getElementDocTop(section);
+      if (triggerLine >= secDocTop) {
         currentId = section.id;
       }
     }
@@ -901,19 +913,19 @@ function scrollToSectionMiddle(targetEl) {
   if (!targetEl) return;
   const vh = window.innerHeight;
   const header = document.querySelector('.site-header');
-  const headerHeight = header ? header.offsetHeight : 70;
-  
-  // The true visual middle of the available viewing screen beneath sticky header
+  const headerHeight = header ? header.offsetHeight : 72;
   const visualMiddle = headerHeight + (vh - headerHeight) / 2;
+  const availableHeight = vh - headerHeight;
 
-  // Measure true document position of target element
-  const rect = targetEl.getBoundingClientRect();
-  const currentScroll = window.scrollY || window.pageYOffset || 0;
-  const elTop = rect.top + currentScroll;
-  const elHeight = rect.height;
+  const elTop = getElementDocTop(targetEl);
+  const elHeight = targetEl.offsetHeight;
 
-  // The scroll position that aligns the target's center with visualMiddle
-  let targetScrollY = Math.round((elTop + elHeight / 2) - visualMiddle);
+  let targetScrollY;
+  if (elHeight <= availableHeight) {
+    targetScrollY = Math.round((elTop + elHeight / 2) - visualMiddle);
+  } else {
+    targetScrollY = Math.round(elTop - headerHeight - 16);
+  }
 
   const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
   targetScrollY = Math.max(0, Math.min(maxScroll, targetScrollY));
@@ -1016,7 +1028,7 @@ function initParallax() {
   // Pre-measure section coordinates to eliminate layout thrashing during scroll
   function measureLayout() {
     sectionData.forEach(item => {
-      item.top = item.sec.offsetTop;
+      item.top = getElementDocTop(item.sec);
       item.height = item.sec.offsetHeight;
     });
   }
@@ -1031,8 +1043,9 @@ function initParallax() {
   function render(scrollY) {
     const vh = window.innerHeight;
     const header = document.querySelector('.site-header');
-    const headerHeight = header ? header.offsetHeight : 70;
-    const visualMiddle = headerHeight + (vh - headerHeight) / 2;
+    const headerHeight = header ? header.offsetHeight : 72;
+    const availableHeight = vh - headerHeight;
+    const visualMiddle = headerHeight + availableHeight / 2;
     const viewportCenter = scrollY + visualMiddle;
 
     // A. Hero Section 3D Recede & Name Shrinking (Vice Versa)
@@ -1041,19 +1054,21 @@ function initParallax() {
         // Progress goes from 0 (at top) to 1.0 (scrolled away)
         const p = Math.min(1.0, Math.max(0, scrollY / (vh * 0.65)));
 
-        // 1. Name shrinks dramatically from 1.00 down to 0.44 on scroll
-        const nameScale = (1.0 - p * 0.56).toFixed(3);
-        const nameY = (p * 45).toFixed(1);
+        // 1. Name shrinks smoothly into 3D backward depth on scroll
+        const nameScale = (1.0 - p * 0.54).toFixed(3);
+        const nameY = (p * 40).toFixed(1);
         const nameOpacity = Math.max(0, 1.0 - p * 1.25).toFixed(3);
 
-        heroName.style.setProperty('--name-scale', nameScale);
-        heroName.style.setProperty('--name-y', `${nameY}px`);
-        heroName.style.setProperty('--name-opacity', nameOpacity);
+        if (heroName) {
+          heroName.style.setProperty('--name-scale', nameScale);
+          heroName.style.setProperty('--name-y', `${nameY}px`);
+          heroName.style.setProperty('--name-opacity', nameOpacity);
+        }
 
         // 2. Below text (role, bio, skills) steps forward in sync
         const roleScale = (1.0 + p * 0.02).toFixed(3);
-        const roleY = (p * 55).toFixed(1);
-        const roleOpacity = Math.max(0, 0.95 - p * 1.05).toFixed(3);
+        const roleY = (p * 50).toFixed(1);
+        const roleOpacity = Math.max(0, 1.0 - p * 1.15).toFixed(3);
 
         if (heroRole) {
           heroRole.style.setProperty('--role-scale', roleScale);
@@ -1069,12 +1084,12 @@ function initParallax() {
 
         if (heroSkills) {
           heroSkills.style.setProperty('--role-scale', roleScale);
-          heroSkills.style.setProperty('--role-y', `${(p * 50).toFixed(1)}px`);
+          heroSkills.style.setProperty('--role-y', `${(p * 45).toFixed(1)}px`);
           heroSkills.style.setProperty('--role-opacity', roleOpacity);
         }
 
         if (heroPill) {
-          heroPill.style.transform = `translate3d(0, ${(p * 25).toFixed(1)}px, 0)`;
+          heroPill.style.transform = `translate3d(0, ${(p * 20).toFixed(1)}px, 0)`;
           heroPill.style.opacity = Math.max(0, 1.0 - p * 1.35).toFixed(3);
         }
 
@@ -1088,27 +1103,42 @@ function initParallax() {
     }
 
     // B. Sections Middle-Aligned Parallax:
-    // Sections scale to 1.0 & 100% opacity in middle of screen,
-    // and shrink/fade as they scroll up or down away from middle.
-    // ALL CARDS IN THE SAME LINE!
+    // Sections scale to 1.0 & 100% opacity in middle of screen (original look),
+    // and smoothly shrink/fade as they scroll up or down away from middle.
+    // All cards stay strictly level in the same horizontal line without vertical shifts.
     for (let i = 0; i < sectionData.length; i++) {
       const item = sectionData[i];
-      const secCenter = item.top + item.height / 2;
-      const dist = secCenter - viewportCenter; // negative when above middle, positive when below middle
+      let dist = 0;
 
-      // Only calculate if in or near viewport (buffer of 200px)
+      if (item.height <= availableHeight) {
+        const secCenter = item.top + item.height / 2;
+        dist = secCenter - viewportCenter;
+      } else {
+        const centerTop = item.top + availableHeight / 2;
+        const centerBottom = item.top + item.height - availableHeight / 2;
+        if (viewportCenter < centerTop) {
+          dist = centerTop - viewportCenter;
+        } else if (viewportCenter > centerBottom) {
+          dist = centerBottom - viewportCenter;
+        } else {
+          dist = 0;
+        }
+      }
+
+      // Only calculate if in or near viewport
       if (Math.abs(dist) < vh * 0.95 + item.height / 2) {
-        // Normalized distance from middle (0 = dead center, 1 = far away)
-        const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.55)));
+        const absDist = Math.abs(dist);
+        let secScale = 1.0;
+        let secOpacity = 1.0;
 
-        // Scale: when centered in middle -> 1.000. When moving up or down away from middle -> 0.880
-        const secScale = (1.0 - norm * 0.12).toFixed(3);
-        // Fading: fades smoothly as it moves away from middle (1.00 -> 0.25)
-        const secOpacity = Math.max(0.25, 1.0 - norm * 0.75).toFixed(3);
-        // Gentle Y drift
-        const secY = (dist * 0.04).toFixed(1);
+        // 80px comfortable focal deadband: section remains 100% original crisp look
+        if (absDist > 80) {
+          const norm = Math.min(1.0, (absDist - 80) / (vh * 0.45));
+          const ease = norm * norm * (3 - 2 * norm); // smoothstep
+          secScale = (1.0 - ease * 0.12).toFixed(3);
+          secOpacity = Math.max(0.25, 1.0 - ease * 0.75).toFixed(3);
+        }
 
-        item.sec.style.setProperty('--section-y', `${secY}px`);
         item.sec.style.setProperty('--section-scale', secScale);
         item.sec.style.setProperty('--section-opacity', secOpacity);
       }
@@ -1119,17 +1149,22 @@ function initParallax() {
       const p = Math.min(1.0, scrollY / (vh * 0.7));
       pageHeader.style.setProperty('--section-scale', (1.0 - p * 0.14).toFixed(3));
       pageHeader.style.setProperty('--section-opacity', Math.max(0, 1.0 - p * 1.15).toFixed(3));
-      pageHeader.style.setProperty('--section-y', `${(scrollY * 0.18).toFixed(1)}px`);
     }
 
     if (subpageCards.length) {
       subpageCards.forEach((card) => {
-        const cardTop = card.offsetTop;
+        const cardTop = getElementDocTop(card);
         const cardCenter = cardTop + card.offsetHeight / 2;
         const dist = cardCenter - viewportCenter;
-        const norm = Math.min(1.0, Math.max(0.0, Math.abs(dist) / (vh * 0.55)));
-        const cardScale = (1.0 - norm * 0.08).toFixed(3);
-        const cardOpacity = Math.max(0.35, 1.0 - norm * 0.65).toFixed(3);
+        const absDist = Math.abs(dist);
+        let cardScale = 1.0;
+        let cardOpacity = 1.0;
+        if (absDist > 70) {
+          const norm = Math.min(1.0, (absDist - 70) / (vh * 0.5));
+          const ease = norm * norm * (3 - 2 * norm);
+          cardScale = (1.0 - ease * 0.08).toFixed(3);
+          cardOpacity = Math.max(0.35, 1.0 - ease * 0.65).toFixed(3);
+        }
         card.style.transform = `scale(${cardScale})`;
         card.style.opacity = cardOpacity;
       });
@@ -1141,7 +1176,7 @@ function initParallax() {
     const diff = targetScrollY - currentScrollY;
 
     if (Math.abs(diff) > 0.08) {
-      currentScrollY += diff * 0.16;
+      currentScrollY += diff * 0.18;
       render(currentScrollY);
       requestAnimationFrame(loop);
     } else {

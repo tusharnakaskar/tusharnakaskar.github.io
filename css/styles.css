@@ -1262,7 +1262,7 @@ ul, ol { list-style: none; }
 }
 .main-home {
   padding-top: 0;
-  padding-bottom: 0;
+  padding-bottom: calc(50vh - var(--header-height) / 2);
 }
 
 .page-header {
@@ -2020,6 +2020,7 @@ html.split-transition-active .split-curtain-right,
    ========================================================================== */
 .main-home {
   padding-top: 0;
+  padding-bottom: calc(50vh - var(--header-height) / 2);
 }
 
 .hero-section-centered {
@@ -2041,7 +2042,7 @@ html.split-transition-active .split-curtain-right,
   min-height: calc(100dvh - var(--header-height));
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   box-sizing: border-box;
   padding: 2.25rem 0 2rem;
   margin-bottom: 3.5rem;
@@ -2507,7 +2508,7 @@ html.split-transition-active .split-curtain-right,
 .page-header {
   transform-origin: 50% 50%;
   will-change: transform, opacity;
-  transform: translate3d(0, var(--section-y, 0px), 0) scale(var(--section-scale, 1));
+  transform: scale(var(--section-scale, 1));
   opacity: var(--section-opacity, 1);
 }
 
