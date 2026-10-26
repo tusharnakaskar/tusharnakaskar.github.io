@@ -1262,7 +1262,7 @@ ul, ol { list-style: none; }
 }
 .main-home {
   padding-top: 0;
-  padding-bottom: calc(50vh - var(--header-height) / 2);
+  padding-bottom: 0;
 }
 
 .page-header {
@@ -2020,7 +2020,7 @@ html.split-transition-active .split-curtain-right,
    ========================================================================== */
 .main-home {
   padding-top: 0;
-  padding-bottom: calc(50vh - var(--header-height) / 2);
+  padding-bottom: 0;
 }
 
 .hero-section-centered {
