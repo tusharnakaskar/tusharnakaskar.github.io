@@ -1509,43 +1509,54 @@ ul, ol { list-style: none; }
 }
 
 .academic-card-box {
-  background: rgba(18, 22, 28, 0.60);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.025) 100%), rgba(14, 16, 20, 0.58);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 0.95rem 1.35rem;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.40),
-              inset 0 1px 1px 0 rgba(255, 255, 255, 0.20);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.035) 100%), rgba(16, 20, 26, 0.48);
+  backdrop-filter: blur(20px) saturate(190%) contrast(105%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%) contrast(105%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid rgba(255, 255, 255, 0.34);
+  border-left: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 14px;
+  padding: 1.05rem 1.45rem;
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.42),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.32),
+              inset 0 0 18px 0 rgba(255, 255, 255, 0.04);
   transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans), background var(--trans);
 }
 
 .academic-card-box:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 100%), rgba(20, 24, 30, 0.72);
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.48),
-              inset 0 1px 1px 0 rgba(255, 255, 255, 0.28);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.055) 100%), rgba(22, 28, 36, 0.60);
+  border-color: rgba(255, 255, 255, 0.32);
+  border-top-color: rgba(255, 255, 255, 0.52);
+  border-left-color: rgba(255, 255, 255, 0.40);
+  box-shadow: 0 14px 40px 0 rgba(0, 0, 0, 0.52),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+              inset 0 0 24px 0 rgba(255, 255, 255, 0.07);
   transform: translateY(-2px);
 }
 
 .education-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(255, 255, 255, 0.02) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 12px;
-  padding: 1.75rem 2rem;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
-              inset 0 1px 1px 0 rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.035) 100%), rgba(16, 20, 26, 0.48);
+  backdrop-filter: blur(20px) saturate(190%) contrast(105%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%) contrast(105%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid rgba(255, 255, 255, 0.34);
+  border-left: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 14px;
+  padding: 1.85rem 2.15rem;
+  box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.42),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.32),
+              inset 0 0 18px 0 rgba(255, 255, 255, 0.04);
   transition: all var(--trans);
 }
 
 .education-card:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.035) 100%);
-  border-color: rgba(255, 255, 255, 0.26);
-  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45),
-              inset 0 1px 1px 0 rgba(255, 255, 255, 0.28);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.055) 100%), rgba(22, 28, 36, 0.60);
+  border-color: rgba(255, 255, 255, 0.32);
+  border-top-color: rgba(255, 255, 255, 0.52);
+  border-left-color: rgba(255, 255, 255, 0.40);
+  box-shadow: 0 14px 40px 0 rgba(0, 0, 0, 0.52),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+              inset 0 0 24px 0 rgba(255, 255, 255, 0.07);
   transform: translateY(-2px);
 }
 
