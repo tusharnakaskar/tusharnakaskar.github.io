@@ -1675,8 +1675,9 @@ ul, ol { list-style: none; }
 }
 
 .platform-icon-gmail {
-  width: 21.5px;
-  height: 17px;
+  width: 18px;
+  height: auto;
+  max-height: 15px;
   position: relative;
   top: -0.5px;
 }
