@@ -2514,9 +2514,8 @@ html.split-transition-active .split-curtain-right,
    the screen, and smoothly shrink/fade when scrolling up or down away from middle.
    All cards and section boxes stay level in the same horizontal line.
    ========================================================================== */
-.hero-section-centered,
-.section-block,
-.page-header {
+.main-home .hero-section-centered,
+.main-home .section-block {
   transform-origin: 50% 50%;
   will-change: transform, opacity;
   transform: scale(var(--section-scale, 1));
@@ -2553,9 +2552,8 @@ html.split-transition-active .split-curtain-right,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-section-centered,
-  .section-block,
-  .page-header,
+  .main-home .hero-section-centered,
+  .main-home .section-block,
   .hero-status-pill,
   .hero-name-center,
   .hero-role-center,

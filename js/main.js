@@ -1003,6 +1003,14 @@ function initParallax() {
     return;
   }
 
+  // Parallax effect is active ONLY on the main home page (index.html).
+  // Subpages / other pages (e.g. projects.html "View More", certificates.html "Show", research.html, about.html, contact.html)
+  // use clean, standard native scrolling without any scaling or fading parallax.
+  const isMainPage = Boolean(document.querySelector('.main-home') && document.getElementById('home'));
+  if (!isMainPage) {
+    return;
+  }
+
   // 1. Hero Section cached elements
   const heroSection = document.getElementById('home');
   const heroPill = heroSection ? heroSection.querySelector('.hero-status-pill') : null;
@@ -1020,10 +1028,6 @@ function initParallax() {
     top: 0,
     height: 0
   }));
-
-  // 3. Subpage elements (e.g., projects.html)
-  const pageHeader = document.querySelector('.page-header');
-  const subpageCards = Array.from(document.querySelectorAll('.projects-stack .project-card'));
 
   // Pre-measure section coordinates to eliminate layout thrashing during scroll
   function measureLayout() {
@@ -1144,34 +1148,6 @@ function initParallax() {
         item.sec.style.setProperty('--section-scale', secScale);
         item.sec.style.setProperty('--section-opacity', secOpacity);
       }
-    }
-
-    // C. Subpage Header & Cards
-    if (pageHeader && scrollY <= vh) {
-      let p = 0;
-      if (scrollY > 25) {
-        p = Math.min(1.0, (scrollY - 25) / (vh * 0.65));
-      }
-      pageHeader.style.setProperty('--section-scale', (1.0 - p * 0.14).toFixed(3));
-      pageHeader.style.setProperty('--section-opacity', Math.max(0, 1.0 - p * 1.15).toFixed(3));
-    }
-
-    if (subpageCards.length) {
-      subpageCards.forEach((card) => {
-        const cardTop = getElementDocTop(card);
-        const cardCenter = cardTop + card.offsetHeight / 2;
-        const dist = cardCenter - viewportCenter;
-        const absDist = Math.abs(dist);
-        let cardScale = 1.0;
-        let cardOpacity = 1.0;
-        if (absDist > 25) {
-          const norm = Math.min(1.0, (absDist - 25) / (vh * 0.52));
-          cardScale = (1.0 - norm * 0.08).toFixed(3);
-          cardOpacity = Math.max(0.35, 1.0 - norm * 0.65).toFixed(3);
-        }
-        card.style.transform = `scale(${cardScale})`;
-        card.style.opacity = cardOpacity;
-      });
     }
   }
 
