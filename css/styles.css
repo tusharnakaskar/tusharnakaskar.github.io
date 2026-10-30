@@ -2103,13 +2103,13 @@ html.split-transition-active .split-curtain-right,
   position: relative;
 }
 
-/* Ambient Faded Dark Region around Get in Touch Interface */
+/* Ambient Shapeless Shadow Region behind Get in Touch Interface */
 .contact-interface-wrapper {
   position: relative;
   width: 100%;
   max-width: 1040px;
   margin: 0 auto;
-  padding: 2.25rem 2.5rem;
+  padding: 0;
   box-sizing: border-box;
   isolation: isolate;
 }
@@ -2117,25 +2117,36 @@ html.split-transition-active .split-curtain-right,
 .contact-interface-wrapper::before {
   content: "";
   position: absolute;
-  inset: -0.75rem -1rem;
-  border-radius: 28px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 135%;
+  height: 135%;
   background: radial-gradient(
-    ellipse 94% 90% at 50% 50%,
-    rgba(12, 14, 18, 0.74) 0%,
-    rgba(12, 14, 18, 0.58) 60%,
-    rgba(12, 14, 18, 0.22) 84%,
-    transparent 100%
+    ellipse at center,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.50) 35%,
+    rgba(0, 0, 0, 0.22) 65%,
+    rgba(0, 0, 0, 0) 85%
   );
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, #000 62%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, #000 62%, transparent 100%);
+  filter: blur(55px);
+  -webkit-filter: blur(55px);
   pointer-events: none;
   z-index: -1;
 }
 
+/* Enhanced Text Legibility via Soft Ambient Text Shadows */
+#contact .section-title,
+#contact .section-subtitle,
+#contact .academic-title,
+#contact .about-summary-desc,
+#contact .platform-heading,
+#contact .platform-link {
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 0, 0, 0.65);
+}
+
 #contact .section-header-compact {
-  margin-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
 }
 
 #contact .contact-unified-panel {
@@ -2144,12 +2155,11 @@ html.split-transition-active .split-curtain-right,
 }
 
 @media (max-width: 768px) {
-  .contact-interface-wrapper {
-    padding: 1.75rem 1.25rem;
-  }
   .contact-interface-wrapper::before {
-    inset: -0.25rem -0.5rem;
-    border-radius: 18px;
+    width: 120%;
+    height: 120%;
+    filter: blur(35px);
+    -webkit-filter: blur(35px);
   }
   #contact .section-header-compact {
     margin-bottom: 1.75rem;
