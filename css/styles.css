@@ -2100,10 +2100,42 @@ html.split-transition-active .split-curtain-right,
   margin-bottom: 0;
   padding: 1.5rem 0;
   scroll-margin-top: var(--header-height);
+  position: relative;
+}
+
+/* Ambient Faded Dark Region around Get in Touch Interface */
+.contact-interface-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2.25rem 2.5rem;
+  box-sizing: border-box;
+  isolation: isolate;
+}
+
+.contact-interface-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -0.75rem -1rem;
+  border-radius: 28px;
+  background: radial-gradient(
+    ellipse 94% 90% at 50% 50%,
+    rgba(12, 14, 18, 0.74) 0%,
+    rgba(12, 14, 18, 0.58) 60%,
+    rgba(12, 14, 18, 0.22) 84%,
+    transparent 100%
+  );
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, #000 62%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 96% 92% at 50% 50%, #000 62%, transparent 100%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 #contact .section-header-compact {
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.25rem;
 }
 
 #contact .contact-unified-panel {
@@ -2111,9 +2143,16 @@ html.split-transition-active .split-curtain-right,
   margin-bottom: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .contact-interface-wrapper {
+    padding: 1.75rem 1.25rem;
+  }
+  .contact-interface-wrapper::before {
+    inset: -0.25rem -0.5rem;
+    border-radius: 18px;
+  }
   #contact .section-header-compact {
-    margin-bottom: 2.25rem;
+    margin-bottom: 1.75rem;
   }
 }
 
