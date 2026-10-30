@@ -27,6 +27,10 @@ function initAdvancedCanvas() {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
 
+  // Dot line animation is removed from the main page only; remains active on subpages
+  const isMainPage = Boolean(document.querySelector('.main-home') || document.getElementById('home'));
+  if (isMainPage) return;
+
   const ctx = canvas.getContext('2d');
   let W = window.innerWidth;
   let H = window.innerHeight;
