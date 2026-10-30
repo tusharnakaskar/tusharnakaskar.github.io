@@ -1690,6 +1690,9 @@ ul, ol { list-style: none; }
   color: #cbd5e1;
   text-decoration: none;
   word-break: break-all;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   transition: color var(--trans);
 }
 
@@ -1698,6 +1701,43 @@ ul, ol { list-style: none; }
   color: #ffffff;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.copy-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: #94a3b8;
+  text-decoration: none !important;
+  transition: color var(--trans), transform var(--trans);
+}
+
+.platform-link:hover .copy-icon-wrapper {
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.copy-icon-default,
+.copy-icon-success {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.copy-icon-success {
+  display: none;
+  color: #22c55e;
+}
+
+.platform-link.copied .copy-icon-default {
+  display: none;
+}
+
+.platform-link.copied .copy-icon-success {
+  display: block;
 }
 
 /* Contact form panel */
