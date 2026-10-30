@@ -1668,6 +1668,7 @@ ul, ol { list-style: none; }
 .platform-icon {
   width: 18px;
   height: 18px;
+  object-fit: contain;
   flex-shrink: 0;
   display: inline-block;
   vertical-align: middle;
