@@ -1757,7 +1757,7 @@ ul, ol { list-style: none; }
 .platform-email-group {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   flex-wrap: wrap;
 }
 
@@ -1776,16 +1776,21 @@ ul, ol { list-style: none; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 14px;
+  height: 14px;
   padding: 0;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  margin: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
   color: #94a3b8;
   cursor: pointer;
   flex-shrink: 0;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+  text-decoration: none !important;
+  transition: color var(--trans), transform var(--trans);
   position: relative;
   vertical-align: middle;
 }
@@ -1793,16 +1798,16 @@ ul, ol { list-style: none; }
 .copy-email-btn:hover,
 .copy-email-btn:focus-visible {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: scale(1.06);
+  background: transparent;
+  border: none;
+  transform: scale(1.15);
 }
 
 .copy-email-btn.copied {
   color: #22c55e;
-  background: rgba(34, 197, 94, 0.14);
-  border-color: rgba(34, 197, 94, 0.5);
-  transform: scale(1.04);
+  background: transparent;
+  border: none;
+  transform: scale(1.08);
 }
 
 .copy-email-btn .copy-icon-default,
