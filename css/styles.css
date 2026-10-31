@@ -1747,11 +1747,89 @@ ul, ol { list-style: none; }
   transition: color var(--trans);
 }
 
-.platform-link:hover,
-.platform-link.copied {
+.platform-link:hover {
   color: #ffffff;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Platform Email & Copy Button Decoupled with Distinct Glows */
+.platform-email-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.platform-email-link {
+  transition: color var(--trans), text-shadow var(--trans), text-decoration-color var(--trans);
+}
+
+.platform-email-link:hover,
+.platform-email-link:focus-visible,
+#contact .platform-email-link:hover,
+#contact .platform-email-link:focus-visible {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(239, 68, 68, 0.85);
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 22px rgba(239, 68, 68, 0.45);
+}
+
+.copy-email-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #94a3b8;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  position: relative;
+  vertical-align: middle;
+}
+
+.copy-email-btn:hover,
+.copy-email-btn:focus-visible {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.5), inset 0 0 6px rgba(56, 189, 248, 0.2);
+  transform: translateY(-1px) scale(1.08);
+}
+
+.copy-email-btn.copied {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.75);
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.65), inset 0 0 8px rgba(34, 197, 94, 0.25);
+  transform: scale(1.05);
+}
+
+.copy-email-btn .copy-icon-default,
+.copy-email-btn .copy-icon-success {
+  width: 13px;
+  height: 13px;
+  display: block;
+  pointer-events: none;
+}
+
+.copy-email-btn .copy-icon-success {
+  display: none;
+  color: #22c55e;
+}
+
+.copy-email-btn.copied .copy-icon-default {
+  display: none;
+}
+
+.copy-email-btn.copied .copy-icon-success {
+  display: block;
 }
 
 .copy-icon-wrapper {

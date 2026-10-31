@@ -545,16 +545,42 @@ function initCopyEmail() {
   copyBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
+
+      const markSuccess = () => {
+        showToast('Mail Copied : ' + email);
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 2200);
+      };
+
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(email)
-          .then(() => {
-            showToast('Mail Copied : ' + email);
-            btn.classList.add('copied');
-            setTimeout(() => btn.classList.remove('copied'), 2200);
-          })
-          .catch(() => { window.location.href = 'mailto:' + email; });
+          .then(markSuccess)
+          .catch(() => {
+            try {
+              const tempInput = document.createElement('input');
+              tempInput.value = email;
+              document.body.appendChild(tempInput);
+              tempInput.select();
+              document.execCommand('copy');
+              document.body.removeChild(tempInput);
+              markSuccess();
+            } catch (err) {
+              window.location.href = 'mailto:' + email;
+            }
+          });
       } else {
-        window.location.href = 'mailto:' + email;
+        try {
+          const tempInput = document.createElement('input');
+          tempInput.value = email;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+          markSuccess();
+        } catch (err) {
+          window.location.href = 'mailto:' + email;
+        }
       }
     });
   });
